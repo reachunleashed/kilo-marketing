@@ -1,0 +1,2232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kilo — You Coach. We Handle the Rest.</title>
+  <meta name="description" content="Kilo builds your website, sets up your marketing, and brings you leads — so you can get back to coaching. Done for you. Not dumped on you.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Nunito+Sans:ital,opsz,wght@0,6..12,300..1000;1,6..12,300..1000&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================
+       CSS VARIABLES — KILO BRAND SYSTEM
+       ============================================ */
+    :root {
+      --navy-900: #060E1F;
+      --navy-800: #0A1C38;
+      --navy-700: #0F2847;
+      --navy-600: #163456;
+      --navy-500: #1E4470;
+      --cyan: #1EB1F9;
+      --cyan-light: #5CC8FA;
+      --cyan-glow: rgba(30, 177, 249, 0.15);
+      --mint: #20F2CA;
+      --mint-glow: rgba(32, 242, 202, 0.15);
+      --white: #FFFFFF;
+      --gray-50: #F8FAFC;
+      --gray-100: #F1F5F9;
+      --gray-200: #E2E8F0;
+      --gray-300: #CBD5E1;
+      --gray-400: #94A3B8;
+      --gray-500: #64748B;
+      --gray-600: #475569;
+      --gray-700: #334155;
+      --gray-800: #1E293B;
+      --red-soft: #FF6B6B;
+      --green-soft: #4ADE80;
+      --font-display: 'Sora', sans-serif;
+      --font-body: 'Nunito Sans', sans-serif;
+      --max-content: 720px;
+      --max-wide: 1080px;
+      --max-full: 1280px;
+      --space-xs: 0.5rem;
+      --space-sm: 1rem;
+      --space-md: 1.5rem;
+      --space-lg: 2.5rem;
+      --space-xl: 4rem;
+      --space-2xl: 6rem;
+      --space-3xl: 8rem;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+    }
+
+    /* ============================================
+       RESET & BASE
+       ============================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--gray-700);
+      background: var(--white);
+      overflow-x: hidden;
+    }
+
+    img { max-width: 100%; height: auto; display: block; }
+    a { text-decoration: none; color: inherit; }
+    ul, ol { list-style: none; }
+
+    /* ============================================
+       TYPOGRAPHY
+       ============================================ */
+    h1, h2, h3, h4, h5 {
+      font-family: var(--font-display);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 800;
+    }
+
+    h2 {
+      font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+      font-weight: 700;
+    }
+
+    h3 {
+      font-size: clamp(1.25rem, 2.5vw, 1.6rem);
+      font-weight: 700;
+    }
+
+    .section-label {
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    /* ============================================
+       LAYOUT UTILITIES
+       ============================================ */
+    .container {
+      width: 100%;
+      max-width: var(--max-content);
+      margin: 0 auto;
+      padding: 0 var(--space-md);
+    }
+
+    .container--wide {
+      max-width: var(--max-wide);
+    }
+
+    .container--full {
+      max-width: var(--max-full);
+    }
+
+    .section {
+      padding: var(--space-2xl) 0;
+    }
+
+    .section--dark {
+      background: var(--navy-800);
+      color: var(--gray-200);
+    }
+
+    .section--darker {
+      background: var(--navy-900);
+      color: var(--gray-200);
+    }
+
+    .section--light {
+      background: var(--gray-50);
+    }
+
+    .section--accent {
+      background: linear-gradient(135deg, var(--navy-700) 0%, var(--navy-800) 100%);
+      color: var(--white);
+    }
+
+    /* ============================================
+       SCROLL REVEAL ANIMATIONS
+       ============================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ============================================
+       CTA BUTTONS
+       ============================================ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn--primary {
+      background: linear-gradient(135deg, var(--cyan) 0%, var(--mint) 100%);
+      color: var(--navy-900);
+      box-shadow: 0 4px 24px rgba(30, 177, 249, 0.35);
+    }
+
+    .btn--primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(30, 177, 249, 0.5);
+    }
+
+    .btn--primary:active {
+      transform: translateY(0);
+    }
+
+    .btn--primary::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .btn--primary:hover::after {
+      opacity: 1;
+    }
+
+    .btn--outline {
+      background: transparent;
+      color: var(--cyan);
+      border: 2px solid var(--cyan);
+    }
+
+    .btn--outline:hover {
+      background: var(--cyan);
+      color: var(--navy-900);
+    }
+
+    .btn--sm {
+      font-size: 0.875rem;
+      padding: 0.65rem 1.5rem;
+    }
+
+    .btn-arrow {
+      transition: transform 0.3s;
+    }
+
+    .btn:hover .btn-arrow {
+      transform: translateX(4px);
+    }
+
+    .friction-text {
+      font-size: 0.875rem;
+      color: var(--gray-400);
+      margin-top: var(--space-sm);
+    }
+
+    .friction-text--light {
+      color: var(--gray-300);
+    }
+
+    /* ============================================
+       STICKY HEADER
+       ============================================ */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 0.75rem 0;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      background: transparent;
+    }
+
+    .header.scrolled {
+      background: rgba(10, 28, 56, 0.95);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 4px 32px rgba(0, 0, 0, 0.3);
+      padding: 0.5rem 0;
+    }
+
+    .header__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: var(--max-full);
+      margin: 0 auto;
+      padding: 0 var(--space-md);
+    }
+
+    .header__logo {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.6rem;
+      color: var(--white);
+      letter-spacing: -0.03em;
+    }
+
+    .header__logo span {
+      background: linear-gradient(135deg, var(--cyan), var(--mint));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ============================================
+       HERO
+       ============================================ */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      background: var(--navy-800);
+      overflow: hidden;
+    }
+
+    .hero__bg {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .hero__bg::before {
+      content: '';
+      position: absolute;
+      top: -30%;
+      right: -20%;
+      width: 70%;
+      height: 80%;
+      background: radial-gradient(ellipse, var(--cyan-glow) 0%, transparent 70%);
+      filter: blur(80px);
+      animation: heroGlow 8s ease-in-out infinite alternate;
+    }
+
+    .hero__bg::after {
+      content: '';
+      position: absolute;
+      bottom: -20%;
+      left: -10%;
+      width: 50%;
+      height: 60%;
+      background: radial-gradient(ellipse, var(--mint-glow) 0%, transparent 70%);
+      filter: blur(80px);
+      animation: heroGlow 8s ease-in-out 4s infinite alternate;
+    }
+
+    @keyframes heroGlow {
+      0% { opacity: 0.5; transform: scale(1); }
+      100% { opacity: 0.8; transform: scale(1.1); }
+    }
+
+    /* Subtle grid overlay for depth */
+    .hero__grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(30, 177, 249, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(30, 177, 249, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 60% 60% at 50% 40%, black 30%, transparent 70%);
+      -webkit-mask-image: radial-gradient(ellipse 60% 60% at 50% 40%, black 30%, transparent 70%);
+    }
+
+    .hero__content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 8rem 0 5rem;
+    }
+
+    .hero h1 {
+      color: var(--white);
+      margin-bottom: var(--space-md);
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--cyan), var(--mint));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero__sub {
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
+      color: var(--gray-300);
+      max-width: 620px;
+      margin: 0 auto var(--space-lg);
+      line-height: 1.7;
+    }
+
+    .hero__sub strong {
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    /* ============================================
+       PROBLEM SECTION
+       ============================================ */
+    .problem { background: var(--white); }
+
+    .problem__intro {
+      font-size: 1.15rem;
+      color: var(--gray-600);
+      margin-bottom: var(--space-lg);
+    }
+
+    .problem h2 {
+      color: var(--navy-800);
+      margin-bottom: var(--space-md);
+    }
+
+    .problem__costs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-sm);
+      margin: var(--space-lg) 0;
+    }
+
+    .cost-item {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .cost-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    }
+
+    .cost-item__label {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--gray-500);
+      margin-bottom: 0.25rem;
+    }
+
+    .cost-item__price {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: var(--red-soft);
+    }
+
+    .problem__total {
+      background: linear-gradient(135deg, var(--navy-800), var(--navy-700));
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      text-align: center;
+      color: var(--white);
+      margin-top: var(--space-lg);
+    }
+
+    .problem__total-amount {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 2rem;
+      color: var(--red-soft);
+      margin-bottom: 0.25rem;
+    }
+
+    .problem__total-note {
+      font-size: 0.95rem;
+      color: var(--gray-300);
+    }
+
+    /* ============================================
+       AGITATE SECTION
+       ============================================ */
+    .agitate {
+      background: var(--navy-900);
+      color: var(--gray-200);
+      position: relative;
+    }
+
+    .agitate::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    }
+
+    .agitate h2 {
+      color: var(--white);
+      margin-bottom: var(--space-md);
+    }
+
+    .agitate__story {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      max-width: 640px;
+    }
+
+    .agitate__story p {
+      margin-bottom: var(--space-md);
+    }
+
+    .agitate__story strong {
+      color: var(--cyan);
+    }
+
+    .agitate__callout {
+      margin-top: var(--space-lg);
+      padding: var(--space-lg);
+      border-left: 4px solid var(--cyan);
+      background: rgba(30, 177, 249, 0.05);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    }
+
+    .agitate__callout p {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--white);
+      margin: 0;
+    }
+
+    .agitate__callout p:last-child {
+      font-weight: 400;
+      font-size: 1rem;
+      color: var(--gray-300);
+      margin-top: 0.5rem;
+      font-family: var(--font-body);
+    }
+
+    /* ============================================
+       CREDIBILITY BAR
+       ============================================ */
+    .credibility {
+      background: linear-gradient(135deg, var(--navy-700), var(--navy-800));
+      padding: var(--space-xl) 0;
+      border-top: 1px solid rgba(30, 177, 249, 0.1);
+      border-bottom: 1px solid rgba(30, 177, 249, 0.1);
+    }
+
+    .credibility__headline {
+      text-align: center;
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--gray-400);
+      letter-spacing: 0.05em;
+      margin-bottom: var(--space-lg);
+    }
+
+    .credibility__stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-md);
+      text-align: center;
+    }
+
+    .stat-card {
+      padding: var(--space-md);
+    }
+
+    .stat-card__number {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      background: linear-gradient(135deg, var(--cyan), var(--mint));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-card__label {
+      font-size: 0.85rem;
+      color: var(--gray-400);
+      line-height: 1.4;
+    }
+
+    @media (max-width: 768px) {
+      .credibility__stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* ============================================
+       SOLUTION SECTION
+       ============================================ */
+    .solution {
+      background: var(--white);
+    }
+
+    .solution h2 {
+      color: var(--navy-800);
+      margin-bottom: var(--space-xs);
+    }
+
+    .solution__intro {
+      font-size: 1.1rem;
+      color: var(--gray-500);
+      margin-bottom: var(--space-2xl);
+    }
+
+    .solution__block {
+      margin-bottom: var(--space-2xl);
+      display: grid;
+      grid-template-columns: 3.5rem 1fr;
+      gap: var(--space-md);
+      align-items: start;
+    }
+
+    .solution__icon {
+      width: 3.5rem;
+      height: 3.5rem;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .solution__icon--website {
+      background: linear-gradient(135deg, var(--cyan-glow), rgba(30, 177, 249, 0.25));
+      border: 1px solid rgba(30, 177, 249, 0.3);
+    }
+
+    .solution__icon--leads {
+      background: linear-gradient(135deg, var(--mint-glow), rgba(32, 242, 202, 0.25));
+      border: 1px solid rgba(32, 242, 202, 0.3);
+    }
+
+    .solution__icon--marketing {
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(124, 58, 237, 0.2));
+      border: 1px solid rgba(124, 58, 237, 0.3);
+    }
+
+    .solution__icon--support {
+      background: linear-gradient(135deg, rgba(251, 146, 60, 0.1), rgba(251, 146, 60, 0.2));
+      border: 1px solid rgba(251, 146, 60, 0.3);
+    }
+
+    .solution__block h3 {
+      color: var(--navy-800);
+      margin-bottom: 0.5rem;
+    }
+
+    .solution__block p {
+      color: var(--gray-600);
+      margin-bottom: 0.5rem;
+    }
+
+    .solution__block strong {
+      color: var(--navy-800);
+    }
+
+    .solution__tag {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.25rem 0.75rem;
+      border-radius: 50px;
+      background: var(--cyan-glow);
+      color: var(--cyan);
+      border: 1px solid rgba(30, 177, 249, 0.2);
+      margin-top: 0.5rem;
+    }
+
+    .support-teams {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-sm);
+      margin-top: var(--space-sm);
+    }
+
+    .support-team {
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+      padding: var(--space-sm);
+      font-size: 0.9rem;
+    }
+
+    .support-team__name {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--navy-800);
+      margin-bottom: 0.25rem;
+    }
+
+    .support-team__desc {
+      font-size: 0.8rem;
+      color: var(--gray-500);
+      line-height: 1.5;
+    }
+
+    @media (max-width: 640px) {
+      .support-teams {
+        grid-template-columns: 1fr;
+      }
+      .solution__block {
+        grid-template-columns: 1fr;
+      }
+      .solution__icon {
+        width: 2.75rem;
+        height: 2.75rem;
+        font-size: 1.25rem;
+      }
+    }
+
+    /* ============================================
+       MID-PAGE CTA BLOCKS
+       ============================================ */
+    .cta-block {
+      background: linear-gradient(135deg, var(--navy-800), var(--navy-700));
+      padding: var(--space-xl) 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-block::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, var(--cyan-glow) 0%, transparent 70%);
+      filter: blur(60px);
+    }
+
+    .cta-block h3 {
+      color: var(--white);
+      font-size: clamp(1.4rem, 2.5vw, 1.75rem);
+      margin-bottom: 0.5rem;
+      position: relative;
+    }
+
+    .cta-block p {
+      color: var(--gray-400);
+      margin-bottom: var(--space-md);
+      position: relative;
+    }
+
+    .cta-block .btn {
+      position: relative;
+    }
+
+    /* ============================================
+       HOW IT WORKS
+       ============================================ */
+    .how-it-works {
+      background: var(--gray-50);
+    }
+
+    .how-it-works h2 {
+      color: var(--navy-800);
+      text-align: center;
+      margin-bottom: var(--space-2xl);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-lg);
+      position: relative;
+    }
+
+    /* connector line */
+    .steps::before {
+      content: '';
+      position: absolute;
+      top: 2.5rem;
+      left: calc(16.67% + 1.25rem);
+      right: calc(16.67% + 1.25rem);
+      height: 2px;
+      background: linear-gradient(90deg, var(--cyan), var(--mint));
+      opacity: 0.3;
+    }
+
+    .step {
+      text-align: center;
+      position: relative;
+    }
+
+    .step__number {
+      width: 3.5rem;
+      height: 3.5rem;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan), var(--mint));
+      color: var(--navy-900);
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto var(--space-md);
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 4px 16px rgba(30, 177, 249, 0.3);
+    }
+
+    .step h3 {
+      color: var(--navy-800);
+      margin-bottom: 0.5rem;
+    }
+
+    .step p {
+      font-size: 0.95rem;
+      color: var(--gray-500);
+      line-height: 1.6;
+    }
+
+    .step strong {
+      color: var(--navy-800);
+    }
+
+    @media (max-width: 768px) {
+      .steps {
+        grid-template-columns: 1fr;
+        gap: var(--space-xl);
+      }
+      .steps::before {
+        display: none;
+      }
+    }
+
+    /* ============================================
+       TESTIMONIALS
+       ============================================ */
+    .testimonials {
+      background: var(--navy-900);
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .testimonials::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--mint), transparent);
+    }
+
+    .testimonials h2 {
+      text-align: center;
+      margin-bottom: var(--space-2xl);
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-md);
+    }
+
+    .testimonial-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      transition: transform 0.3s, border-color 0.3s;
+    }
+
+    .testimonial-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(30, 177, 249, 0.2);
+    }
+
+    .testimonial-card--featured {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, rgba(30, 177, 249, 0.05), rgba(32, 242, 202, 0.03));
+      border-color: rgba(30, 177, 249, 0.15);
+    }
+
+    .testimonial-card__quote {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.5;
+      margin-bottom: var(--space-md);
+      font-family: var(--font-display);
+    }
+
+    .testimonial-card--featured .testimonial-card__quote {
+      font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+    }
+
+    .testimonial-card__author {
+      font-size: 0.9rem;
+      color: var(--gray-400);
+    }
+
+    .testimonial-card__author strong {
+      color: var(--cyan);
+    }
+
+    @media (max-width: 640px) {
+      .testimonials-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ============================================
+       ROI MATH
+       ============================================ */
+    .roi {
+      background: var(--white);
+    }
+
+    .roi h2 {
+      color: var(--navy-800);
+      margin-bottom: var(--space-md);
+    }
+
+    .roi__calculator {
+      background: linear-gradient(135deg, var(--navy-800), var(--navy-700));
+      border-radius: var(--radius-xl);
+      padding: var(--space-xl);
+      margin: var(--space-lg) 0;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .roi__calculator::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -30%;
+      width: 50%;
+      height: 100%;
+      background: radial-gradient(ellipse, var(--cyan-glow) 0%, transparent 70%);
+      filter: blur(60px);
+    }
+
+    .roi__math {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md);
+      text-align: center;
+      position: relative;
+      margin-bottom: var(--space-lg);
+    }
+
+    .roi__math-item {
+      padding: var(--space-md);
+    }
+
+    .roi__math-label {
+      font-size: 0.8rem;
+      color: var(--gray-400);
+      margin-bottom: 0.25rem;
+      font-family: var(--font-display);
+      font-weight: 500;
+    }
+
+    .roi__math-value {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(1.5rem, 3vw, 2.25rem);
+    }
+
+    .roi__math-value--green {
+      color: var(--green-soft);
+    }
+
+    .roi__math-value--cyan {
+      color: var(--cyan);
+    }
+
+    .roi__math-value--mint {
+      color: var(--mint);
+    }
+
+    .roi__math-sub {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+      margin-top: 0.25rem;
+    }
+
+    .roi__bottom {
+      text-align: center;
+      padding-top: var(--space-md);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+    }
+
+    .roi__bottom-stat {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: var(--white);
+      margin-bottom: 0.25rem;
+    }
+
+    .roi__bottom-note {
+      font-size: 0.9rem;
+      color: var(--gray-400);
+    }
+
+    .roi__summary {
+      margin-top: var(--space-lg);
+      font-size: 1.05rem;
+      color: var(--gray-600);
+    }
+
+    .roi__summary strong {
+      color: var(--navy-800);
+    }
+
+    @media (max-width: 640px) {
+      .roi__math {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+      .roi__math-item {
+        padding: var(--space-sm);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      .roi__math-item:last-child {
+        border-bottom: none;
+      }
+    }
+
+    /* ============================================
+       COMPARISON TABLE
+       ============================================ */
+    .comparison {
+      background: var(--gray-50);
+    }
+
+    .comparison h2 {
+      color: var(--navy-800);
+      text-align: center;
+      margin-bottom: var(--space-2xl);
+    }
+
+    .comparison__wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin: 0 calc(-1 * var(--space-md));
+      padding: 0 var(--space-md);
+    }
+
+    .comparison__table {
+      width: 100%;
+      min-width: 700px;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+
+    .comparison__table th,
+    .comparison__table td {
+      padding: 1rem 1.25rem;
+      text-align: left;
+      vertical-align: top;
+      font-size: 0.9rem;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .comparison__table thead th {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--navy-800);
+      background: var(--white);
+      border-bottom: 2px solid var(--gray-200);
+      position: sticky;
+      top: 0;
+    }
+
+    .comparison__table thead th:last-child {
+      background: linear-gradient(180deg, rgba(30, 177, 249, 0.08), rgba(30, 177, 249, 0.03));
+      color: var(--cyan);
+      border-bottom-color: var(--cyan);
+    }
+
+    .comparison__table tbody td:last-child {
+      background: rgba(30, 177, 249, 0.02);
+      color: var(--navy-800);
+      font-weight: 600;
+    }
+
+    .comparison__table tbody td:first-child {
+      font-weight: 600;
+      color: var(--navy-800);
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+    }
+
+    .comparison__table .check {
+      color: var(--green-soft);
+      font-weight: 700;
+    }
+
+    .comparison__table .x-mark {
+      color: var(--gray-400);
+    }
+
+    .comparison__footer {
+      text-align: center;
+      margin-top: var(--space-lg);
+      font-size: 1rem;
+      color: var(--gray-600);
+    }
+
+    .comparison__footer strong {
+      color: var(--navy-800);
+    }
+
+    /* ============================================
+       PRODUCTS / PRICING
+       ============================================ */
+    .pricing {
+      background: var(--white);
+    }
+
+    .pricing h2 {
+      color: var(--navy-800);
+      text-align: center;
+      margin-bottom: var(--space-2xl);
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md);
+      align-items: start;
+    }
+
+    .pricing-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.08);
+    }
+
+    .pricing-card--featured {
+      border-color: var(--cyan);
+      position: relative;
+      box-shadow: 0 8px 32px rgba(30, 177, 249, 0.15);
+      transform: scale(1.03);
+    }
+
+    .pricing-card--featured:hover {
+      transform: scale(1.03) translateY(-4px);
+    }
+
+    .pricing-card__badge {
+      position: absolute;
+      top: -0.75rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--cyan), var(--mint));
+      color: var(--navy-900);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.75rem;
+      padding: 0.25rem 1rem;
+      border-radius: 50px;
+      white-space: nowrap;
+    }
+
+    .pricing-card__name {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--navy-800);
+      margin-bottom: 0.25rem;
+    }
+
+    .pricing-card__price {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 2.25rem;
+      color: var(--navy-800);
+      margin-bottom: 0.25rem;
+    }
+
+    .pricing-card__price span {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--gray-500);
+    }
+
+    .pricing-card__save {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--mint);
+      margin-bottom: var(--space-sm);
+    }
+
+    .pricing-card__desc {
+      font-size: 0.9rem;
+      color: var(--gray-500);
+      margin-bottom: var(--space-md);
+      line-height: 1.6;
+    }
+
+    .pricing-card__best {
+      font-size: 0.8rem;
+      color: var(--cyan);
+      font-style: italic;
+      margin-top: var(--space-sm);
+    }
+
+    .pricing-card .btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .pricing__note {
+      text-align: center;
+      margin-top: var(--space-lg);
+      font-size: 0.9rem;
+      color: var(--gray-500);
+    }
+
+    .pricing__website-note {
+      text-align: center;
+      margin-top: var(--space-md);
+      padding: var(--space-md);
+      background: var(--gray-50);
+      border-radius: var(--radius-md);
+      font-size: 0.9rem;
+      color: var(--gray-600);
+    }
+
+    .pricing__website-note strong {
+      color: var(--navy-800);
+    }
+
+    @media (max-width: 768px) {
+      .pricing-grid {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+        margin: 0 auto;
+      }
+      .pricing-card--featured {
+        transform: none;
+        order: -1;
+      }
+      .pricing-card--featured:hover {
+        transform: translateY(-4px);
+      }
+    }
+
+    /* ============================================
+       FAQ ACCORDION
+       ============================================ */
+    .faq {
+      background: var(--gray-50);
+    }
+
+    .faq h2 {
+      color: var(--navy-800);
+      text-align: center;
+      margin-bottom: var(--space-2xl);
+    }
+
+    .faq__list {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .faq__item {
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .faq__question {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      padding: var(--space-md) 0;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--navy-800);
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      line-height: 1.4;
+      transition: color 0.2s;
+    }
+
+    .faq__question:hover {
+      color: var(--cyan);
+    }
+
+    .faq__icon {
+      width: 1.5rem;
+      height: 1.5rem;
+      flex-shrink: 0;
+      position: relative;
+      transition: transform 0.3s;
+    }
+
+    .faq__icon::before,
+    .faq__icon::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      background: currentColor;
+      border-radius: 2px;
+    }
+
+    .faq__icon::before {
+      width: 14px;
+      height: 2px;
+      transform: translate(-50%, -50%);
+    }
+
+    .faq__icon::after {
+      width: 2px;
+      height: 14px;
+      transform: translate(-50%, -50%);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+
+    .faq__item.active .faq__icon::after {
+      transform: translate(-50%, -50%) rotate(90deg);
+      opacity: 0;
+    }
+
+    .faq__answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .faq__answer-inner {
+      padding: 0 0 var(--space-md);
+      font-size: 0.95rem;
+      color: var(--gray-600);
+      line-height: 1.7;
+    }
+
+    .faq__answer-inner strong {
+      color: var(--navy-800);
+    }
+
+    /* ============================================
+       FINAL CTA
+       ============================================ */
+    .final-cta {
+      background: var(--navy-800);
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .final-cta::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: 20%;
+      width: 60%;
+      height: 100%;
+      background: radial-gradient(ellipse, var(--cyan-glow) 0%, transparent 60%);
+      filter: blur(100px);
+    }
+
+    .final-cta__content {
+      position: relative;
+      z-index: 2;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .final-cta h2 {
+      margin-bottom: var(--space-md);
+    }
+
+    .final-cta p {
+      font-size: 1.1rem;
+      color: var(--gray-300);
+      margin-bottom: var(--space-md);
+    }
+
+    .final-cta__stats {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-lg);
+      margin-bottom: var(--space-lg);
+      flex-wrap: wrap;
+    }
+
+    .final-cta__stat {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      color: var(--gray-400);
+    }
+
+    .final-cta__stat strong {
+      display: block;
+      font-size: 1.1rem;
+      color: var(--white);
+    }
+
+    /* ============================================
+       TRUST FOOTER
+       ============================================ */
+    .trust-footer {
+      background: var(--navy-900);
+      padding: var(--space-lg) 0;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .trust-footer__items {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-xl);
+      flex-wrap: wrap;
+    }
+
+    .trust-footer__item {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      color: var(--gray-500);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .trust-footer__item svg {
+      width: 16px;
+      height: 16px;
+      opacity: 0.5;
+    }
+
+    /* ============================================
+       GLOBAL MOBILE OVERRIDES
+       ============================================ */
+    @media (max-width: 640px) {
+      body {
+        font-size: 16px;
+      }
+
+      .section {
+        padding: var(--space-xl) 0;
+      }
+
+      .hero__content {
+        padding: 6rem 0 3rem;
+      }
+
+      .final-cta__stats {
+        flex-direction: column;
+        gap: var(--space-sm);
+      }
+
+      .trust-footer__items {
+        flex-direction: column;
+        gap: var(--space-sm);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================
+       STICKY HEADER
+       ========================================== -->
+  <header class="header" id="header">
+    <div class="header__inner">
+      <a href="#" class="header__logo"><span>kilo</span></a>
+      <a href="/book-your-sales-call/" class="btn btn--primary btn--sm cta-track" data-cta="header">
+        Book a Free Call <span class="btn-arrow">&rarr;</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- ==========================================
+       HERO
+       ========================================== -->
+  <section class="hero" id="hero">
+    <div class="hero__bg">
+      <div class="hero__grid"></div>
+    </div>
+    <div class="container hero__content">
+      <p class="section-label reveal" style="color: var(--cyan); margin-bottom: var(--space-sm);">Done-For-You Gym Growth</p>
+      <h1 class="reveal reveal-delay-1">You Didn't Open a Gym to <em>Fight With Software</em></h1>
+      <p class="hero__sub reveal reveal-delay-2">Kilo builds your website, sets up your marketing, and brings you leads — so you can get back to coaching. <strong>Done for you. Not dumped on you.</strong></p>
+      <div class="reveal reveal-delay-3">
+        <a href="/book-your-sales-call/" class="btn btn--primary cta-track" data-cta="hero">
+          Book a Free Call <span class="btn-arrow">&rarr;</span>
+        </a>
+        <p class="friction-text friction-text--light">No commitment. No credit card. Just a conversation about your gym.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       PROBLEM
+       ========================================== -->
+  <section class="section problem" id="problem">
+    <div class="container">
+      <p class="section-label reveal" style="color: var(--cyan);">The Real Cost</p>
+      <h2 class="reveal reveal-delay-1">The Real Cost of &ldquo;Figuring It Out Yourself&rdquo;</h2>
+      <div class="problem__intro reveal reveal-delay-2">
+        <p>You opened your gym to coach people. To change lives. To build something that matters.</p>
+        <p style="margin-top: var(--space-sm);">But here&rsquo;s what your week actually looks like:</p>
+      </div>
+
+      <div class="reveal reveal-delay-2" style="margin: var(--space-lg) 0;">
+        <p><strong style="color: var(--navy-800);">Hours disappear</strong> into admin. Updating your website. Chasing leads who filled out a form three days ago. Googling &ldquo;how to set up email automation.&rdquo; Jumping between four different apps that don&rsquo;t talk to each other.</p>
+        <p style="margin-top: var(--space-sm);">Meanwhile, the leads you worked so hard to get? <strong style="color: var(--navy-800);">They&rsquo;re going cold.</strong> Studies show that responding to a lead within 5 minutes makes you <strong style="color: var(--cyan);">21x more likely</strong> to convert them. But you were coaching the 6 AM class when that form came in.</p>
+      </div>
+
+      <div class="problem__costs reveal reveal-delay-3">
+        <div class="cost-item">
+          <div class="cost-item__label">Website Builder</div>
+          <div class="cost-item__price">$100-300/mo</div>
+        </div>
+        <div class="cost-item">
+          <div class="cost-item__label">Email Marketing</div>
+          <div class="cost-item__price">$50-100/mo</div>
+        </div>
+        <div class="cost-item">
+          <div class="cost-item__label">CRM</div>
+          <div class="cost-item__price">$50-200/mo</div>
+        </div>
+        <div class="cost-item">
+          <div class="cost-item__label">Scheduling App</div>
+          <div class="cost-item__price">$30-50/mo</div>
+        </div>
+      </div>
+
+      <div class="problem__total reveal reveal-delay-3">
+        <div class="problem__total-amount">$200-500+/month</div>
+        <div class="problem__total-note">On tools that still don&rsquo;t work together &mdash; plus hours every week on work that has nothing to do with coaching.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       AGITATE
+       ========================================== -->
+  <section class="section agitate" id="agitate">
+    <div class="container">
+      <p class="section-label reveal" style="color: var(--cyan);">Sound Familiar?</p>
+      <h2 class="reveal reveal-delay-1">It&rsquo;s 9 PM on a Tuesday.</h2>
+      <div class="agitate__story reveal reveal-delay-2">
+        <p>You finished coaching four hours ago. But you&rsquo;re still at the gym &mdash; or worse, at your kitchen table &mdash; trying to figure out why your website form isn&rsquo;t sending notifications.</p>
+        <p>A lead came in this morning. You saw it at lunch. You meant to call. But then the 4:30 class showed up, a member needed to freeze their account, and you still haven&rsquo;t posted on social media this week.</p>
+        <p>By the time you text that lead back, <strong>they&rsquo;ve already booked an intro at the gym down the street.</strong></p>
+      </div>
+      <div class="agitate__callout reveal reveal-delay-3">
+        <p>This isn&rsquo;t a time management problem. It&rsquo;s a systems problem.</p>
+        <p>And you shouldn&rsquo;t have to solve it yourself.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       CREDIBILITY BAR
+       ========================================== -->
+  <section class="credibility" id="credibility">
+    <div class="container container--wide">
+      <p class="credibility__headline reveal">TRUSTED BY 1,000+ COACHING GYMS WORLDWIDE</p>
+      <div class="credibility__stats">
+        <div class="stat-card reveal">
+          <div class="stat-card__number">77%</div>
+          <div class="stat-card__label">report Kilo pays for itself within 3 months</div>
+        </div>
+        <div class="stat-card reveal reveal-delay-1">
+          <div class="stat-card__number">80%</div>
+          <div class="stat-card__label">say Kilo is easier than their previous software</div>
+        </div>
+        <div class="stat-card reveal reveal-delay-2">
+          <div class="stat-card__number">18%</div>
+          <div class="stat-card__label">more leads per month on average with a Kilo website</div>
+        </div>
+        <div class="stat-card reveal reveal-delay-3">
+          <div class="stat-card__number">&lt;3 hrs</div>
+          <div class="stat-card__label">support response time &mdash; including weekends</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SOLUTION
+       ========================================== -->
+  <section class="section solution" id="solution">
+    <div class="container">
+      <p class="section-label reveal" style="color: var(--cyan);">The Kilo Difference</p>
+      <h2 class="reveal reveal-delay-1">What If Someone Just&hellip; Did It For You?</h2>
+      <p class="solution__intro reveal reveal-delay-2">Kilo isn&rsquo;t another tool you have to learn. It&rsquo;s a team that builds your growth engine and keeps it running.</p>
+
+      <!-- Website -->
+      <div class="solution__block reveal">
+        <div class="solution__icon solution__icon--website">&#127760;</div>
+        <div>
+          <h3>Your Website &mdash; Built For You. Live in 9 Days.</h3>
+          <p>You fill out a questionnaire. Kilo&rsquo;s team designs a professional, SEO-optimized website built to convert visitors into leads. You review it on a live call. It launches.</p>
+          <p>No dragging and dropping. No watching YouTube tutorials. No hiring your nephew who &ldquo;knows Squarespace.&rdquo;</p>
+          <p><strong>And it stays current.</strong> Kilo includes an annual redesign, monthly blog posts, and monthly newsletters &mdash; all written and published for you.</p>
+          <span class="solution__tag">Live in 9 days</span>
+        </div>
+      </div>
+
+      <!-- Lead Follow-Up -->
+      <div class="solution__block reveal">
+        <div class="solution__icon solution__icon--leads">&#9889;</div>
+        <div>
+          <h3>Your Lead Follow-Up &mdash; Set Up For You. Runs Automatically.</h3>
+          <p>A lead fills out your form at 6 AM. Before you&rsquo;ve finished your first coffee, they&rsquo;ve already received a personalized text and email. Automated follow-up sequences nurture them toward booking an intro &mdash; without you lifting a finger.</p>
+          <p><strong>Your system is live in as little as 7 business days.</strong> Pre-built sequences. Proven templates. Configured for your gym.</p>
+          <span class="solution__tag">Running in 7 days</span>
+        </div>
+      </div>
+
+      <!-- Marketing -->
+      <div class="solution__block reveal">
+        <div class="solution__icon solution__icon--marketing">&#128232;</div>
+        <div>
+          <h3>Your Marketing &mdash; Handled For You. Month After Month.</h3>
+          <p>Monthly newsletters. Blog content. Google review requests. Social media templates. Kilo&rsquo;s team creates it. You approve it (or don&rsquo;t &mdash; it goes out either way, because consistency beats perfection).</p>
+        </div>
+      </div>
+
+      <!-- Support -->
+      <div class="solution__block reveal">
+        <div class="solution__icon solution__icon--support">&#128173;</div>
+        <div>
+          <h3>Your Support &mdash; Three Specialized Teams. One Platform.</h3>
+          <p>Most software gives you a chatbot and a prayer. Kilo gives you three dedicated support teams:</p>
+          <div class="support-teams">
+            <div class="support-team">
+              <div class="support-team__name">Website Team</div>
+              <div class="support-team__desc">Design changes, updates, new pages</div>
+            </div>
+            <div class="support-team">
+              <div class="support-team__name">Marketing Team</div>
+              <div class="support-team__desc">Campaigns, lead nurture, automation</div>
+            </div>
+            <div class="support-team">
+              <div class="support-team__name">Software Team</div>
+              <div class="support-team__desc">Billing, scheduling, member management</div>
+            </div>
+          </div>
+          <p style="margin-top: var(--space-sm);"><strong>Average response time: under 3 hours.</strong> Even on weekends.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       MID-PAGE CTA
+       ========================================== -->
+  <section class="cta-block">
+    <div class="container" style="position: relative;">
+      <h3 class="reveal">Still doing it yourself?</h3>
+      <p class="reveal reveal-delay-1">See what Kilo can set up for your gym.</p>
+      <a href="/book-your-sales-call/" class="btn btn--primary cta-track reveal reveal-delay-2" data-cta="mid-1">
+        Book a Free Call <span class="btn-arrow">&rarr;</span>
+      </a>
+      <p class="friction-text friction-text--light reveal reveal-delay-3">No commitment. Takes 15 minutes.</p>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       HOW IT WORKS
+       ========================================== -->
+  <section class="section how-it-works" id="how-it-works">
+    <div class="container container--wide">
+      <p class="section-label reveal" style="color: var(--cyan); text-align: center; margin-bottom: var(--space-xs);">How It Works</p>
+      <h2 class="reveal reveal-delay-1">Three Steps. That&rsquo;s It.</h2>
+
+      <div class="steps">
+        <div class="step reveal">
+          <div class="step__number">1</div>
+          <h3>Tell Us About Your Gym</h3>
+          <p>Book a free call. We&rsquo;ll learn about your gym, your goals, and what&rsquo;s not working. If Kilo&rsquo;s a fit, we&rsquo;ll map out your setup.</p>
+        </div>
+        <div class="step reveal reveal-delay-1">
+          <div class="step__number">2</div>
+          <h3>We Build Everything</h3>
+          <p>Your website, lead nurture sequences, CRM, and automations &mdash; built by our team, configured for your gym. <strong>Website live in 9 days. System running in 7 business days.</strong></p>
+        </div>
+        <div class="step reveal reveal-delay-2">
+          <div class="step__number">3</div>
+          <h3>You Coach. Leads Come In.</h3>
+          <p>Leads flow in from your website. Follow-up happens automatically. You check your dashboard when you want. You coach when you should. That&rsquo;s it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       TESTIMONIALS
+       ========================================== -->
+  <section class="section testimonials" id="proof">
+    <div class="container container--wide">
+      <p class="section-label reveal" style="color: var(--mint); text-align: center; margin-bottom: var(--space-xs);">Real Results</p>
+      <h2 class="reveal reveal-delay-1">Gym Owners Who Made the Switch</h2>
+
+      <div class="testimonials-grid">
+        <div class="testimonial-card testimonial-card--featured reveal">
+          <div class="testimonial-card__quote">&ldquo;Net gain of 33 members. We went from averaging 6 new members per month to 14.&rdquo;</div>
+          <div class="testimonial-card__author"><strong>Charlie Goode</strong> &mdash; CrossFit Watford</div>
+        </div>
+        <div class="testimonial-card reveal">
+          <div class="testimonial-card__quote">&ldquo;7 NSIs and 5 new members in 5 days.&rdquo;</div>
+          <div class="testimonial-card__author"><strong>Jay Storey</strong> &mdash; CrossFit Narellan</div>
+        </div>
+        <div class="testimonial-card reveal reveal-delay-1">
+          <div class="testimonial-card__quote">&ldquo;I&rsquo;m drowning in website traffic I never knew I had.&rdquo;</div>
+          <div class="testimonial-card__author"><strong>Lindsey Barber</strong> &mdash; Fitness Lair</div>
+        </div>
+        <div class="testimonial-card reveal reveal-delay-2">
+          <div class="testimonial-card__quote">&ldquo;We literally went from 0 leads to 8 in a week. No ads.&rdquo;</div>
+          <div class="testimonial-card__author"><strong>David De Leon</strong> &mdash; OTL Fitness</div>
+        </div>
+        <div class="testimonial-card reveal reveal-delay-3">
+          <div class="testimonial-card__quote">&ldquo;By far the highest ROI on software and technology our gym has ever made.&rdquo;</div>
+          <div class="testimonial-card__author"><strong>Ashley</strong> &mdash; FTX CrossFit</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       ROI MATH
+       ========================================== -->
+  <section class="section roi" id="roi">
+    <div class="container">
+      <p class="section-label reveal" style="color: var(--cyan);">The Math</p>
+      <h2 class="reveal reveal-delay-1">The &ldquo;Two Members&rdquo; Test</h2>
+      <p class="reveal reveal-delay-2" style="margin-bottom: var(--space-sm);">Let&rsquo;s keep this simple.</p>
+
+      <div class="roi__calculator reveal reveal-delay-2">
+        <div class="roi__math">
+          <div class="roi__math-item">
+            <div class="roi__math-label">Average member pays</div>
+            <div class="roi__math-value roi__math-value--cyan">$180<span style="font-size: 0.6em; font-weight: 500; opacity: 0.6;">/mo</span></div>
+            <div class="roi__math-sub">&times; 20 months average stay</div>
+          </div>
+          <div class="roi__math-item">
+            <div class="roi__math-label">Lifetime revenue per member</div>
+            <div class="roi__math-value roi__math-value--mint">$3,600</div>
+            <div class="roi__math-sub">per member closed</div>
+          </div>
+          <div class="roi__math-item">
+            <div class="roi__math-label">Kilo GLM costs</div>
+            <div class="roi__math-value roi__math-value--green">$4,500<span style="font-size: 0.6em; font-weight: 500; opacity: 0.6;">/yr</span></div>
+            <div class="roi__math-sub">$375/mo &times; 12 months</div>
+          </div>
+        </div>
+        <div class="roi__bottom">
+          <div class="roi__bottom-stat">Close 2 extra members this year and Kilo has paid for itself.</div>
+          <div class="roi__bottom-note">Not 20 members. Not 10. <strong style="color: var(--white);">Two.</strong></div>
+        </div>
+      </div>
+
+      <div class="roi__summary reveal">
+        <p>The average gym using Kilo&rsquo;s lead system reports <strong>35.3 more qualified leads per month.</strong> Even at a modest close rate, that&rsquo;s not two members per year. That&rsquo;s two members per month.</p>
+        <p style="margin-top: var(--space-sm);"><strong>77% of Kilo customers report the software pays for itself within the first 3 months.</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       MID-PAGE CTA 2
+       ========================================== -->
+  <section class="cta-block">
+    <div class="container" style="position: relative;">
+      <h3 class="reveal">Two members. That&rsquo;s the breakeven.</h3>
+      <p class="reveal reveal-delay-1">What would 35 more leads per month do for your gym?</p>
+      <a href="/book-your-sales-call/" class="btn btn--primary cta-track reveal reveal-delay-2" data-cta="mid-2">
+        Book a Free Call <span class="btn-arrow">&rarr;</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       COMPARISON TABLE
+       ========================================== -->
+  <section class="section comparison" id="compare">
+    <div class="container container--wide">
+      <p class="section-label reveal" style="color: var(--cyan); text-align: center; margin-bottom: var(--space-xs);">The Comparison</p>
+      <h2 class="reveal reveal-delay-1">Kilo vs. The Alternatives</h2>
+
+      <div class="comparison__wrapper reveal reveal-delay-2">
+        <table class="comparison__table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>DIY (Multiple Tools)</th>
+              <th>Marketing Agency</th>
+              <th>Kilo GLM</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Professional Website</td>
+              <td>$100-300/mo &mdash; you build it</td>
+              <td>$3,000-10,000 up front &mdash; then you maintain it</td>
+              <td><span class="check">&#10003;</span> Built for you, live in 9 days</td>
+            </tr>
+            <tr>
+              <td>CRM + Lead Tracking</td>
+              <td>$50-200/mo &mdash; you configure it</td>
+              <td><span class="x-mark">Usually not included</span></td>
+              <td><span class="check">&#10003;</span> Pre-configured</td>
+            </tr>
+            <tr>
+              <td>Automated Follow-Up</td>
+              <td>Hours of manual setup, breaks constantly</td>
+              <td>$1,000+/mo retainer</td>
+              <td><span class="check">&#10003;</span> Pre-built sequences</td>
+            </tr>
+            <tr>
+              <td>Monthly Content</td>
+              <td>You write it (so it doesn&rsquo;t happen)</td>
+              <td>Extra fees per deliverable</td>
+              <td><span class="check">&#10003;</span> Newsletters + blog posts</td>
+            </tr>
+            <tr>
+              <td>Annual Redesign</td>
+              <td>You pay again</td>
+              <td>You pay again</td>
+              <td><span class="check">&#10003;</span> Included</td>
+            </tr>
+            <tr>
+              <td>Built for Coaching Gyms</td>
+              <td><span class="x-mark">No</span></td>
+              <td><span class="x-mark">Maybe</span></td>
+              <td><span class="check">&#10003;</span> It&rsquo;s all we do</td>
+            </tr>
+            <tr>
+              <td>Ongoing Maintenance</td>
+              <td>You</td>
+              <td>Extra fees</td>
+              <td><span class="check">&#10003;</span> 3 dedicated support teams</td>
+            </tr>
+            <tr>
+              <td>Total Monthly Cost</td>
+              <td><strong style="color: var(--red-soft);">$200-500+</strong> (plus your time)</td>
+              <td><strong style="color: var(--red-soft);">$2,000-5,000+</strong></td>
+              <td><strong style="color: var(--green-soft);">$375/mo</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="comparison__footer reveal">
+        The DIY path costs you money AND time. An agency costs more money. Kilo gives you <strong>80% of the value of an agency for a fraction of the cost</strong> &mdash; with full control over your gym&rsquo;s marketing.
+      </p>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       PRODUCTS / PRICING
+       ========================================== -->
+  <section class="section pricing" id="pricing">
+    <div class="container container--wide">
+      <p class="section-label reveal" style="color: var(--cyan); text-align: center; margin-bottom: var(--space-xs);">Pricing</p>
+      <h2 class="reveal reveal-delay-1">Choose What Fits Your Gym</h2>
+
+      <div class="pricing-grid">
+        <!-- GMS -->
+        <div class="pricing-card reveal">
+          <div class="pricing-card__name">Gym Management Software</div>
+          <div class="pricing-card__price">$150<span>/mo</span></div>
+          <div class="pricing-card__desc">Billing, scheduling, member management, staff tools, reporting. Everything you need to run your gym &mdash; nothing you don&rsquo;t.</div>
+          <a href="/book-your-sales-call/" class="btn btn--outline btn--sm cta-track" data-cta="pricing-gms">Learn More <span class="btn-arrow">&rarr;</span></a>
+          <div class="pricing-card__best">Best for: Gyms with marketing already dialed in.</div>
+        </div>
+
+        <!-- GLM — Featured -->
+        <div class="pricing-card pricing-card--featured reveal reveal-delay-1">
+          <div class="pricing-card__badge">Most Popular</div>
+          <div class="pricing-card__name">Gym Lead Machine</div>
+          <div class="pricing-card__price">$375<span>/mo</span></div>
+          <div class="pricing-card__desc">Done-for-you website + CRM + lead nurture + automated follow-up + monthly content + annual redesign. Your entire marketing engine, built and maintained for you.</div>
+          <a href="/book-your-sales-call/" class="btn btn--primary btn--sm cta-track" data-cta="pricing-glm">Book a Free Call <span class="btn-arrow">&rarr;</span></a>
+          <div class="pricing-card__best">Best for: Gyms that need more leads and a system to convert them.</div>
+        </div>
+
+        <!-- Bundle -->
+        <div class="pricing-card reveal reveal-delay-2">
+          <div class="pricing-card__name">The Bundle (GMS + GLM)</div>
+          <div class="pricing-card__price">$450<span>/mo</span></div>
+          <div class="pricing-card__save">Save $75/mo</div>
+          <div class="pricing-card__desc">Everything in both products. Run your gym AND grow it from one platform.</div>
+          <a href="/book-your-sales-call/" class="btn btn--outline btn--sm cta-track" data-cta="pricing-bundle">Book a Free Call <span class="btn-arrow">&rarr;</span></a>
+          <div class="pricing-card__best">Best for: Gyms that want one system for everything.</div>
+        </div>
+      </div>
+
+      <div class="pricing__website-note reveal">
+        <strong>Just need a website?</strong> Standalone Gym Websites available at <strong>$175/mo</strong> &mdash; same done-for-you build process, same quality, same support.
+      </div>
+
+      <p class="pricing__note reveal">All plans include onboarding, data migration, and dedicated support. No hidden fees.</p>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       FAQ
+       ========================================== -->
+  <section class="section faq" id="faq">
+    <div class="container">
+      <p class="section-label reveal" style="color: var(--cyan); text-align: center; margin-bottom: var(--space-xs);">FAQ</p>
+      <h2 class="reveal reveal-delay-1">Questions We Hear Every Week</h2>
+
+      <div class="faq__list">
+        <div class="faq__item reveal">
+          <button class="faq__question" aria-expanded="false">
+            How long until I see results?
+            <span class="faq__icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq__answer">
+            <div class="faq__answer-inner">
+              Most gyms see an increase in leads within the first couple of weeks after launching. Your website goes live in 9 days. Your lead nurture system can be running in as little as 7 business days. This isn&rsquo;t a &ldquo;wait 6 months and hope&rdquo; situation.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq__item reveal">
+          <button class="faq__question" aria-expanded="false">
+            Will this work for my type of gym?
+            <span class="faq__icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq__answer">
+            <div class="faq__answer-inner">
+              If you run a coaching-style gym, yes. Kilo is built specifically for CrossFit boxes, martial arts schools, bootcamp facilities, HYROX training centers, PT studios, and small group training gyms. We work with over <strong>1,000 gyms</strong> across these formats.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq__item reveal">
+          <button class="faq__question" aria-expanded="false">
+            What about switching costs? I don&rsquo;t want another painful migration.
+            <span class="faq__icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq__answer">
+            <div class="faq__answer-inner">
+              We handle it. Kilo&rsquo;s team manages your data migration and builds your new website from scratch &mdash; you don&rsquo;t port over an old site. White-glove onboarding is included. Most gym owners say the switch was easier than expected, and <strong>80% report Kilo is easier to use than their previous software.</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq__item reveal">
+          <button class="faq__question" aria-expanded="false">
+            Is there a long-term contract?
+            <span class="faq__icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq__answer">
+            <div class="faq__answer-inner">
+              Gym Management Software has a 1-year commitment. Gym Lead Machine &mdash; check with the Kilo team on your call for current terms. No hidden fees on any plan.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq__item reveal">
+          <button class="faq__question" aria-expanded="false">
+            What if I just need a website?
+            <span class="faq__icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq__answer">
+            <div class="faq__answer-inner">
+              Kilo offers standalone gym websites at <strong>$175/mo</strong> with the same done-for-you build process. But most gym owners find that pairing the website with the lead nurture system (GLM) is where the real ROI kicks in &mdash; because getting traffic is only half the battle. Converting it is the other half.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq__item reveal">
+          <button class="faq__question" aria-expanded="false">
+            How is Kilo different from other gym software?
+            <span class="faq__icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq__answer">
+            <div class="faq__answer-inner">
+              Most gym software handles either management OR marketing. Kilo is the only platform that combines gym management, marketing automation, AND done-for-you websites &mdash; all built specifically for coaching gyms. You&rsquo;re not adapting a generic tool. You&rsquo;re using something built by people who understand your business.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq__item reveal">
+          <button class="faq__question" aria-expanded="false">
+            Do I need to be tech-savvy?
+            <span class="faq__icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq__answer">
+            <div class="faq__answer-inner">
+              No. That&rsquo;s the whole point. We build it. We maintain it. We support it. You coach.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       FINAL CTA
+       ========================================== -->
+  <section class="section final-cta" id="book">
+    <div class="container">
+      <div class="final-cta__content">
+        <p class="section-label reveal" style="color: var(--cyan); margin-bottom: var(--space-sm);">Ready?</p>
+        <h2 class="reveal reveal-delay-1">Your Gym Deserves a Growth System. Not Another App to Manage.</h2>
+        <p class="reveal reveal-delay-2">You got into this business to coach. To help people get stronger, healthier, more confident. Somewhere along the way, you became a part-time marketer, part-time web developer, and full-time admin.</p>
+        <p class="reveal reveal-delay-2"><strong style="color: var(--white);">It doesn&rsquo;t have to be that way.</strong></p>
+
+        <div class="final-cta__stats reveal reveal-delay-3">
+          <div class="final-cta__stat">
+            <strong>1,000+ gyms</strong>
+            already switched
+          </div>
+          <div class="final-cta__stat">
+            <strong>77%</strong>
+            paid for itself in 3 months
+          </div>
+          <div class="final-cta__stat">
+            <strong>9 days</strong>
+            to a live website
+          </div>
+        </div>
+
+        <a href="/book-your-sales-call/" class="btn btn--primary cta-track reveal reveal-delay-3" data-cta="final" style="font-size: 1.1rem; padding: 1.15rem 2.5rem;">
+          Book a Free Call <span class="btn-arrow">&rarr;</span>
+        </a>
+        <p class="friction-text friction-text--light reveal reveal-delay-4">No commitment. No credit card. Just a conversation about what Kilo can do for your gym.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       TRUST FOOTER
+       ========================================== -->
+  <footer class="trust-footer">
+    <div class="container container--wide">
+      <div class="trust-footer__items">
+        <div class="trust-footer__item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          Trusted by 1,000+ gyms
+        </div>
+        <div class="trust-footer__item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+          5-Star Capterra Rating
+        </div>
+        <div class="trust-footer__item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          Support under 3 hours
+        </div>
+        <div class="trust-footer__item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          Website live in 9 days
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================
+       SCRIPTS
+       ========================================== -->
+  <script>
+    /* Sticky header background on scroll */
+    (function() {
+      var header = document.getElementById('header');
+      var scrollThreshold = 80;
+
+      function onScroll() {
+        if (window.scrollY > scrollThreshold) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+
+    /* Scroll reveal with IntersectionObserver */
+    (function() {
+      var reveals = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) {
+        reveals.forEach(function(el) { el.classList.add('visible'); });
+        return;
+      }
+
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      reveals.forEach(function(el) { observer.observe(el); });
+    })();
+
+    /* FAQ accordion */
+    (function() {
+      var items = document.querySelectorAll('.faq__item');
+
+      items.forEach(function(item) {
+        var btn = item.querySelector('.faq__question');
+        var answer = item.querySelector('.faq__answer');
+
+        btn.addEventListener('click', function() {
+          var isOpen = item.classList.contains('active');
+
+          /* Close all others */
+          items.forEach(function(other) {
+            if (other !== item) {
+              other.classList.remove('active');
+              other.querySelector('.faq__question').setAttribute('aria-expanded', 'false');
+              other.querySelector('.faq__answer').style.maxHeight = null;
+            }
+          });
+
+          if (isOpen) {
+            item.classList.remove('active');
+            btn.setAttribute('aria-expanded', 'false');
+            answer.style.maxHeight = null;
+          } else {
+            item.classList.add('active');
+            btn.setAttribute('aria-expanded', 'true');
+            answer.style.maxHeight = answer.scrollHeight + 'px';
+          }
+        });
+      });
+    })();
+
+    /* UTM parameter preservation on CTA links */
+    (function() {
+      var params = new URLSearchParams(window.location.search);
+      var utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+      var utmParams = {};
+      var hasUtm = false;
+
+      utmKeys.forEach(function(key) {
+        var val = params.get(key);
+        if (val) {
+          utmParams[key] = val;
+          hasUtm = true;
+        }
+      });
+
+      if (hasUtm) {
+        var ctaLinks = document.querySelectorAll('.cta-track');
+        ctaLinks.forEach(function(link) {
+          var href = link.getAttribute('href');
+          if (href) {
+            var sep = href.indexOf('?') !== -1 ? '&' : '?';
+            var utmString = Object.keys(utmParams).map(function(k) {
+              return k + '=' + encodeURIComponent(utmParams[k]);
+            }).join('&');
+            link.setAttribute('href', href + sep + utmString);
+          }
+        });
+      }
+    })();
+
+    /* CTA click tracking */
+    (function() {
+      document.querySelectorAll('.cta-track').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var placement = btn.getAttribute('data-cta') || 'unknown';
+          /* Push to dataLayer if GTM is present */
+          if (typeof window.dataLayer !== 'undefined') {
+            window.dataLayer.push({
+              event: 'cta_click',
+              cta_placement: placement,
+              cta_text: btn.textContent.trim()
+            });
+          }
+          /* Console log for debugging */
+          console.log('[Kilo LP] CTA click:', placement);
+        });
+      });
+    })();
+
+    /* Scroll depth tracking (25%, 50%, 75%, 100%) */
+    (function() {
+      var milestones = [25, 50, 75, 100];
+      var fired = {};
+
+      function getScrollPercent() {
+        var h = document.documentElement;
+        var b = document.body;
+        var st = h.scrollTop || b.scrollTop;
+        var sh = (h.scrollHeight || b.scrollHeight) - h.clientHeight;
+        return sh > 0 ? Math.round((st / sh) * 100) : 0;
+      }
+
+      function checkMilestones() {
+        var pct = getScrollPercent();
+        milestones.forEach(function(m) {
+          if (pct >= m && !fired[m]) {
+            fired[m] = true;
+            if (typeof window.dataLayer !== 'undefined') {
+              window.dataLayer.push({ event: 'scroll_depth', depth: m });
+            }
+            console.log('[Kilo LP] Scroll depth:', m + '%');
+          }
+        });
+      }
+
+      window.addEventListener('scroll', checkMilestones, { passive: true });
+    })();
+  </script>
+</body>
+</html>
