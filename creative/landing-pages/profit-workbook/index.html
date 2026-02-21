@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Gym Profit Calculator Workbook — Kilo</title>
+  <meta name="description" content="Work through the numbers step by step. Figure out your break-even point, know how many members you need to stay profitable, and find the right balance between services.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Nunito+Sans:ital,opsz,wght@0,6..12,300..1000;1,6..12,300..1000&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy-900: #060E1F;
+      --navy-800: #0A1C38;
+      --navy-700: #0F2847;
+      --navy-600: #163456;
+      --cyan: #1EB1F9;
+      --cyan-light: #5CC8FA;
+      --cyan-glow: rgba(30, 177, 249, 0.15);
+      --mint: #20F2CA;
+      --mint-glow: rgba(32, 242, 202, 0.15);
+      --white: #FFFFFF;
+      --gray-50: #F8FAFC;
+      --gray-100: #F1F5F9;
+      --gray-200: #E2E8F0;
+      --gray-300: #CBD5E1;
+      --gray-400: #94A3B8;
+      --gray-500: #64748B;
+      --gray-600: #475569;
+      --gray-700: #334155;
+      --gray-800: #1E293B;
+      --red-soft: #FF6B6B;
+      --green-soft: #4ADE80;
+      --amber: #FBBF24;
+      --font-display: 'Sora', sans-serif;
+      --font-body: 'Nunito Sans', sans-serif;
+      --max-content: 720px;
+      --max-wide: 1100px;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --space-xs: 0.5rem;
+      --space-sm: 1rem;
+      --space-md: 1.5rem;
+      --space-lg: 2.5rem;
+      --space-xl: 4rem;
+      --space-2xl: 6rem;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+    input[type="number"] { -moz-appearance: textfield; }
+
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 17px;
+      line-height: 1.75;
+      color: var(--gray-700);
+      background: var(--gray-50);
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.2; letter-spacing: -0.02em; }
+
+    strong { color: var(--gray-800); }
+
+    /* ---- HEADER ---- */
+    .header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(10, 28, 56, 0.95);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      padding: 0.65rem 0;
+      box-shadow: 0 2px 24px rgba(0,0,0,0.2);
+    }
+    .header__inner {
+      display: flex; align-items: center; justify-content: space-between;
+      max-width: var(--max-wide); margin: 0 auto; padding: 0 var(--space-md);
+    }
+    .header__logo {
+      font-family: var(--font-display); font-weight: 800; font-size: 1.5rem;
+      color: var(--white); text-decoration: none;
+    }
+    .header__logo span {
+      background: linear-gradient(135deg, var(--cyan), var(--mint));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: var(--font-display); font-weight: 700; font-size: 0.875rem;
+      padding: 0.6rem 1.5rem; border-radius: 50px; border: none;
+      cursor: pointer; text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn--primary {
+      background: linear-gradient(135deg, var(--cyan), var(--mint));
+      color: var(--navy-900); box-shadow: 0 4px 20px rgba(30, 177, 249, 0.3);
+    }
+    .btn--primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(30, 177, 249, 0.45); }
+
+    /* ---- HERO ---- */
+    .hero {
+      background: var(--navy-800); padding: 7rem 0 var(--space-2xl);
+      position: relative; overflow: hidden;
+    }
+    .hero__bg { position: absolute; inset: 0; }
+    .hero__bg::before {
+      content: ''; position: absolute; top: -40%; right: -25%; width: 60%; height: 80%;
+      background: radial-gradient(ellipse, var(--cyan-glow) 0%, transparent 65%); filter: blur(80px);
+    }
+    .hero__bg::after {
+      content: ''; position: absolute; bottom: -30%; left: -15%; width: 45%; height: 60%;
+      background: radial-gradient(ellipse, var(--mint-glow) 0%, transparent 65%); filter: blur(80px);
+    }
+    .hero__content {
+      position: relative; z-index: 2;
+      max-width: var(--max-content); margin: 0 auto; padding: 0 var(--space-md);
+    }
+    .hero__badge {
+      display: inline-block; font-family: var(--font-display);
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--cyan); background: var(--cyan-glow);
+      border: 1px solid rgba(30, 177, 249, 0.2);
+      padding: 0.35rem 1rem; border-radius: 50px; margin-bottom: var(--space-md);
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 800;
+      color: var(--white); margin-bottom: 0.5rem; text-align: center;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--cyan), var(--mint));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero__subtitle {
+      font-family: var(--font-display); font-size: 1.05rem; font-weight: 500;
+      color: var(--cyan-light); text-align: center; margin-bottom: var(--space-lg);
+    }
+    .hero__text {
+      font-size: 1rem; color: var(--gray-300); line-height: 1.8; text-align: left;
+    }
+    .hero__text p { margin-bottom: var(--space-md); }
+    .hero__text strong { color: var(--white); }
+
+    /* ---- MAIN LAYOUT ---- */
+    .main {
+      max-width: var(--max-wide); margin: 0 auto;
+      padding: var(--space-xl) var(--space-md) var(--space-2xl);
+      display: grid; grid-template-columns: 1fr 320px; gap: var(--space-lg); align-items: start;
+    }
+    @media (max-width: 900px) { .main { grid-template-columns: 1fr; } }
+
+    /* ---- PROSE BLOCKS ---- */
+    .prose {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-md);
+    }
+    .prose h2 {
+      font-size: 1.4rem; font-weight: 800; color: var(--navy-800);
+      margin-bottom: var(--space-sm);
+    }
+    .prose h3 {
+      font-size: 1.05rem; font-weight: 700; color: var(--navy-800);
+      margin-top: var(--space-md); margin-bottom: 0.5rem;
+    }
+    .prose p { margin-bottom: var(--space-sm); }
+    .prose p:last-child { margin-bottom: 0; }
+
+    .part-label {
+      font-family: var(--font-display); font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan);
+      margin-bottom: 0.25rem;
+    }
+
+    /* ---- WORKSHEET CARDS ---- */
+    .worksheet {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-md);
+      transition: box-shadow 0.3s;
+    }
+    .worksheet:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.04); }
+
+    .worksheet__header {
+      display: flex; align-items: center; gap: var(--space-sm);
+      margin-bottom: 0.5rem;
+    }
+    .worksheet__num {
+      width: 2rem; height: 2rem; border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan), var(--mint));
+      color: var(--navy-900); font-family: var(--font-display);
+      font-weight: 800; font-size: 0.8rem;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .worksheet__title {
+      font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; color: var(--navy-800);
+    }
+    .worksheet__desc {
+      font-size: 0.9rem; color: var(--gray-500); margin-bottom: var(--space-md); line-height: 1.65;
+    }
+
+    .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); }
+    @media (max-width: 500px) { .input-grid { grid-template-columns: 1fr; } }
+
+    .input-group { margin-bottom: var(--space-sm); }
+    .input-group label {
+      display: block; font-family: var(--font-display);
+      font-size: 0.78rem; font-weight: 600; color: var(--gray-600); margin-bottom: 0.25rem;
+    }
+    .input-wrap { position: relative; display: flex; align-items: center; }
+    .input-wrap__prefix {
+      position: absolute; left: 0.85rem;
+      font-family: var(--font-display); font-weight: 600; font-size: 0.9rem;
+      color: var(--gray-400); pointer-events: none; z-index: 1;
+    }
+    .input-wrap input {
+      width: 100%; font-family: var(--font-display); font-size: 1rem; font-weight: 600;
+      color: var(--navy-800); background: var(--gray-50);
+      border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm);
+      padding: 0.65rem 0.85rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .input-wrap input:focus {
+      outline: none; border-color: var(--cyan);
+      box-shadow: 0 0 0 3px var(--cyan-glow); background: var(--white);
+    }
+    .input-wrap--dollar input { padding-left: 1.75rem; }
+
+    .worksheet__total {
+      margin-top: var(--space-md); padding-top: var(--space-md);
+      border-top: 2px solid var(--gray-100);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .worksheet__total-label {
+      font-family: var(--font-display); font-weight: 700; font-size: 0.9rem; color: var(--gray-600);
+    }
+    .worksheet__total-value {
+      font-family: var(--font-display); font-weight: 800; font-size: 1.35rem; color: var(--navy-800);
+    }
+
+    .auto-calc {
+      background: linear-gradient(135deg, var(--cyan-glow), var(--mint-glow));
+      border: 1px solid rgba(30, 177, 249, 0.15);
+      border-radius: var(--radius-md);
+      padding: var(--space-sm) var(--space-md);
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: var(--space-sm);
+    }
+    .auto-calc__label {
+      font-family: var(--font-display); font-size: 0.8rem; font-weight: 600; color: var(--gray-600);
+    }
+    .auto-calc__value {
+      font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; color: var(--cyan);
+    }
+
+    .interp {
+      margin-top: var(--space-md); padding: var(--space-sm) var(--space-md);
+      background: var(--gray-50); border-left: 3px solid var(--cyan);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-size: 0.88rem; color: var(--gray-500); line-height: 1.65;
+    }
+    .interp strong { color: var(--navy-800); }
+    .interp--dynamic { display: none; }
+    .interp--dynamic.visible { display: block; }
+
+    /* Tier rows */
+    .tier-row {
+      display: grid; grid-template-columns: 1fr 100px 100px auto;
+      gap: 0.5rem; align-items: end; margin-bottom: 0.75rem;
+    }
+    .tier-row__revenue {
+      font-family: var(--font-display); font-weight: 700; font-size: 0.9rem;
+      color: var(--cyan); padding: 0.65rem 0; text-align: right; min-width: 80px;
+    }
+    .tier-row label { font-size: 0.75rem; }
+    .tier-row input { font-size: 0.9rem; padding: 0.5rem 0.5rem 0.5rem 1.5rem; }
+    .tier-row .input-wrap { height: 38px; }
+    .tier-row .input-wrap__prefix { font-size: 0.8rem; }
+    .tier-row .input-wrap input:not([class]) { padding: 0.5rem; }
+    @media (max-width: 600px) {
+      .tier-row { grid-template-columns: 1fr 1fr; }
+      .tier-row__revenue { grid-column: 1 / -1; text-align: left; }
+    }
+
+    /* Action plan text inputs */
+    .action-input {
+      width: 100%; font-family: var(--font-body); font-size: 0.95rem;
+      color: var(--navy-800); background: var(--gray-50);
+      border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm);
+      padding: 0.65rem 0.85rem; margin-top: 0.25rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .action-input:focus {
+      outline: none; border-color: var(--cyan);
+      box-shadow: 0 0 0 3px var(--cyan-glow); background: var(--white);
+    }
+
+    /* Examples callout */
+    .example-box {
+      background: rgba(30, 177, 249, 0.04); border: 1px solid rgba(30, 177, 249, 0.1);
+      border-radius: var(--radius-md); padding: var(--space-md);
+      margin-top: var(--space-sm);
+    }
+    .example-box h4 {
+      font-size: 0.9rem; font-weight: 700; color: var(--navy-800); margin-bottom: 0.25rem;
+    }
+    .example-box p { font-size: 0.88rem; color: var(--gray-500); margin-bottom: 0.5rem; line-height: 1.6; }
+    .example-box p:last-child { margin-bottom: 0; }
+
+    /* ---- SIDEBAR SUMMARY ---- */
+    .summary { position: sticky; top: 5rem; }
+    @media (max-width: 900px) { .summary { position: static; order: -1; } }
+
+    .summary__card {
+      background: var(--navy-800); border-radius: var(--radius-xl);
+      padding: var(--space-lg); color: var(--white);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+    }
+    .summary__title {
+      font-family: var(--font-display); font-weight: 800; font-size: 1.05rem;
+      margin-bottom: var(--space-md);
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .summary__title-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--green-soft); animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    .summary__divider { border: none; height: 1px; background: rgba(255,255,255,0.08); margin: var(--space-sm) 0; }
+
+    .summary__row { display: flex; align-items: center; justify-content: space-between; padding: 0.35rem 0; }
+    .summary__label { font-size: 0.78rem; color: var(--gray-400); }
+    .summary__value { font-family: var(--font-display); font-weight: 700; font-size: 0.9rem; color: var(--gray-200); }
+    .summary__value--cyan { color: var(--cyan); }
+    .summary__value--green { color: var(--green-soft); }
+    .summary__value--amber { color: var(--amber); }
+    .summary__value--red { color: var(--red-soft); }
+
+    .summary__hero {
+      text-align: center; padding: var(--space-md) 0;
+    }
+    .summary__hero-label {
+      font-size: 0.7rem; color: var(--gray-400); text-transform: uppercase;
+      letter-spacing: 0.1em; font-family: var(--font-display); font-weight: 600;
+    }
+    .summary__hero-value {
+      font-family: var(--font-display); font-weight: 800; font-size: 2.5rem; line-height: 1.1; margin-top: 0.2rem;
+    }
+    .summary__hero-sub { font-size: 0.78rem; color: var(--gray-500); margin-top: 0.2rem; }
+
+    .summary__section-label {
+      font-family: var(--font-display); font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gray-500); margin-top: var(--space-sm); margin-bottom: 0.2rem;
+    }
+
+    .summary__cta { margin-top: var(--space-md); text-align: center; }
+    .summary__cta .btn { width: 100%; justify-content: center; font-size: 0.85rem; padding: 0.7rem 1.25rem; }
+    .summary__cta-note { font-size: 0.72rem; color: var(--gray-500); margin-top: 0.4rem; }
+
+    /* ---- FOOTER CTA ---- */
+    .footer-cta {
+      background: var(--navy-800); padding: var(--space-2xl) 0;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .footer-cta::before {
+      content: ''; position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%); width: 500px; height: 500px;
+      background: radial-gradient(circle, var(--cyan-glow) 0%, transparent 65%); filter: blur(80px);
+    }
+    .footer-cta__content {
+      position: relative; z-index: 2; max-width: 560px;
+      margin: 0 auto; padding: 0 var(--space-md);
+    }
+    .footer-cta h2 { font-size: clamp(1.4rem, 3vw, 1.85rem); font-weight: 800; color: var(--white); margin-bottom: var(--space-sm); }
+    .footer-cta p { color: var(--gray-400); margin-bottom: var(--space-md); font-size: 0.95rem; line-height: 1.7; }
+    .footer-cta .btn { font-size: 1rem; padding: 0.85rem 2.25rem; }
+    .footer-cta__sub { font-size: 0.8rem; color: var(--gray-500); margin-top: var(--space-sm); }
+
+    .trust-footer { background: var(--navy-900); padding: var(--space-md) 0; text-align: center; }
+    .trust-footer p { font-size: 0.75rem; color: var(--gray-600); }
+
+    /* ---- SCROLL REVEAL ---- */
+    .reveal {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header__inner">
+      <a href="#" class="header__logo"><span>kilo</span></a>
+      <a href="/book-your-sales-call/" class="btn btn--primary">Speak to an Expert &rarr;</a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero__bg"></div>
+    <div class="hero__content">
+      <div class="hero__badge" style="text-align:center; display:block; max-width: max-content; margin: 0 auto var(--space-md);">Interactive Workbook</div>
+      <h1>The Gym <em>Profit Calculator</em></h1>
+      <p class="hero__subtitle">Profit Clarity: How Many Members You Actually Need to Be Profitable</p>
+      <div class="hero__text">
+        <p>Most gym owners don&rsquo;t have a profit problem &mdash; they just can&rsquo;t see the full picture. You&rsquo;re putting in the hours, bringing in members, and covering expenses, but it&rsquo;s hard to know exactly what&rsquo;s driving your business forward or what&rsquo;s holding it back. How many members keep you comfortably in the green? How do class attendance or service changes affect your bottom line?</p>
+        <p>This workbook will help you work through the numbers step by step so you can run your gym with confidence. You&rsquo;ll figure out your break-even point, know how many members you need to stay profitable, and find the right balance between services. You&rsquo;ll also get simple templates you can reuse each quarter to stay on track.</p>
+        <p><strong>How to use this workbook:</strong> Treat this like a working session, not a document you skim and forget. Pull up your bank statements, payroll reports, and membership data. Work through each section in order. You will calculate first, then interpret, then decide what to do next. <strong>Business is a science.</strong> When you measure what is happening, you can change it intentionally rather than hoping it improves.</p>
+        <p>This workbook is designed to be practical and private. Your numbers are for you &mdash; everything stays in your browser. The objective is not to compare yourself to other gyms or chase vanity metrics. The objective is to understand your business and make decisions like a CEO, based on facts.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN: CONTENT + SIDEBAR -->
+  <div class="main">
+    <div class="calc-content">
+
+      <!-- PART 1: THE PROFIT FRAMEWORK -->
+      <div class="prose reveal">
+        <div class="part-label">Part 1</div>
+        <h2>The Profit Framework</h2>
+        <p>Before you run any numbers, it&rsquo;s important to understand the basics. Most confusion about profit stems from misusing terms. <strong>Revenue isn&rsquo;t profit.</strong> Being busy isn&rsquo;t the same as being profitable. Growth doesn&rsquo;t always mean stability. Profit comes from a simple sequence: money comes in, expenses go out, and what&rsquo;s left is either margin or stress.</p>
+        <p>A gym becomes more predictable when you separate fixed costs from variable costs and understand how each member helps cover overhead. Once you know the <strong>contribution margin per member</strong>, you can find your break-even point. From there, you can figure out how many members you need to create a stable profit buffer. With those numbers in place, you can start testing changes &mdash; such as pricing, service mix, or utilization &mdash; to see what actually improves results.</p>
+        <p>The rest of this guide walks you through that process so you can repeat it every month.</p>
+      </div>
+
+      <!-- PART 2: YOUR REAL COST STRUCTURE -->
+      <div class="prose reveal">
+        <div class="part-label">Part 2</div>
+        <h2>Your Real Cost Structure</h2>
+        <p>Most owners underestimate costs because they focus only on the obvious ones. Rent, payroll, and utilities are easy to remember. Software subscriptions, cleaning, repairs, merchant fees, equipment financing, and small recurring charges are easy to ignore &mdash; but they add up fast and distort break-even calculations.</p>
+        <p>To calculate profit accurately, you need a clear view of your costs in two categories. <strong>Fixed costs</strong> are expenses that remain the same regardless of the number of members. <strong>Variable costs</strong> increase with activity, including session-based payroll, processing fees, and program-delivery costs tied to volume.</p>
+        <p>If you misclassify costs, you will miscalculate break-even. That is why this section is built as a cost audit.</p>
+      </div>
+
+      <!-- WORKSHEET 1: FIXED COSTS -->
+      <div class="worksheet reveal" id="ws-fixed">
+        <div class="worksheet__header">
+          <div class="worksheet__num">1</div>
+          <div class="worksheet__title">Fixed Cost Inventory</div>
+        </div>
+        <p class="worksheet__desc">Write your monthly fixed expenses in one place. Use your last three months to find the true average.</p>
+        <div class="input-grid">
+          <div class="input-group"><label for="fc-rent">Rent &amp; Lease Payments</label><div class="input-wrap input-wrap--dollar"><span class="input-wrap__prefix">$</span><input type="number" id="fc-rent" data-group="fixed" placeholder="0" min="0"></div></div>
+          <div class="input-group"><label for="fc-utilities">Utilities &amp; Internet</label><div class="input-wrap input-wrap--dollar"><span class="input-wrap__prefix">$</span><input type="number" id="fc-utilities" data-group="fixed" placeholder="0" min="0"></div></div>
+          <div class="input-group"><label for="fc-insurance">Insurance</label><div class="input-wrap input-wrap--dollar"><span class="input-wrap__prefix">$</span><input type="number" id="fc-insurance" data-group="fixed" placeholder="0" min="0"></div></div>
+          <div class="input-group"><label for="fc-software">Software Subscriptions</label><div class="input-wrap input-wrap--dollar"><span class="input-wrap__prefix">$</span><input type="number" id="fc-software" data-group="fixed" placeholder="0" min="0"></div></div>
+          <div class="input-group"><label for="fc-cleaning">Cleaning &amp; Maintenance</label><div class="input-wrap input-wrap--dollar"><span class="input-wrap__prefix">$</span><input type="number" id="fc-cleaning" data-group="fixed" placeholder="0" min="0"></div></div>
+          <div class="input-group"><label for="fc-equipment">Equipment Leases / Financing</label><div class="input-wrap input-wrap--dollar"><span class="input-wrap__prefix">$</span><input type="number" id="fc-equipment" data-group="fixed" placeholder="0" min="0"></div></div>
+          <div class="input-group"><label for="fc-admin">Admin Wages / Fixed Salaries</label><div class="input-wrap input-wrap--dollar"><span class="input-wrap__prefix">$</span><input type="number" id="fc-admin" data-group="fixed" placeholder="0" min="0"></div></div>
+          <div class="input-group"><label for="fc-other">Other Recurring Expenses</label><div class="input-wrap input-wrap--dollar"><span class="input-wrap__prefix">$</span><input type="number" id="fc-other" data-group="fixed" placeholder="0" min="0"></div></div>
+        </div>
+        <div class="worksheet__total">
+          <span class="worksheet__total-label">Total Fixed Costs Per Month</span>
+          <span class="worksheet__total-value" id="total-fixed">$0</span>
+        </div>
+      </div>
+
+      <!-- WORKSHEET 2: VARIABLE COSTS -->
+      <div class="worksheet reveal" id="ws-variable">
+        <div class="worksheet__header">
+          <div class="worksheet__num">2</div>
+          <div class="worksheet__title">Variable Cost Inventory</div>
+        </div>
+        <p class="worksheet__desc">Variable costs can be tricky because they are often spread across categories. The goal is to capture what rises as members use your services.</p>
+        <div class="input-grid">
+          <div class="input-group"><label for="vc-coaching">Coaching Payroll (Session-Based)</label><div class="input-wrap input-wrap--dollar"><span class="input-wrap__prefix">$</span><input type="number" id="vc-coaching" data-group="variable" placeholder="0" min="0"></div></div>
+          <div class="input-group"><label for="vc-merchant">Merchant Processing Fees</label><div class="input-wrap input-wrap--dollar"><span class="input-wrap__prefix">$</span><input type="number" id="vc-merchant" data-group="variable" placeholder="0" min="0"></div></div>
+          <div class="input-group"><label for="vc-delivery">Program Delivery &amp; Supplies</label><div class="input-wrap input-wrap--dollar"><span class="input-wrap__prefix">$</span><input type="number" id="vc-delivery" data-group="variable" placeholder="0" min="0"></div></div>
+          <div class="input-group"><label for="vc-retail">Retail / Inventory COGS</label><div class="input-wrap input-wrap--dollar"><span class="input-wrap__prefix">$</span><input type="number" id="vc-retail" data-group="variable" placeholder="0" min="0"></div></div>
+          <div class="input-group"><label for="vc-other">Other Variable Expenses</label><div class="input-wrap input-wrap--dollar"><span class="input-wrap__prefix">$</span><input type="number" id="vc-other" data-group="variable" placeholder="0" min="0"></div></div>
+        </div>
+        <div class="worksheet__total">
+          <span class="worksheet__total-label">Estimated Variable Costs Per Month</span>
+          <span class="worksheet__total-value" id="total-variable">$0</span>
+        </div>
+      </div>
+
+      <!-- PART 3: CONTRIBUTION MARGIN -->
+      <div class="prose reveal">
+        <div class="part-label">Part 3</div>
+        <h2>Calculate Contribution Margin Per Member</h2>
+        <p>Break-even is not calculated using what you charge. It is calculated by subtracting variable costs from what you keep. That is the <strong>contribution margin</strong>. It is the amount each member contributes to paying fixed costs. Once fixed costs are covered, the contribution margin becomes profit.</p>
+        <p>To calculate contribution margin per member, you need two numbers. First, your average revenue per member per month. Second, your average variable cost per member per month.</p>
+      </div>
+
+      <!-- WORKSHEET 3+4+5: ARM, VCM, CM -->
+      <div class="worksheet reveal" id="ws-revenue">
+        <div class="worksheet__header">
+          <div class="worksheet__num">3</div>
+          <div class="worksheet__title">Average Revenue Per Member</div>
+        </div>
+        <p class="worksheet__desc">Do not use your advertised price. Use your actual average based on real revenue and real paying members.</p>
+        <div class="input-grid">
+          <div class="input-group"><label for="rev-total">Total Monthly Recurring Revenue</label><div class="input-wrap input-wrap--dollar"><span class="input-wrap__prefix">$</span><input type="number" id="rev-total" placeholder="0" min="0"></div></div>
+          <div class="input-group"><label for="rev-members">Number of Active Paying Members</label><div class="input-wrap"><input type="number" id="rev-members" placeholder="0" min="0"></div></div>
+        </div>
+        <div class="auto-calc">
+          <span class="auto-calc__label">ARM = Revenue &divide; Members</span>
+          <span class="auto-calc__value" id="calc-arm">$0.00</span>
+        </div>
+
+        <div style="margin-top: var(--space-lg); padding-top: var(--space-md); border-top: 1px solid var(--gray-100);">
+          <div class="worksheet__header">
+            <div class="worksheet__num">4</div>
+            <div class="worksheet__title">Variable Cost Per Member</div>
+          </div>
+          <p class="worksheet__desc" style="margin-bottom: var(--space-sm);">Variable cost per member can be estimated if you do not have a clean allocation, but the closer you get, the more accurate your break-even becomes.</p>
+          <div class="auto-calc">
+            <span class="auto-calc__label">VCM = Variable Costs &divide; Members</span>
+            <span class="auto-calc__value" id="calc-vcm">$0.00</span>
+          </div>
+        </div>
+
+        <div style="margin-top: var(--space-lg); padding-top: var(--space-md); border-top: 1px solid var(--gray-100);">
+          <div class="worksheet__header">
+            <div class="worksheet__num">5</div>
+            <div class="worksheet__title">Contribution Margin Per Member</div>
+          </div>
+          <div class="auto-calc" style="border-color: rgba(32,242,202,0.2); background: linear-gradient(135deg, var(--mint-glow), var(--cyan-glow));">
+            <span class="auto-calc__label"><strong>CM = ARM &minus; VCM</strong></span>
+            <span class="auto-calc__value" id="calc-cm" style="color: var(--mint); font-size: 1.3rem;">$0.00</span>
+          </div>
+        </div>
+
+        <div class="interp" style="margin-top: var(--space-md);">
+          This is the amount each member contributes toward paying your fixed costs. Once fixed costs are covered, this margin becomes pure profit.
+        </div>
+      </div>
+
+      <!-- PART 4: BREAK-EVEN -->
+      <div class="prose reveal">
+        <div class="part-label">Part 4</div>
+        <h2>Your Break-Even Member Count</h2>
+        <p>Now you have what you need to calculate break-even properly. Break-even members are the number of members required for the total contribution margin to cover the total fixed costs.</p>
+      </div>
+
+      <div class="worksheet reveal" id="ws-breakeven">
+        <div class="worksheet__header">
+          <div class="worksheet__num">6</div>
+          <div class="worksheet__title">Break-Even Calculation</div>
+        </div>
+        <div class="auto-calc">
+          <span class="auto-calc__label">Break-Even = Fixed Costs &divide; CM</span>
+          <span class="auto-calc__value" id="calc-breakeven">-- members</span>
+        </div>
+        <div class="interp" style="margin-top: var(--space-md);">
+          If your current active members are below this number, you are operating at a loss or relying on irregular revenue to survive. If you are above it, you have margin, but the size of that margin determines how stable you are. <strong>A gym that is five members above break-even is fragile. A gym that is 30 members above break-even is stable.</strong>
+        </div>
+        <div class="interp interp--dynamic" id="interp-breakeven" style="margin-top: 0.5rem; border-left-color: var(--mint);"></div>
+      </div>
+
+      <!-- PART 5: PROFITABILITY -->
+      <div class="prose reveal">
+        <div class="part-label">Part 5</div>
+        <h2>From Break-Even to Profitability</h2>
+        <p>Break-even is survival. Profitability is stability plus a margin buffer. The goal is to determine the membership count that supports consistent owner income, reserves, and growth investment without constant stress.</p>
+        <p>This section helps you set a realistic, profitable membership target based on <strong>what you want the business to produce</strong>, not what you hope will happen.</p>
+      </div>
+
+      <div class="worksheet reveal" id="ws-profit">
+        <div class="worksheet__header">
+          <div class="worksheet__num">7</div>
+          <div class="worksheet__title">Define Your Profit Target</div>
+        </div>
+        <p class="worksheet__desc">The monthly profit target should reflect owner pay, reserves, and reinvestment. Even if you are not there yet, define the goal.</p>
+        <div class="input-grid">
+          <div class="input-group"><label for="pt-owner">Desired Monthly Owner Pay</label><div class="input-wrap input-wrap--dollar"><span class="input-wrap__prefix">$</span><input type="number" id="pt-owner" data-group="profit" placeholder="0" min="0"></div></div>
+          <div class="input-group"><label for="pt-reserves">Desired Monthly Reserves</label><div class="input-wrap input-wrap--dollar"><span class="input-wrap__prefix">$</span><input type="number" id="pt-reserves" data-group="profit" placeholder="0" min="0"></div></div>
+          <div class="input-group"><label for="pt-reinvest">Desired Monthly Reinvestment</label><div class="input-wrap input-wrap--dollar"><span class="input-wrap__prefix">$</span><input type="number" id="pt-reinvest" data-group="profit" placeholder="0" min="0"></div></div>
+        </div>
+        <div class="worksheet__total">
+          <span class="worksheet__total-label">Total Monthly Profit Target</span>
+          <span class="worksheet__total-value" id="total-profit-target">$0</span>
+        </div>
+
+        <div style="margin-top: var(--space-lg); padding-top: var(--space-md); border-top: 1px solid var(--gray-100);">
+          <div class="worksheet__header">
+            <div class="worksheet__num">8</div>
+            <div class="worksheet__title">Profitability Member Count</div>
+          </div>
+          <div class="auto-calc">
+            <span class="auto-calc__label">(Fixed Costs + Profit Target) &divide; CM</span>
+            <span class="auto-calc__value" id="calc-profit-members">-- members</span>
+          </div>
+        </div>
+
+        <div class="interp" style="margin-top: var(--space-md);">
+          This number is your true operating target. It should guide marketing spend, staffing decisions, and pricing structure. It also prevents the common trap of chasing random growth without knowing what you are trying to build.
+        </div>
+        <div class="interp interp--dynamic" id="interp-profit" style="margin-top: 0.5rem; border-left-color: var(--mint);"></div>
+      </div>
+
+      <!-- PART 6: SERVICE MIX -->
+      <div class="prose reveal">
+        <div class="part-label">Part 6</div>
+        <h2>Service Mix Ratios That Make Profit Predictable</h2>
+        <p>For most gyms, leads aren&rsquo;t the problem. The real challenge is that revenue per member doesn&rsquo;t cover costs, or that the way services are delivered doesn&rsquo;t match what members are paying for. <strong>Adjusting your service mix is how you fix that.</strong> A balanced mix raises your average revenue per member (ARM) without the constant pressure to bring in new sign-ups.</p>
+        <p>To model your service mix, estimate how many members fall into each service tier and how much each tier contributes to your ARM. You&rsquo;re not building a complicated menu &mdash; just a clear structure that aligns pricing, coaching intensity, and client needs. When those pieces align, profit becomes steady and predictable.</p>
+      </div>
+
+      <div class="worksheet reveal" id="ws-mix">
+        <div class="worksheet__header">
+          <div class="worksheet__num">9</div>
+          <div class="worksheet__title">Service Mix Model</div>
+        </div>
+        <p class="worksheet__desc">Fill in your current mix first, then model a target mix.</p>
+
+        <div style="display: grid; grid-template-columns: 1fr 100px 100px auto; gap: 0.5rem; font-family: var(--font-display); font-size: 0.68rem; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.08em; padding: 0 0 0.35rem; margin-bottom: 0.25rem;">
+          <span>Tier</span><span>Price/mo</span><span>Members</span><span style="min-width: 80px; text-align: right;">Revenue</span>
+        </div>
+
+        <div class="tier-row">
+          <div class="input-group" style="margin:0;"><label>Tier 1 (Base)</label></div>
+          <div class="input-wrap input-wrap--dollar"><span class="input-wrap__prefix">$</span><input type="number" id="mix-t1-price" data-group="mix" placeholder="0" min="0"></div>
+          <div class="input-wrap"><input type="number" id="mix-t1-count" data-group="mix" placeholder="0" min="0"></div>
+          <div class="tier-row__revenue" id="mix-t1-rev">$0</div>
+        </div>
+        <div class="tier-row">
+          <div class="input-group" style="margin:0;"><label>Tier 2 (Mid)</label></div>
+          <div class="input-wrap input-wrap--dollar"><span class="input-wrap__prefix">$</span><input type="number" id="mix-t2-price" data-group="mix" placeholder="0" min="0"></div>
+          <div class="input-wrap"><input type="number" id="mix-t2-count" data-group="mix" placeholder="0" min="0"></div>
+          <div class="tier-row__revenue" id="mix-t2-rev">$0</div>
+        </div>
+        <div class="tier-row">
+          <div class="input-group" style="margin:0;"><label>Tier 3 (Premium)</label></div>
+          <div class="input-wrap input-wrap--dollar"><span class="input-wrap__prefix">$</span><input type="number" id="mix-t3-price" data-group="mix" placeholder="0" min="0"></div>
+          <div class="input-wrap"><input type="number" id="mix-t3-count" data-group="mix" placeholder="0" min="0"></div>
+          <div class="tier-row__revenue" id="mix-t3-rev">$0</div>
+        </div>
+        <div class="tier-row">
+          <div class="input-group" style="margin:0;"><label>PT / Add-Ons</label></div>
+          <div class="input-wrap input-wrap--dollar"><span class="input-wrap__prefix">$</span><input type="number" id="mix-pt-price" data-group="mix" placeholder="0" min="0"></div>
+          <div class="input-wrap"><input type="number" id="mix-pt-count" data-group="mix" placeholder="0" min="0"></div>
+          <div class="tier-row__revenue" id="mix-pt-rev">$0</div>
+        </div>
+
+        <div class="auto-calc"><span class="auto-calc__label">Total Monthly Revenue</span><span class="auto-calc__value" id="mix-total-rev">$0</span></div>
+        <div class="auto-calc" style="margin-top: 0.5rem;"><span class="auto-calc__label">Modeled ARM</span><span class="auto-calc__value" id="mix-arm">$0.00</span></div>
+
+        <div class="interp" style="margin-top: var(--space-md);">
+          If you want to lower the member count required for profitability, you typically improve ARM through structure &mdash; not discounts or constant promotions. The goal is to create a natural pathway for committed members to upgrade to deeper support.
+        </div>
+      </div>
+
+      <!-- PART 7: UTILIZATION -->
+      <div class="prose reveal">
+        <div class="part-label">Part 7</div>
+        <h2>Utilization-Driven Profitability</h2>
+        <p>Many gyms try to grow membership without understanding capacity. Capacity is not just square footage. It is the number of coaching hours, class slots, and prime-time sessions you can deliver without compromising the experience. <strong>Utilization determines whether your space and schedule are underutilized or fully utilized.</strong></p>
+        <p>A low-usage gym has an opportunity to increase revenue without increasing fixed costs. A gym with high utilization often needs pricing improvements or service mix changes because volume growth becomes operational strain.</p>
+      </div>
+
+      <div class="worksheet reveal" id="ws-util">
+        <div class="worksheet__header">
+          <div class="worksheet__num">10</div>
+          <div class="worksheet__title">Utilization Snapshot</div>
+        </div>
+        <div class="input-grid">
+          <div class="input-group"><label for="util-sessions">Total Classes / Sessions Per Week</label><div class="input-wrap"><input type="number" id="util-sessions" placeholder="0" min="0"></div></div>
+          <div class="input-group"><label for="util-avg">Average Attendance Per Class</label><div class="input-wrap"><input type="number" id="util-avg" placeholder="0" min="0" step="0.1"></div></div>
+        </div>
+        <div class="auto-calc"><span class="auto-calc__label">Weekly Visits</span><span class="auto-calc__value" id="calc-weekly-visits">0</span></div>
+        <div class="auto-calc" style="margin-top: 0.5rem;"><span class="auto-calc__label">Visits Per Member Per Week</span><span class="auto-calc__value" id="calc-visits-per-member">0.0</span></div>
+        <div class="interp" style="margin-top: var(--space-md);">
+          Low visits per member can indicate weak adherence and a higher risk of future churn. High visits per member with crowded classes can indicate capacity strain. The solution is different in each case, which is why tracking matters.
+        </div>
+        <div class="interp interp--dynamic" id="interp-util" style="margin-top: 0.5rem; border-left-color: var(--mint);"></div>
+      </div>
+
+      <!-- PART 8: BENCHMARKS -->
+      <div class="prose reveal">
+        <div class="part-label">Part 8</div>
+        <h2>Real Examples to Benchmark Your Thinking</h2>
+        <p>The point is not that one model is good and one is bad. The point is that <strong>your model has math, and your job is to understand it.</strong></p>
+        <div class="example-box">
+          <h4>Example A: Higher Overhead, Lower ARM</h4>
+          <p>If fixed costs are high and the contribution margin is modest, the break-even member count rises quickly. This gym needs a tighter membership structure and clearer upgrade path, or it will always feel like it is grinding.</p>
+        </div>
+        <div class="example-box" style="margin-top: 0.75rem;">
+          <h4>Example B: Lower Overhead, Higher ARM</h4>
+          <p>When the contribution margin is strong, profitability arrives at a lower member count. This gym can focus on retention and quality delivery because growth does not require flooding the schedule.</p>
+        </div>
+        <p style="margin-top: var(--space-md);">Use these examples as reminders that profitability is built through structure, not hustle.</p>
+      </div>
+
+      <!-- PART 9: 30-DAY ACTION PLAN -->
+      <div class="prose reveal">
+        <div class="part-label">Part 9</div>
+        <h2>Your 30-Day Action Plan</h2>
+        <p>Once you have your numbers, you need a plan. Otherwise, this becomes another document you read and forget. Over the next 30 days, <strong>focus on a single lever.</strong> Either increase ARM, improve retention, or increase utilization. Trying to do all three at once usually leads to scattered effort and no measurable improvement.</p>
+      </div>
+
+      <div class="worksheet reveal" id="ws-action">
+        <div class="worksheet__header">
+          <div class="worksheet__num" style="background: linear-gradient(135deg, var(--amber), #F97316);">&check;</div>
+          <div class="worksheet__title">Your Action Plan</div>
+        </div>
+
+        <div class="input-group">
+          <label for="action-lever">The one lever I will prioritize</label>
+          <input type="text" id="action-lever" class="action-input" placeholder="e.g., Increase ARM, Improve retention, Increase utilization">
+        </div>
+        <div class="input-group">
+          <label for="action-change">The one change I will implement</label>
+          <input type="text" id="action-change" class="action-input" placeholder="e.g., Launch a premium tier at $250/mo">
+        </div>
+        <div class="input-group">
+          <label for="action-metric">The metric I will track weekly</label>
+          <input type="text" id="action-metric" class="action-input" placeholder="e.g., Average revenue per member">
+        </div>
+        <div class="input-group">
+          <label for="action-date">The date I will review results</label>
+          <input type="date" id="action-date" class="action-input">
+        </div>
+      </div>
+
+      <!-- WHY ACCURATE DATA -->
+      <div class="prose reveal" style="border-left: 3px solid var(--cyan);">
+        <h2>Why Accurate Data Is the Difference Between Guessing and Leading</h2>
+        <p>Every worksheet in this guide depends on accurate membership, revenue, and visit data. If you are estimating member count, using inconsistent revenue totals, or guessing attendance, your calculations will drift. The result is false confidence or unnecessary stress.</p>
+        <p><strong>Kilo GMS is built to give gym owners clear visibility into profits without spreadsheets or guesswork.</strong> It centralizes membership data, revenue reporting, and visit tracking so you can calculate ARM, retention trends, and utilization patterns with confidence. Instead of trying to consolidate data from multiple tools, you get a single source of truth that supports real CEO decision-making.</p>
+        <p>When you can see your numbers clearly, you can run your business like a science.</p>
+      </div>
+
+    </div>
+
+    <!-- SIDEBAR SUMMARY -->
+    <div class="summary">
+      <div class="summary__card">
+        <div class="summary__title"><div class="summary__title-dot"></div> Your Numbers</div>
+
+        <div class="summary__hero">
+          <div class="summary__hero-label">Break-Even Members</div>
+          <div class="summary__hero-value" id="sum-breakeven" style="color: var(--gray-500);">--</div>
+          <div class="summary__hero-sub" id="sum-breakeven-note">Enter your costs &amp; revenue</div>
+        </div>
+
+        <hr class="summary__divider">
+        <div class="summary__section-label">Costs</div>
+        <div class="summary__row"><span class="summary__label">Fixed Costs</span><span class="summary__value" id="sum-fixed">$0</span></div>
+        <div class="summary__row"><span class="summary__label">Variable Costs</span><span class="summary__value" id="sum-variable">$0</span></div>
+
+        <hr class="summary__divider">
+        <div class="summary__section-label">Per Member</div>
+        <div class="summary__row"><span class="summary__label">ARM</span><span class="summary__value summary__value--cyan" id="sum-arm">$0</span></div>
+        <div class="summary__row"><span class="summary__label">Variable Cost</span><span class="summary__value" id="sum-vcm">$0</span></div>
+        <div class="summary__row"><span class="summary__label">Contribution Margin</span><span class="summary__value summary__value--green" id="sum-cm">$0</span></div>
+
+        <hr class="summary__divider">
+        <div class="summary__section-label">Targets</div>
+        <div class="summary__row"><span class="summary__label">Profit Target / Mo</span><span class="summary__value" id="sum-profit-target">$0</span></div>
+        <div class="summary__row"><span class="summary__label">Members for Profit</span><span class="summary__value summary__value--cyan" id="sum-profit-members">--</span></div>
+        <div class="summary__row"><span class="summary__label">Current Members</span><span class="summary__value" id="sum-current-members">--</span></div>
+        <div class="summary__row" id="sum-gap-row" style="display: none;"><span class="summary__label">Gap to Target</span><span class="summary__value" id="sum-gap">--</span></div>
+
+        <hr class="summary__divider">
+        <div class="summary__section-label">Utilization</div>
+        <div class="summary__row"><span class="summary__label">Weekly Visits</span><span class="summary__value" id="sum-weekly-visits">--</span></div>
+        <div class="summary__row"><span class="summary__label">Visits / Member / Wk</span><span class="summary__value" id="sum-visits-member">--</span></div>
+
+        <div class="summary__cta">
+          <a href="/book-your-sales-call/" class="btn btn--primary">Speak to a Kilo Expert &rarr;</a>
+          <p class="summary__cta-note">Get help building your profit plan.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER CTA -->
+  <section class="footer-cta">
+    <div class="footer-cta__content">
+      <h2>Kilo Is Here to Help</h2>
+      <p>If you want help calculating your true break-even number, setting a profitable membership target, and building a service mix that matches your capacity, speak with a Kilo expert. We&rsquo;ll help you turn your gym&rsquo;s financial engine into something you understand, control, and can scale with confidence.</p>
+      <a href="/book-your-sales-call/" class="btn btn--primary">Speak to a Kilo Expert &rarr;</a>
+      <p class="footer-cta__sub">Free consultation. No commitment.</p>
+    </div>
+  </section>
+
+  <footer class="trust-footer"><p>&copy; 2026 Kilo. Built for coaching gyms.</p></footer>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    (function() {
+      function $(id) { return document.getElementById(id); }
+      function val(id) { return parseFloat($(id).value) || 0; }
+      function fmt(n) { return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }); }
+      function fmt2(n) { return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+
+      function recalc() {
+        /* Fixed costs */
+        var fc = val('fc-rent') + val('fc-utilities') + val('fc-insurance') + val('fc-software')
+               + val('fc-cleaning') + val('fc-equipment') + val('fc-admin') + val('fc-other');
+        $('total-fixed').textContent = fmt(fc);
+        $('sum-fixed').textContent = fmt(fc);
+
+        /* Variable costs */
+        var vc = val('vc-coaching') + val('vc-merchant') + val('vc-delivery') + val('vc-retail') + val('vc-other');
+        $('total-variable').textContent = fmt(vc);
+        $('sum-variable').textContent = fmt(vc);
+
+        /* ARM, VCM, CM */
+        var rev = val('rev-total');
+        var members = val('rev-members');
+        var arm = members > 0 ? rev / members : 0;
+        var vcm = members > 0 ? vc / members : 0;
+        var cm = arm - vcm;
+        $('calc-arm').textContent = fmt2(arm);
+        $('calc-vcm').textContent = fmt2(vcm);
+        $('calc-cm').textContent = fmt2(cm);
+        $('sum-arm').textContent = fmt2(arm);
+        $('sum-vcm').textContent = fmt2(vcm);
+        $('sum-cm').textContent = fmt2(cm);
+        $('sum-cm').className = 'summary__value ' + (cm > 0 ? 'summary__value--green' : cm < 0 ? 'summary__value--red' : '');
+
+        /* Break-even */
+        var be = (cm > 0 && fc > 0) ? Math.ceil(fc / cm) : 0;
+        $('calc-breakeven').textContent = be > 0 ? be + ' members' : '-- members';
+
+        if (be > 0) {
+          $('sum-breakeven').textContent = be;
+          $('sum-breakeven').style.cssText = 'background:linear-gradient(135deg,var(--cyan),var(--mint));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-family:var(--font-display);font-weight:800;font-size:2.5rem;line-height:1.1;margin-top:0.2rem;';
+          if (members > 0) {
+            var buf = members - be;
+            $('sum-breakeven-note').textContent = buf >= 0 ? (buf + ' above break-even') : (Math.abs(buf) + ' below break-even');
+            var iEl = $('interp-breakeven');
+            if (buf < 0) iEl.innerHTML = '<strong style="color:var(--red-soft)">You are ' + Math.abs(buf) + ' members below break-even.</strong> You\'re operating at a loss or relying on irregular revenue.';
+            else if (buf < 6) iEl.innerHTML = '<strong style="color:var(--amber)">You are ' + buf + ' members above break-even.</strong> That\'s fragile — a few cancellations could put you in the red.';
+            else if (buf < 30) iEl.innerHTML = '<strong style="color:var(--green-soft)">You are ' + buf + ' members above break-even.</strong> You have margin. Building a larger buffer will give you real stability.';
+            else iEl.innerHTML = '<strong style="color:var(--green-soft)">You are ' + buf + ' members above break-even.</strong> Your gym has a strong profit buffer. Focus on retention and quality.';
+            iEl.classList.add('visible');
+          } else { $('sum-breakeven-note').textContent = 'Enter member count for context'; $('interp-breakeven').classList.remove('visible'); }
+        } else {
+          $('sum-breakeven').textContent = '--';
+          $('sum-breakeven').style.cssText = 'color:var(--gray-500);font-family:var(--font-display);font-weight:800;font-size:2.5rem;line-height:1.1;margin-top:0.2rem;';
+          $('sum-breakeven-note').textContent = 'Enter your costs & revenue';
+          $('interp-breakeven').classList.remove('visible');
+        }
+
+        $('sum-current-members').textContent = members > 0 ? members : '--';
+
+        /* Profit target */
+        var pt = val('pt-owner') + val('pt-reserves') + val('pt-reinvest');
+        $('total-profit-target').textContent = fmt(pt);
+        $('sum-profit-target').textContent = fmt(pt);
+
+        var pm = (cm > 0 && (fc + pt) > 0) ? Math.ceil((fc + pt) / cm) : 0;
+        $('calc-profit-members').textContent = pm > 0 ? pm + ' members' : '-- members';
+        $('sum-profit-members').textContent = pm > 0 ? pm : '--';
+
+        if (pm > 0 && members > 0) {
+          var gap = pm - members;
+          $('sum-gap-row').style.display = 'flex';
+          if (gap > 0) { $('sum-gap').textContent = '+' + gap + ' needed'; $('sum-gap').className = 'summary__value summary__value--amber'; }
+          else { $('sum-gap').textContent = Math.abs(gap) + ' ahead'; $('sum-gap').className = 'summary__value summary__value--green'; }
+
+          var ipEl = $('interp-profit');
+          if (gap > 0) ipEl.innerHTML = '<strong style="color:var(--amber)">You need ' + gap + ' more members to reach your profit target.</strong> Focus your next 30 days on the single lever that will close this gap fastest.';
+          else ipEl.innerHTML = '<strong style="color:var(--green-soft)">You\'re ' + Math.abs(gap) + ' members ahead of your profit target.</strong> Consider increasing reserves or reinvesting in growth.';
+          ipEl.classList.add('visible');
+        } else { $('sum-gap-row').style.display = 'none'; $('interp-profit').classList.remove('visible'); }
+
+        /* Service mix */
+        var tiers = [
+          { p: val('mix-t1-price'), c: val('mix-t1-count'), el: 'mix-t1-rev' },
+          { p: val('mix-t2-price'), c: val('mix-t2-count'), el: 'mix-t2-rev' },
+          { p: val('mix-t3-price'), c: val('mix-t3-count'), el: 'mix-t3-rev' },
+          { p: val('mix-pt-price'), c: val('mix-pt-count'), el: 'mix-pt-rev' }
+        ];
+        var mixRev = 0, mixMem = 0;
+        tiers.forEach(function(t) { var r = t.p * t.c; $(t.el).textContent = fmt(r); mixRev += r; mixMem += t.c; });
+        $('mix-total-rev').textContent = fmt(mixRev);
+        $('mix-arm').textContent = mixMem > 0 ? fmt2(mixRev / mixMem) : '$0.00';
+
+        /* Utilization */
+        var sess = val('util-sessions'), att = val('util-avg');
+        var wv = sess * att;
+        var vpm = members > 0 ? wv / members : 0;
+        $('calc-weekly-visits').textContent = Math.round(wv).toLocaleString();
+        $('calc-visits-per-member').textContent = vpm.toFixed(1);
+        $('sum-weekly-visits').textContent = wv > 0 ? Math.round(wv).toLocaleString() : '--';
+        $('sum-visits-member').textContent = vpm > 0 ? vpm.toFixed(1) : '--';
+
+        if (vpm > 0) {
+          var uEl = $('interp-util');
+          if (vpm < 2) uEl.innerHTML = '<strong style="color:var(--amber)">Low visits per member (' + vpm.toFixed(1) + '/wk).</strong> This can indicate weak adherence and higher churn risk. Consider engagement strategies.';
+          else if (vpm <= 4) uEl.innerHTML = '<strong style="color:var(--green-soft)">Healthy utilization (' + vpm.toFixed(1) + ' visits/member/wk).</strong> Members are engaged. Focus on maintaining consistency.';
+          else uEl.innerHTML = '<strong style="color:var(--amber)">High visits per member (' + vpm.toFixed(1) + '/wk).</strong> If classes are crowded, you may be hitting capacity strain. Consider pricing adjustments or adding sessions.';
+          uEl.classList.add('visible');
+        } else { $('interp-util').classList.remove('visible'); }
+      }
+
+      document.querySelectorAll('input[type="number"]').forEach(function(el) { el.addEventListener('input', recalc); });
+
+      /* Scroll reveal */
+      var obs = 'IntersectionObserver' in window
+        ? new IntersectionObserver(function(entries) {
+            entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+          }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' })
+        : null;
+      document.querySelectorAll('.reveal').forEach(function(el) { obs ? obs.observe(el) : el.classList.add('visible'); });
+
+      recalc();
+    })();
+  </script>
+</body>
+</html>
