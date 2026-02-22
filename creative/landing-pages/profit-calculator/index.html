@@ -1318,7 +1318,12 @@
             }
             interpEl.classList.add('visible');
           } else {
-            $('sum-breakeven-note').textContent = 'Enter your costs and revenue above';
+            /* Show specific missing fields */
+            var missing = [];
+            if (fc === 0) missing.push('Fixed Costs');
+            if (rev === 0) missing.push('Revenue');
+            if (members === 0) missing.push('Members');
+            $('sum-breakeven-note').textContent = missing.length > 0 ? 'Needs: ' + missing.join(', ') : 'Enter your costs and revenue above';
             $('interp-breakeven').classList.remove('visible');
           }
         }
@@ -1430,8 +1435,10 @@
         } catch(e) {}
       }
 
+      function onNumericInput() { recalc(); saveInputs(); }
       document.querySelectorAll('input[type="number"]').forEach(function(input) {
-        input.addEventListener('input', function() { recalc(); saveInputs(); });
+        input.addEventListener('input', onNumericInput);
+        input.addEventListener('change', onNumericInput);
       });
 
       /* Scroll reveal */

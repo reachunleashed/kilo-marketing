@@ -304,6 +304,28 @@
       box-shadow: 0 0 0 3px var(--cyan-glow); background: var(--white);
     }
 
+    /* Modern date picker */
+    .date-picker {
+      display: flex; gap: 0.5rem; margin-top: 0.25rem;
+    }
+    .date-picker select {
+      flex: 1; font-family: var(--font-body); font-size: 0.95rem;
+      color: var(--navy-800); background: var(--gray-50);
+      border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm);
+      padding: 0.65rem 0.5rem; cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      appearance: none; -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' fill='none' stroke='%2394A3B8' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.6rem center;
+      padding-right: 1.6rem;
+    }
+    .date-picker select:focus {
+      outline: none; border-color: var(--cyan);
+      box-shadow: 0 0 0 3px var(--cyan-glow); background-color: var(--white);
+    }
+    .date-picker select.placeholder { color: var(--gray-400); }
+
     /* Examples callout */
     .example-box {
       background: rgba(30, 177, 249, 0.04); border: 1px solid rgba(30, 177, 249, 0.1);
@@ -749,8 +771,23 @@
           <input type="text" id="action-metric" class="action-input" placeholder="e.g., Average revenue per member">
         </div>
         <div class="input-group">
-          <label for="action-date">The date I will review results</label>
-          <input type="date" id="action-date" class="action-input">
+          <label>The date I will review results</label>
+          <div class="date-picker">
+            <select id="action-month" class="placeholder">
+              <option value="" disabled selected>Month</option>
+              <option>January</option><option>February</option><option>March</option>
+              <option>April</option><option>May</option><option>June</option>
+              <option>July</option><option>August</option><option>September</option>
+              <option>October</option><option>November</option><option>December</option>
+            </select>
+            <select id="action-day" class="placeholder">
+              <option value="" disabled selected>Day</option>
+            </select>
+            <select id="action-year" class="placeholder">
+              <option value="" disabled selected>Year</option>
+            </select>
+          </div>
+          <input type="hidden" id="action-date">
         </div>
       </div>
 
@@ -840,9 +877,27 @@
         $('total-variable').textContent = fmt(vc);
         $('sum-variable').textContent = fmt(vc);
 
-        /* ARM, VCM, CM */
+        /* Service mix (calculate early so we can use as fallback) */
+        var tiers = [
+          { p: val('mix-t1-price'), c: val('mix-t1-count'), el: 'mix-t1-rev' },
+          { p: val('mix-t2-price'), c: val('mix-t2-count'), el: 'mix-t2-rev' },
+          { p: val('mix-t3-price'), c: val('mix-t3-count'), el: 'mix-t3-rev' },
+          { p: val('mix-pt-price'), c: val('mix-pt-count'), el: 'mix-pt-rev' }
+        ];
+        var mixRev = 0, mixMem = 0;
+        tiers.forEach(function(t) { var r = t.p * t.c; $(t.el).textContent = fmt(r); mixRev += r; mixMem += t.c; });
+        $('mix-total-rev').textContent = fmt(mixRev);
+        $('mix-arm').textContent = mixMem > 0 ? fmt2(mixRev / mixMem) : '$0.00';
+
+        /* ARM, VCM, CM — use service mix as fallback if Worksheet 3 is empty */
         var rev = val('rev-total');
         var members = val('rev-members');
+        var usedMixFallback = false;
+        if (rev === 0 && members === 0 && mixRev > 0 && mixMem > 0) {
+          rev = mixRev;
+          members = mixMem;
+          usedMixFallback = true;
+        }
         var arm = members > 0 ? rev / members : 0;
         var vcm = members > 0 ? vc / members : 0;
         var cm = arm - vcm;
@@ -863,7 +918,9 @@
           $('sum-breakeven').style.cssText = 'background:linear-gradient(135deg,var(--cyan),var(--mint));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-family:var(--font-display);font-weight:800;font-size:2.5rem;line-height:1.1;margin-top:0.2rem;';
           if (members > 0) {
             var buf = members - be;
-            $('sum-breakeven-note').textContent = buf >= 0 ? (buf + ' above break-even') : (Math.abs(buf) + ' below break-even');
+            var noteText = buf >= 0 ? (buf + ' above break-even') : (Math.abs(buf) + ' below break-even');
+            if (usedMixFallback) noteText += ' (from Service Mix)';
+            $('sum-breakeven-note').textContent = noteText;
             var iEl = $('interp-breakeven');
             if (buf < 0) iEl.innerHTML = '<strong style="color:var(--red-soft)">You are ' + Math.abs(buf) + ' members below break-even.</strong> You\'re operating at a loss or relying on irregular revenue.';
             else if (buf < 6) iEl.innerHTML = '<strong style="color:var(--amber)">You are ' + buf + ' members above break-even.</strong> That\'s fragile — a few cancellations could put you in the red.';
@@ -885,7 +942,12 @@
             }
             iEl.classList.add('visible');
           } else {
-            $('sum-breakeven-note').textContent = 'Enter your costs & revenue';
+            /* Show specific missing fields */
+            var missing = [];
+            if (fc === 0) missing.push('Fixed Costs (#1)');
+            if (val('rev-total') === 0 && mixRev === 0) missing.push('Revenue (#3 or #9)');
+            if (val('rev-members') === 0 && mixMem === 0) missing.push('Members (#3 or #9)');
+            $('sum-breakeven-note').textContent = missing.length > 0 ? 'Needs: ' + missing.join(', ') : 'Enter your costs & revenue';
             $('interp-breakeven').classList.remove('visible');
           }
         }
@@ -913,18 +975,6 @@
           ipEl.classList.add('visible');
         } else { $('sum-gap-row').style.display = 'none'; $('interp-profit').classList.remove('visible'); }
 
-        /* Service mix */
-        var tiers = [
-          { p: val('mix-t1-price'), c: val('mix-t1-count'), el: 'mix-t1-rev' },
-          { p: val('mix-t2-price'), c: val('mix-t2-count'), el: 'mix-t2-rev' },
-          { p: val('mix-t3-price'), c: val('mix-t3-count'), el: 'mix-t3-rev' },
-          { p: val('mix-pt-price'), c: val('mix-pt-count'), el: 'mix-pt-rev' }
-        ];
-        var mixRev = 0, mixMem = 0;
-        tiers.forEach(function(t) { var r = t.p * t.c; $(t.el).textContent = fmt(r); mixRev += r; mixMem += t.c; });
-        $('mix-total-rev').textContent = fmt(mixRev);
-        $('mix-arm').textContent = mixMem > 0 ? fmt2(mixRev / mixMem) : '$0.00';
-
         /* Utilization */
         var sess = val('util-sessions'), att = val('util-avg');
         var wv = sess * att;
@@ -943,12 +993,70 @@
         } else { $('interp-util').classList.remove('visible'); }
       }
 
+      /* ---- DATE PICKER ---- */
+      var monthSel = $('action-month');
+      var daySel = $('action-day');
+      var yearSel = $('action-year');
+      var hiddenDate = $('action-date');
+
+      /* Populate year dropdown (current year + next 2) */
+      var curYear = new Date().getFullYear();
+      for (var yi = curYear; yi <= curYear + 2; yi++) {
+        var opt = document.createElement('option');
+        opt.value = yi; opt.textContent = yi;
+        yearSel.appendChild(opt);
+      }
+
+      /* Populate day dropdown (1-31 default, adjusts with month/year) */
+      function populateDays() {
+        var selDay = daySel.value;
+        var m = monthSel.selectedIndex; /* 0=placeholder, 1=Jan... */
+        var y = parseInt(yearSel.value) || curYear;
+        var maxDay = m > 0 ? new Date(y, m, 0).getDate() : 31;
+        daySel.innerHTML = '<option value="" disabled selected>Day</option>';
+        for (var d = 1; d <= maxDay; d++) {
+          var o = document.createElement('option');
+          o.value = d; o.textContent = d;
+          if (d === parseInt(selDay)) o.selected = true;
+          daySel.appendChild(o);
+        }
+        if (parseInt(selDay) > maxDay) daySel.selectedIndex = 0;
+      }
+      populateDays();
+
+      function syncHiddenDate() {
+        var m = monthSel.selectedIndex;
+        var d = daySel.value;
+        var y = yearSel.value;
+        if (m > 0 && d && y) {
+          var mm = String(m).padStart(2, '0');
+          var dd = String(d).padStart(2, '0');
+          hiddenDate.value = y + '-' + mm + '-' + dd;
+        } else {
+          hiddenDate.value = '';
+        }
+        /* Remove placeholder class when selected */
+        monthSel.classList.toggle('placeholder', m === 0);
+        daySel.classList.toggle('placeholder', !d);
+        yearSel.classList.toggle('placeholder', !y);
+        saveInputs();
+      }
+
+      monthSel.addEventListener('change', function() { populateDays(); syncHiddenDate(); });
+      daySel.addEventListener('change', syncHiddenDate);
+      yearSel.addEventListener('change', syncHiddenDate);
+
       /* Save/restore inputs with localStorage */
       var STORAGE_KEY = 'kilo-profit-workbook';
       function saveInputs() {
         var data = {};
-        document.querySelectorAll('input[type="number"], input[type="text"], input[type="date"]').forEach(function(el) {
+        document.querySelectorAll('input[type="number"], input[type="text"], input[type="hidden"]').forEach(function(el) {
           if (el.id && el.value) data[el.id] = el.value;
+        });
+        /* Also save date picker selects */
+        ['action-month', 'action-day', 'action-year'].forEach(function(id) {
+          var el = document.getElementById(id);
+          if (el && el.value) data[id] = el.value;
         });
         try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
       }
@@ -958,16 +1066,37 @@
           if (!data) return;
           Object.keys(data).forEach(function(id) {
             var el = document.getElementById(id);
-            if (el) el.value = data[id];
+            if (!el) return;
+            if (el.tagName === 'SELECT') {
+              /* For selects, find matching option */
+              for (var i = 0; i < el.options.length; i++) {
+                if (el.options[i].value === data[id] || el.options[i].textContent === data[id]) {
+                  el.selectedIndex = i; break;
+                }
+              }
+            } else {
+              el.value = data[id];
+            }
           });
+          /* Re-populate days after restoring month/year, then restore day */
+          populateDays();
+          if (data['action-day']) {
+            for (var i = 0; i < daySel.options.length; i++) {
+              if (daySel.options[i].value === data['action-day']) { daySel.selectedIndex = i; break; }
+            }
+          }
+          syncHiddenDate();
         } catch(e) {}
       }
 
+      function onNumericInput() { recalc(); saveInputs(); }
       document.querySelectorAll('input[type="number"]').forEach(function(el) {
-        el.addEventListener('input', function() { recalc(); saveInputs(); });
+        el.addEventListener('input', onNumericInput);
+        el.addEventListener('change', onNumericInput);
       });
-      document.querySelectorAll('input[type="text"], input[type="date"]').forEach(function(el) {
+      document.querySelectorAll('input[type="text"]').forEach(function(el) {
         el.addEventListener('input', saveInputs);
+        el.addEventListener('change', saveInputs);
       });
 
       /* Scroll reveal */
