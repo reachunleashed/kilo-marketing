@@ -368,6 +368,32 @@
     .summary__cta .btn { width: 100%; justify-content: center; font-size: 0.85rem; padding: 0.7rem 1.25rem; }
     .summary__cta-note { font-size: 0.72rem; color: var(--gray-500); margin-top: 0.4rem; }
 
+    .btn--pdf {
+      width: 100%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 0.7rem 1.25rem;
+      border-radius: 50px;
+      border: 2px solid var(--cyan);
+      background: transparent;
+      color: var(--cyan);
+      cursor: pointer;
+      margin-bottom: 0.75rem;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn--pdf:hover {
+      background: var(--cyan);
+      color: var(--navy-900);
+      box-shadow: 0 4px 20px rgba(30, 177, 249, 0.3);
+      transform: translateY(-2px);
+    }
+    .btn--pdf::before { content: '\2193'; font-size: 1.1rem; font-weight: 800; }
+
     /* ---- FOOTER CTA ---- */
     .footer-cta {
       background: var(--navy-800); padding: var(--space-2xl) 0;
@@ -773,6 +799,7 @@
         <div class="summary__row"><span class="summary__label">Visits / Member / Wk</span><span class="summary__value" id="sum-visits-member">--</span></div>
 
         <div class="summary__cta">
+          <button class="btn--pdf" onclick="generatePDF()">Download PDF Report</button>
           <a href="/book-your-sales-call/" class="btn btn--primary">Speak to a Kilo Expert &rarr;</a>
           <p class="summary__cta-note">Get help building your profit plan.</p>
         </div>
@@ -916,6 +943,233 @@
 
       recalc();
     })();
+  </script>
+  <!-- jsPDF CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/3.0.3/jspdf.umd.min.js"></script>
+  <script>
+    function generatePDF() {
+      var jsPDF = window.jspdf.jsPDF;
+      var doc = new jsPDF({ unit: 'mm', format: 'a4' });
+      var w = doc.internal.pageSize.getWidth();
+      var h = doc.internal.pageSize.getHeight();
+      var margin = 20;
+      var col2 = w - margin;
+      var y = 0;
+
+      function txt(id) { var el = document.getElementById(id); return el ? el.textContent.trim() : '--'; }
+      function inputVal(id) { var el = document.getElementById(id); return el ? el.value : ''; }
+
+      /* ---- HEADER BAR ---- */
+      doc.setFillColor(10, 28, 56);
+      doc.rect(0, 0, w, 38, 'F');
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(22);
+      doc.setTextColor(30, 177, 249);
+      doc.text('kilo', margin, 16);
+
+      doc.setFontSize(11);
+      doc.setTextColor(255, 255, 255);
+      doc.text('Gym Profit Calculator Workbook', margin, 26);
+
+      doc.setFontSize(8);
+      doc.setTextColor(148, 163, 184);
+      doc.text(new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), col2, 26, { align: 'right' });
+
+      doc.setDrawColor(30, 177, 249);
+      doc.setLineWidth(0.8);
+      doc.line(0, 38, w, 38);
+
+      y = 50;
+
+      /* ---- HERO METRIC ---- */
+      doc.setFillColor(15, 40, 71);
+      doc.roundedRect(margin, y, w - 2 * margin, 30, 4, 4, 'F');
+
+      doc.setFontSize(9);
+      doc.setTextColor(148, 163, 184);
+      doc.setFont('helvetica', 'normal');
+      doc.text('BREAK-EVEN MEMBERS', w / 2, y + 10, { align: 'center' });
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(26);
+      doc.setTextColor(30, 177, 249);
+      doc.text(txt('sum-breakeven'), w / 2, y + 23, { align: 'center' });
+
+      y += 40;
+
+      /* ---- HELPERS ---- */
+      function checkPage(need) {
+        if (y + need > h - 20) { doc.addPage(); y = 20; }
+      }
+
+      function sectionHeader(label) {
+        checkPage(12);
+        doc.setFontSize(8);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(148, 163, 184);
+        doc.text(label.toUpperCase(), margin, y);
+        y += 2;
+        doc.setDrawColor(226, 232, 240);
+        doc.setLineWidth(0.3);
+        doc.line(margin, y, col2, y);
+        y += 6;
+      }
+
+      function row(label, valueId, color) {
+        checkPage(8);
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(71, 85, 105);
+        doc.text(label, margin, y);
+
+        doc.setFont('helvetica', 'bold');
+        if (color === 'cyan') doc.setTextColor(30, 177, 249);
+        else if (color === 'green') doc.setTextColor(74, 222, 128);
+        else if (color === 'amber') doc.setTextColor(251, 191, 36);
+        else if (color === 'red') doc.setTextColor(255, 107, 107);
+        else doc.setTextColor(30, 41, 59);
+
+        var val = typeof valueId === 'string' && document.getElementById(valueId)
+          ? txt(valueId) : valueId;
+        doc.text(String(val), col2, y, { align: 'right' });
+        y += 7;
+      }
+
+      /* ---- COSTS ---- */
+      sectionHeader('Costs');
+      row('Fixed Costs', 'sum-fixed');
+      row('Variable Costs', 'sum-variable');
+      y += 4;
+
+      /* ---- PER MEMBER ---- */
+      sectionHeader('Per Member');
+      row('Average Revenue Per Member (ARM)', 'sum-arm', 'cyan');
+      row('Variable Cost Per Member (VCM)', 'sum-vcm');
+      row('Contribution Margin', 'sum-cm', 'green');
+      y += 4;
+
+      /* ---- TARGETS ---- */
+      sectionHeader('Targets');
+      row('Profit Target / Month', 'sum-profit-target');
+      row('Members for Profit', 'sum-profit-members', 'cyan');
+      row('Current Members', 'sum-current-members');
+
+      var gapRow = document.getElementById('sum-gap-row');
+      if (gapRow && gapRow.style.display !== 'none') {
+        var gapText = txt('sum-gap');
+        row('Gap to Profit Target', gapText, gapText.includes('ahead') ? 'green' : 'amber');
+      }
+      y += 4;
+
+      /* ---- UTILIZATION ---- */
+      sectionHeader('Utilization');
+      row('Weekly Visits', 'sum-weekly-visits');
+      row('Visits / Member / Week', 'sum-visits-member');
+      y += 4;
+
+      /* ---- INTERPRETATION ---- */
+      var interpBE = document.getElementById('interp-breakeven');
+      if (interpBE && interpBE.classList.contains('visible')) {
+        checkPage(22);
+        doc.setFillColor(248, 250, 252);
+        doc.roundedRect(margin, y, w - 2 * margin, 18, 3, 3, 'F');
+        doc.setDrawColor(30, 177, 249);
+        doc.setLineWidth(0.6);
+        doc.line(margin, y, margin, y + 18);
+
+        doc.setFontSize(8);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(71, 85, 105);
+        var lines = doc.splitTextToSize(interpBE.textContent.trim(), w - 2 * margin - 8);
+        doc.text(lines, margin + 4, y + 5);
+        y += 22;
+      }
+
+      /* ---- SERVICE MIX ---- */
+      var mixTotalRev = txt('mix-total-rev');
+      if (mixTotalRev !== '$0') {
+        y += 4;
+        sectionHeader('Service Mix Model');
+
+        doc.setFontSize(7);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(148, 163, 184);
+        doc.text('TIER', margin, y);
+        doc.text('PRICE/MO', margin + 55, y);
+        doc.text('MEMBERS', margin + 85, y);
+        doc.text('REVENUE', col2, y, { align: 'right' });
+        y += 5;
+
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(71, 85, 105);
+
+        var tierData = [
+          { name: 'Tier 1 (Base)', price: 'mix-t1-price', count: 'mix-t1-count', rev: 'mix-t1-rev' },
+          { name: 'Tier 2 (Mid)', price: 'mix-t2-price', count: 'mix-t2-count', rev: 'mix-t2-rev' },
+          { name: 'Tier 3 (Premium)', price: 'mix-t3-price', count: 'mix-t3-count', rev: 'mix-t3-rev' },
+          { name: 'PT / Add-Ons', price: 'mix-pt-price', count: 'mix-pt-count', rev: 'mix-pt-rev' }
+        ];
+
+        tierData.forEach(function(t) {
+          var p = document.getElementById(t.price);
+          var c = document.getElementById(t.count);
+          if (p && c && (parseFloat(p.value) > 0 || parseFloat(c.value) > 0)) {
+            checkPage(7);
+            doc.text(t.name, margin, y);
+            doc.text('$' + (p.value || '0'), margin + 55, y);
+            doc.text(c.value || '0', margin + 85, y);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(30, 177, 249);
+            doc.text(txt(t.rev), col2, y, { align: 'right' });
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(71, 85, 105);
+            y += 6;
+          }
+        });
+
+        y += 2;
+        doc.setDrawColor(226, 232, 240);
+        doc.setLineWidth(0.3);
+        doc.line(margin, y, col2, y);
+        y += 5;
+        row('Total Modeled Revenue', mixTotalRev, 'cyan');
+        row('Modeled ARM', 'mix-arm', 'cyan');
+      }
+
+      /* ---- ACTION PLAN ---- */
+      var lever = inputVal('action-lever');
+      var change = inputVal('action-change');
+      var metric = inputVal('action-metric');
+      var reviewDate = inputVal('action-date');
+
+      if (lever || change || metric || reviewDate) {
+        y += 4;
+        sectionHeader('30-Day Action Plan');
+        if (lever) row('Lever to Prioritize', lever);
+        if (change) row('Change to Implement', change);
+        if (metric) row('Metric to Track Weekly', metric);
+        if (reviewDate) row('Review Date', new Date(reviewDate + 'T00:00:00').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }));
+      }
+
+      /* ---- FOOTER ---- */
+      var totalPages = doc.internal.getNumberOfPages();
+      for (var i = 1; i <= totalPages; i++) {
+        doc.setPage(i);
+        var fy = doc.internal.pageSize.getHeight() - 15;
+        doc.setDrawColor(226, 232, 240);
+        doc.setLineWidth(0.3);
+        doc.line(margin, fy, col2, fy);
+        doc.setFontSize(7);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(148, 163, 184);
+        doc.text('Generated from The Gym Profit Calculator Workbook \u2014 usekilo.com', margin, fy + 5);
+        doc.text('Page ' + i + ' of ' + totalPages, col2, fy + 5, { align: 'right' });
+      }
+
+      doc.save('kilo-profit-workbook-report.pdf');
+    }
   </script>
 </body>
 </html>
