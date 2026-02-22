@@ -1,0 +1,10 @@
+{
+  "rewrites": [
+    { "source": "/profit-calculator", "destination": "/creative/landing-pages/profit-calculator/index.html" },
+    { "source": "/profit-calculator/", "destination": "/creative/landing-pages/profit-calculator/index.html" },
+    { "source": "/profit-workbook", "destination": "/creative/landing-pages/profit-workbook/index.html" },
+    { "source": "/profit-workbook/", "destination": "/creative/landing-pages/profit-workbook/index.html" },
+    { "source": "/done-for-you", "destination": "/creative/landing-pages/done-for-you/index.html" },
+    { "source": "/done-for-you/", "destination": "/creative/landing-pages/done-for-you/index.html" }
+  ]
+}
