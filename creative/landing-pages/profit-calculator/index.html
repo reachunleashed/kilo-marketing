@@ -1235,8 +1235,8 @@
       /* Helpers */
       function $(id) { return document.getElementById(id); }
       function val(id) { return parseFloat($(id).value) || 0; }
-      function fmt(n) { return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }); }
-      function fmt2(n) { return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+      function fmt(n) { return (n < 0 ? '-$' : '$') + Math.abs(n).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }); }
+      function fmt2(n) { return (n < 0 ? '-$' : '$') + Math.abs(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
 
       function recalc() {
         /* STEP 1: Fixed costs */
@@ -1307,8 +1307,20 @@
           $('sum-breakeven').style.webkitBackgroundClip = '';
           $('sum-breakeven').style.webkitTextFillColor = 'var(--gray-500)';
           $('sum-breakeven').style.backgroundClip = '';
-          $('sum-breakeven-note').textContent = 'Enter your costs and revenue above';
-          $('interp-breakeven').classList.remove('visible');
+          /* Context-aware note when data IS entered but CM is non-positive */
+          if (cm <= 0 && members > 0 && rev > 0) {
+            $('sum-breakeven-note').textContent = cm < 0 ? 'Negative margin — reduce costs or raise prices' : 'Zero margin — adjust pricing or costs';
+            var interpEl = $('interp-breakeven');
+            if (cm < 0) {
+              interpEl.innerHTML = '<strong style="color:var(--red-soft);">Your variable cost per member exceeds your revenue per member.</strong> Each additional member increases your losses. Reduce variable costs or increase pricing before growing membership.';
+            } else {
+              interpEl.innerHTML = '<strong style="color:var(--amber);">Your contribution margin is zero.</strong> Every dollar members bring in is consumed by variable costs. You need to increase ARM or reduce variable costs to reach break-even.';
+            }
+            interpEl.classList.add('visible');
+          } else {
+            $('sum-breakeven-note').textContent = 'Enter your costs and revenue above';
+            $('interp-breakeven').classList.remove('visible');
+          }
         }
 
         if (breakeven > 0 && members > 0) {
