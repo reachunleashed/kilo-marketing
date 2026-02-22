@@ -1410,9 +1410,28 @@
         }
       }
 
-      /* Attach listeners to all inputs */
+      /* Attach listeners to all inputs — recalc + save */
+      var STORAGE_KEY = 'kilo-profit-calc';
+      function saveInputs() {
+        var data = {};
+        document.querySelectorAll('input[type="number"]').forEach(function(input) {
+          if (input.id && input.value) data[input.id] = input.value;
+        });
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
+      }
+      function loadInputs() {
+        try {
+          var data = JSON.parse(localStorage.getItem(STORAGE_KEY));
+          if (!data) return;
+          Object.keys(data).forEach(function(id) {
+            var el = document.getElementById(id);
+            if (el) el.value = data[id];
+          });
+        } catch(e) {}
+      }
+
       document.querySelectorAll('input[type="number"]').forEach(function(input) {
-        input.addEventListener('input', recalc);
+        input.addEventListener('input', function() { recalc(); saveInputs(); });
       });
 
       /* Scroll reveal */
@@ -1431,7 +1450,8 @@
         reveals.forEach(function(el) { el.classList.add('visible'); });
       }
 
-      /* Initial calc */
+      /* Restore saved data and recalculate */
+      loadInputs();
       recalc();
     })();
   </script>

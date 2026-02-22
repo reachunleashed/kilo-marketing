@@ -943,7 +943,32 @@
         } else { $('interp-util').classList.remove('visible'); }
       }
 
-      document.querySelectorAll('input[type="number"]').forEach(function(el) { el.addEventListener('input', recalc); });
+      /* Save/restore inputs with localStorage */
+      var STORAGE_KEY = 'kilo-profit-workbook';
+      function saveInputs() {
+        var data = {};
+        document.querySelectorAll('input[type="number"], input[type="text"], input[type="date"]').forEach(function(el) {
+          if (el.id && el.value) data[el.id] = el.value;
+        });
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
+      }
+      function loadInputs() {
+        try {
+          var data = JSON.parse(localStorage.getItem(STORAGE_KEY));
+          if (!data) return;
+          Object.keys(data).forEach(function(id) {
+            var el = document.getElementById(id);
+            if (el) el.value = data[id];
+          });
+        } catch(e) {}
+      }
+
+      document.querySelectorAll('input[type="number"]').forEach(function(el) {
+        el.addEventListener('input', function() { recalc(); saveInputs(); });
+      });
+      document.querySelectorAll('input[type="text"], input[type="date"]').forEach(function(el) {
+        el.addEventListener('input', saveInputs);
+      });
 
       /* Scroll reveal */
       var obs = 'IntersectionObserver' in window
@@ -953,6 +978,8 @@
         : null;
       document.querySelectorAll('.reveal').forEach(function(el) { obs ? obs.observe(el) : el.classList.add('visible'); });
 
+      /* Restore saved data and recalculate */
+      loadInputs();
       recalc();
     })();
   </script>
