@@ -1,7 +1,7 @@
 # Kilo — Client Runbook
 
 **Created:** 2026-02-20
-**Status:** Phase 0 COMPLETE — Ready for Phase 1
+**Status:** Phase 2 COMPLETE — Ready for Phase 3
 
 This is the master task list for the Kilo marketing engagement. Work through each phase in order. Do not skip phases or quality gates.
 
@@ -46,15 +46,16 @@ This is the master task list for the Kilo marketing engagement. Work through eac
 
 | # | Task | Status |
 |---|------|--------|
-| 1.1 | Run the `orchestrator` skill — answer qualifying questions (goal, existing assets, timeline) | ☐ |
-| 1.2 | Review orchestrator output — recommended skill sequence and state tracker | ☐ |
-| 1.3 | **GATE: User approves direction and skill sequence before proceeding** | ☐ |
+| 1.1 | Run the `orchestrator` skill — answer qualifying questions (goal, existing assets, timeline) | ☑ |
+| 1.2 | Review orchestrator output — recommended skill sequence and state tracker | ☑ |
+| 1.3 | **GATE: User approves direction and skill sequence before proceeding** | ☑ |
 
-**Orchestrator Inputs to Prepare:**
-- Client's goal (leads, sales, awareness, launch)
-- What marketing assets already exist (voice, positioning, content, landing pages, email list)
-- Timeline (immediate, this week, long-term build)
-- Recon findings from Phase 0 (competitor gaps, opportunities)
+**Orchestrator Results (2026-02-24):**
+- **Engagement scope:** Website / Landing Pages (no Meta Ads)
+- **Diagnosis:** Scale-stage SaaS (1,000+ gyms), intermediate marketing maturity. Strong existing site (99 pages) but needs targeted landing pages for conversion optimization.
+- **Approved sequence:** Audit → Brand Voice (extract) → Positioning Angles → Brainstorming → Frontend Design → Testing
+- **Skipped (out of scope):** Meta Ads, email sequences, lead magnets, SEO content, newsletter, content atomizer
+- **Landing page type:** TBD — audit first, then decide what to build (new campaign pages vs redesigning existing pages)
 
 ---
 
@@ -65,11 +66,11 @@ This is the master task list for the Kilo marketing engagement. Work through eac
 
 | # | Task | Skill Step | Status | Output |
 |---|------|-----------|--------|--------|
-| 2.1 | Audit current landing pages (screenshots + CRO analysis) | Step 1 — `agent-browser` | ☐ | `strategy/audit/landing-page-audit.md` |
-| 2.2 | Pull current ad account performance (if Meta Ads exist) | Step 2 — `meta-ads` MCP | ☐ | `strategy/audit/account-audit.md` |
+| 2.1 | Audit current landing pages (screenshots + CRO analysis) | Step 1 — `playwright` MCP | ☑ | `strategy/audit/landing-page-audit.md` |
+| 2.2 | Pull current ad account performance (if Meta Ads exist) | Step 2 — `meta-ads` MCP | N/A | No Meta Ads account — out of scope |
 | 2.3 | Audit competitor ads (Facebook Ad Library) | Step 3 — `agent-browser` | ☐ | `strategy/audit/competitor-audit.md` |
-| 2.4 | Map current funnel (ad → page → conversion) | Step 4 — Manual | ☐ | `strategy/funnel-map.md` |
-| 2.5 | **GATE 1: Present audit findings to user. User confirms understanding.** | | ☐ | |
+| 2.4 | Map current funnel (ad → page → conversion) | Step 4 — Manual | ☑ | `strategy/funnel-map.md` |
+| 2.5 | **GATE 1: Present audit findings to user. User confirms understanding.** | | ☑ | User approved: fix booking page + rebuild pricing + build new campaign pages. Deliverable: standalone HTML prototypes + WordPress design specs. |
 
 ---
 
