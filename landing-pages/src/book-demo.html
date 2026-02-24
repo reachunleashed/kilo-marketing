@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book a Free Demo — Kilo | Gym Management Software</title>
+  <meta name="description" content="Schedule a free demo with a Kilo expert. See how 1,000+ coaching gyms simplify management, marketing, and growth with one platform.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================
+       CSS RESET & VARIABLES
+       ============================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --navy: #0A1C38;
+      --navy-deep: #061225;
+      --navy-light: #112D54;
+      --cyan: #1EB1F9;
+      --cyan-glow: #4DC8FF;
+      --cyan-muted: #1699D9;
+      --mint: #2ED8A3;
+      --white: #FFFFFF;
+      --off-white: #F7F9FC;
+      --gray-50: #F8FAFC;
+      --gray-100: #F1F5F9;
+      --gray-200: #E2E8F0;
+      --gray-300: #CBD5E1;
+      --gray-400: #94A3B8;
+      --gray-500: #64748B;
+      --gray-600: #475569;
+      --gray-700: #334155;
+      --text-on-dark: rgba(255, 255, 255, 0.92);
+      --text-on-dark-muted: rgba(255, 255, 255, 0.65);
+      --font-heading: 'Outfit', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+      --shadow-sm: 0 1px 3px rgba(10, 28, 56, 0.06);
+      --shadow-md: 0 4px 16px rgba(10, 28, 56, 0.08);
+      --shadow-lg: 0 8px 32px rgba(10, 28, 56, 0.12);
+      --shadow-card: 0 2px 12px rgba(10, 28, 56, 0.06), 0 0 1px rgba(10, 28, 56, 0.1);
+      --transition-fast: 180ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-smooth: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html {
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--navy);
+      background: var(--off-white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ============================================
+       LAYOUT — SPLIT SCREEN
+       ============================================ */
+    .page-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 100vh;
+    }
+
+    /* ============================================
+       LEFT PANEL — DARK NAVY
+       ============================================ */
+    .left-panel {
+      background: var(--navy);
+      position: relative;
+      overflow: visible;
+      display: flex;
+      flex-direction: column;
+      padding: 48px 56px 40px;
+    }
+
+    /* Subtle gradient overlay for depth */
+    .left-panel::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(30, 177, 249, 0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 90%, rgba(46, 216, 163, 0.05) 0%, transparent 50%),
+        linear-gradient(180deg, rgba(6, 18, 37, 0.3) 0%, transparent 40%, rgba(6, 18, 37, 0.4) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Geometric accent pattern */
+    .left-panel::after {
+      content: '';
+      position: absolute;
+      top: -120px;
+      right: -80px;
+      width: 400px;
+      height: 400px;
+      border: 1px solid rgba(30, 177, 249, 0.08);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .left-panel > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ---- Logo ---- */
+    .logo {
+      margin-bottom: 48px;
+    }
+
+    .logo-mark {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--cyan), var(--mint));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-icon svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .logo-text {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 1.5rem;
+      letter-spacing: 0.08em;
+      color: var(--white);
+      text-transform: uppercase;
+    }
+
+    /* ---- Hero Copy ---- */
+    .hero-copy {
+      margin-bottom: 44px;
+    }
+
+    .hero-copy h1 {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: clamp(1.75rem, 2.2vw, 2.35rem);
+      line-height: 1.2;
+      color: var(--white);
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-copy h1 .accent {
+      background: linear-gradient(135deg, var(--cyan), var(--cyan-glow));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-copy .subtitle {
+      font-size: 1.05rem;
+      line-height: 1.65;
+      color: var(--text-on-dark-muted);
+      max-width: 480px;
+      font-weight: 400;
+    }
+
+    .hero-copy .connect-note {
+      margin-top: 20px;
+      font-size: 0.95rem;
+      color: var(--cyan);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .connect-note svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    /* ---- What to Expect ---- */
+    .expect-section {
+      margin-bottom: 44px;
+    }
+
+    .section-label {
+      font-family: var(--font-heading);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 20px;
+    }
+
+    .expect-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .expect-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      font-size: 0.935rem;
+      line-height: 1.55;
+      color: var(--text-on-dark);
+    }
+
+    .check-icon {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(30, 177, 249, 0.12);
+      border: 1.5px solid rgba(30, 177, 249, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+    }
+
+    .check-icon svg {
+      width: 12px;
+      height: 12px;
+      color: var(--cyan);
+    }
+
+    /* ---- Testimonials ---- */
+    .testimonials-section {
+      margin-bottom: 40px;
+    }
+
+    .testimonials-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .testimonial-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      transition: var(--transition-smooth);
+    }
+
+    .testimonial-card:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(30, 177, 249, 0.15);
+    }
+
+    .testimonial-quote {
+      font-size: 0.9rem;
+      line-height: 1.55;
+      color: var(--text-on-dark);
+      font-style: italic;
+      margin-bottom: 10px;
+    }
+
+    .testimonial-quote::before {
+      content: '\201C';
+      color: var(--cyan);
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-right: 2px;
+    }
+
+    .testimonial-quote::after {
+      content: '\201D';
+      color: var(--cyan);
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-left: 1px;
+    }
+
+    .testimonial-author {
+      font-size: 0.8rem;
+      color: var(--text-on-dark-muted);
+      font-weight: 500;
+    }
+
+    .testimonial-author .name {
+      color: var(--cyan-glow);
+      font-weight: 600;
+    }
+
+    /* ---- Trust Badges ---- */
+    .trust-badges {
+      margin-bottom: 36px;
+    }
+
+    .badges-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-sm);
+      padding: 8px 14px;
+      transition: var(--transition-fast);
+    }
+
+    .badge:hover {
+      background: rgba(255, 255, 255, 0.07);
+      border-color: rgba(30, 177, 249, 0.2);
+    }
+
+    .badge-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, rgba(30, 177, 249, 0.15), rgba(46, 216, 163, 0.1));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .badge-icon svg {
+      width: 14px;
+      height: 14px;
+      color: var(--cyan);
+    }
+
+    .badge-text {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-on-dark-muted);
+      line-height: 1.3;
+      letter-spacing: 0.01em;
+    }
+
+    /* ---- Bottom CTA Text ---- */
+    .bottom-cta {
+      margin-top: auto;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .bottom-cta p {
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-on-dark-muted);
+    }
+
+    .bottom-cta .highlight {
+      color: var(--white);
+    }
+
+    .bottom-cta .number {
+      color: var(--cyan);
+      font-weight: 700;
+    }
+
+    /* ============================================
+       RIGHT PANEL — CALENDAR
+       ============================================ */
+    .right-panel {
+      background: var(--white);
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      align-self: start;
+      min-height: 100vh;
+    }
+
+    /* Subtle top gradient wash */
+    .right-panel::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 300px;
+      background: linear-gradient(180deg, rgba(30, 177, 249, 0.03) 0%, transparent 100%);
+      pointer-events: none;
+    }
+
+    .calendar-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 48px 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Calendar Widget */
+    .calendar-widget {
+      width: 100%;
+      max-width: 520px;
+      background: var(--white);
+      border-radius: var(--radius-xl);
+      box-shadow: 0 1px 3px rgba(10, 28, 56, 0.04), 0 8px 40px rgba(10, 28, 56, 0.06);
+      border: 1px solid var(--gray-200);
+      overflow: hidden;
+    }
+
+    .cal-header {
+      padding: 28px 32px 20px;
+      border-bottom: 1px solid var(--gray-100);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .cal-logo {
+      width: 44px;
+      height: 44px;
+      background: var(--navy);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .cal-logo svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .cal-header-info h3 {
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 2px;
+    }
+
+    .cal-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .cal-meta span {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.82rem;
+      color: var(--gray-500);
+      font-weight: 500;
+    }
+
+    .cal-meta svg {
+      width: 14px;
+      height: 14px;
+      color: var(--gray-400);
+    }
+
+    .cal-meta .free-tag {
+      background: linear-gradient(135deg, rgba(46, 216, 163, 0.12), rgba(30, 177, 249, 0.08));
+      color: var(--cyan-muted);
+      font-weight: 600;
+      font-size: 0.72rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    /* Calendar Body */
+    .cal-body {
+      padding: 24px 32px 28px;
+    }
+
+    .cal-month-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .cal-month-nav h4 {
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .cal-nav-btn {
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      background: var(--white);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition-fast);
+      color: var(--gray-500);
+    }
+
+    .cal-nav-btn:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      background: rgba(30, 177, 249, 0.04);
+    }
+
+    .cal-nav-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .cal-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      margin-bottom: 8px;
+    }
+
+    .cal-weekdays span {
+      text-align: center;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--gray-400);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 6px 0;
+    }
+
+    .cal-days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+    }
+
+    .cal-day {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.875rem;
+      font-weight: 500;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition-fast);
+      color: var(--navy);
+      position: relative;
+    }
+
+    .cal-day:hover:not(.empty):not(.past):not(.selected) {
+      background: rgba(30, 177, 249, 0.06);
+      color: var(--cyan-muted);
+    }
+
+    .cal-day.empty {
+      cursor: default;
+    }
+
+    .cal-day.past {
+      color: var(--gray-300);
+      cursor: default;
+    }
+
+    .cal-day.today {
+      font-weight: 700;
+      color: var(--cyan);
+    }
+
+    .cal-day.today::after {
+      content: '';
+      position: absolute;
+      bottom: 4px;
+      width: 4px;
+      height: 4px;
+      background: var(--cyan);
+      border-radius: 50%;
+    }
+
+    .cal-day.selected {
+      background: var(--navy);
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    .cal-day.available::after {
+      content: '';
+      position: absolute;
+      bottom: 4px;
+      width: 4px;
+      height: 4px;
+      background: var(--mint);
+      border-radius: 50%;
+    }
+
+    /* Time Slots */
+    .cal-times {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--gray-100);
+    }
+
+    .cal-times-label {
+      font-family: var(--font-heading);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--gray-500);
+      margin-bottom: 12px;
+      letter-spacing: 0.02em;
+    }
+
+    .time-slots {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .time-slot {
+      padding: 10px 12px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-size: 0.84rem;
+      font-weight: 500;
+      color: var(--navy);
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition-fast);
+      background: var(--white);
+    }
+
+    .time-slot:hover {
+      border-color: var(--cyan);
+      background: rgba(30, 177, 249, 0.04);
+      color: var(--cyan-muted);
+    }
+
+    .time-slot.selected {
+      border-color: var(--navy);
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    /* Confirm Button */
+    .cal-confirm {
+      margin-top: 24px;
+    }
+
+    .btn-confirm {
+      width: 100%;
+      padding: 14px 24px;
+      background: var(--navy);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius-md);
+      font-family: var(--font-heading);
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      letter-spacing: 0.01em;
+    }
+
+    .btn-confirm:hover {
+      background: var(--navy-light);
+      box-shadow: 0 4px 20px rgba(10, 28, 56, 0.2);
+      transform: translateY(-1px);
+    }
+
+    .btn-confirm svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .cal-footer-note {
+      text-align: center;
+      margin-top: 16px;
+      font-size: 0.78rem;
+      color: var(--gray-400);
+    }
+
+    /* Timezone Select */
+    .timezone-select {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      color: var(--gray-400);
+    }
+
+    .timezone-select svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .timezone-select select {
+      background: none;
+      border: none;
+      color: var(--gray-500);
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      outline: none;
+    }
+
+    /* ============================================
+       FOOTER
+       ============================================ */
+    .site-footer {
+      grid-column: 1 / -1;
+      background: var(--navy-deep);
+      padding: 32px 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .footer-logo-icon {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, var(--cyan), var(--mint));
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .footer-logo-icon svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    .footer-logo-text {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      color: var(--white);
+      text-transform: uppercase;
+    }
+
+    .footer-info {
+      font-size: 0.78rem;
+      color: var(--text-on-dark-muted);
+      line-height: 1.5;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 12px;
+    }
+
+    .social-link {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-on-dark-muted);
+      transition: var(--transition-fast);
+      text-decoration: none;
+    }
+
+    .social-link:hover {
+      background: rgba(30, 177, 249, 0.12);
+      border-color: rgba(30, 177, 249, 0.25);
+      color: var(--cyan);
+    }
+
+    .social-link svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ============================================
+       ANIMATIONS
+       ============================================ */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                  transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fade-in-delay-1 { transition-delay: 0.08s; }
+    .fade-in-delay-2 { transition-delay: 0.16s; }
+    .fade-in-delay-3 { transition-delay: 0.24s; }
+    .fade-in-delay-4 { transition-delay: 0.32s; }
+    .fade-in-delay-5 { transition-delay: 0.40s; }
+    .fade-in-delay-6 { transition-delay: 0.48s; }
+    .fade-in-delay-7 { transition-delay: 0.56s; }
+
+    /* Calendar slide-in */
+    .slide-in-right {
+      opacity: 0;
+      transform: translateX(30px);
+      transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+                  transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+      transition-delay: 0.2s;
+    }
+
+    .slide-in-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* ============================================
+       RESPONSIVE — TABLET
+       ============================================ */
+    @media (max-width: 1200px) {
+      .left-panel {
+        padding: 40px 40px 32px;
+      }
+
+      .calendar-container {
+        padding: 40px 28px;
+      }
+
+      .badges-row {
+        gap: 8px;
+      }
+
+      .badge {
+        padding: 6px 10px;
+      }
+
+      .badge-icon {
+        width: 24px;
+        height: 24px;
+      }
+
+      .badge-text {
+        font-size: 0.65rem;
+      }
+    }
+
+    /* ============================================
+       RESPONSIVE — MOBILE (stacked)
+       ============================================ */
+    @media (max-width: 900px) {
+      .page-wrapper {
+        grid-template-columns: 1fr;
+      }
+
+      .right-panel {
+        position: relative;
+        align-self: auto;
+        min-height: auto;
+      }
+
+      .left-panel {
+        padding: 36px 28px 32px;
+      }
+
+      .hero-copy h1 {
+        font-size: 1.6rem;
+      }
+
+      .testimonials-grid {
+        gap: 10px;
+      }
+
+      .badges-row {
+        flex-wrap: wrap;
+      }
+
+      .calendar-container {
+        padding: 32px 20px 40px;
+      }
+
+      .cal-body {
+        padding: 20px 24px 24px;
+      }
+
+      .cal-header {
+        padding: 24px 24px 18px;
+      }
+
+      .time-slots {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .site-footer {
+        padding: 28px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+      }
+
+      .footer-left {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .left-panel {
+        padding: 28px 20px 28px;
+      }
+
+      .hero-copy h1 {
+        font-size: 1.4rem;
+      }
+
+      .hero-copy .subtitle {
+        font-size: 0.95rem;
+      }
+
+      .expect-list li {
+        font-size: 0.88rem;
+      }
+
+      .testimonial-card {
+        padding: 14px 16px;
+      }
+
+      .badge {
+        padding: 6px 10px;
+      }
+
+      .badge-icon {
+        width: 22px;
+        height: 22px;
+      }
+
+      .badge-text {
+        font-size: 0.62rem;
+      }
+
+      .calendar-container {
+        padding: 24px 16px 36px;
+      }
+
+      .cal-header {
+        padding: 20px 20px 16px;
+      }
+
+      .cal-body {
+        padding: 18px 18px 22px;
+      }
+
+      .time-slots {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ============================================
+       MAIN LAYOUT
+       ============================================ -->
+  <main class="page-wrapper">
+    <!-- ==========================================
+         LEFT PANEL
+         ========================================== -->
+    <section class="left-panel" aria-label="Demo information">
+
+      <!-- Logo -->
+      <div class="logo fade-in">
+        <a href="https://usekilo.com" class="logo-mark" aria-label="Kilo homepage">
+          <div class="logo-icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 4v16M6 12l6-6M6 12l6 6M18 4v16" stroke="#0A1C38" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="logo-text">Kilo</span>
+        </a>
+      </div>
+
+      <!-- Hero Copy -->
+      <div class="hero-copy fade-in fade-in-delay-1">
+        <h1>Book a <span class="accent">Free Demo</span> with a Kilo Expert</h1>
+        <p class="subtitle">Ready to see how Kilo can simplify your gym's day-to-day? Schedule a quick demo &mdash; no pressure, just answers.</p>
+        <p class="connect-note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          We look forward to connecting!
+        </p>
+      </div>
+
+      <!-- What to Expect -->
+      <div class="expect-section fade-in fade-in-delay-2">
+        <p class="section-label">What to Expect</p>
+        <ul class="expect-list">
+          <li>
+            <span class="check-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <span>See the dashboard live &mdash; management, marketing, and websites in one place</span>
+          </li>
+          <li>
+            <span class="check-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <span>Discuss your gym's specific needs and goals</span>
+          </li>
+          <li>
+            <span class="check-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <span>Get a custom growth plan tailored to your gym</span>
+          </li>
+          <li>
+            <span class="check-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <span>No pressure, no hard sell &mdash; just honest answers</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Testimonials -->
+      <div class="testimonials-section fade-in fade-in-delay-3">
+        <p class="section-label">What Gym Owners Say</p>
+        <div class="testimonials-grid">
+          <div class="testimonial-card">
+            <p class="testimonial-quote">Net gain of 33 members after switching.</p>
+            <p class="testimonial-author"><span class="name">Charlie Goode</span> &mdash; CrossFit Watford</p>
+          </div>
+          <div class="testimonial-card">
+            <p class="testimonial-quote">I'm drowning in website traffic I never knew I had.</p>
+            <p class="testimonial-author"><span class="name">Lindsey Barber</span> &mdash; Fitness Lair</p>
+          </div>
+          <div class="testimonial-card">
+            <p class="testimonial-quote">GLM made my client management 10x easier.</p>
+            <p class="testimonial-author"><span class="name">Eric Cruz</span> &mdash; Progressive Health &amp; Performance</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trust Badges -->
+      <div class="trust-badges fade-in fade-in-delay-4">
+        <p class="section-label">Recognized By</p>
+        <div class="badges-row">
+          <div class="badge">
+            <div class="badge-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <span class="badge-text">Capterra<br>Best Value 2025</span>
+          </div>
+          <div class="badge">
+            <div class="badge-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <span class="badge-text">Software Advice<br>Front Runners 2025</span>
+          </div>
+          <div class="badge">
+            <div class="badge-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <span class="badge-text">GetApp<br>Category Leaders 2025</span>
+          </div>
+          <div class="badge">
+            <div class="badge-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <span class="badge-text">Capterra<br>Ease of Use 2025</span>
+          </div>
+          <div class="badge">
+            <div class="badge-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <span class="badge-text">Capterra<br>Shortlist 2025</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom CTA -->
+      <div class="bottom-cta fade-in fade-in-delay-5">
+        <p><span class="number">1,000+</span> <span class="highlight">coaching gyms trust Kilo.</span> Yours could be next.</p>
+      </div>
+
+    </section>
+
+    <!-- ==========================================
+         RIGHT PANEL — CALENDAR
+         ========================================== -->
+    <section class="right-panel" aria-label="Schedule your demo">
+      <div class="calendar-container">
+        <div class="calendar-widget slide-in-right">
+
+          <!-- Calendar Header -->
+          <div class="cal-header">
+            <div class="cal-logo">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 4v16M6 12l6-6M6 12l6 6M18 4v16" stroke="#1EB1F9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="cal-header-info">
+              <h3>Free Demo</h3>
+              <div class="cal-meta">
+                <span class="free-tag">Free</span>
+                <span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  30 min
+                </span>
+                <span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 10l-4 4l-2-2"/><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
+                  Zoom
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Calendar Body -->
+          <div class="cal-body">
+            <!-- Month Navigation -->
+            <div class="cal-month-nav">
+              <button class="cal-nav-btn" aria-label="Previous month">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
+              <h4>February 2026</h4>
+              <button class="cal-nav-btn" aria-label="Next month">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
+
+            <!-- Weekday Headers -->
+            <div class="cal-weekdays">
+              <span>Sun</span>
+              <span>Mon</span>
+              <span>Tue</span>
+              <span>Wed</span>
+              <span>Thu</span>
+              <span>Fri</span>
+              <span>Sat</span>
+            </div>
+
+            <!-- Calendar Days — Feb 2026 starts on Sunday -->
+            <div class="cal-days">
+              <div class="cal-day past">1</div>
+              <div class="cal-day past">2</div>
+              <div class="cal-day past">3</div>
+              <div class="cal-day past">4</div>
+              <div class="cal-day past">5</div>
+              <div class="cal-day past">6</div>
+              <div class="cal-day past">7</div>
+              <div class="cal-day past">8</div>
+              <div class="cal-day past">9</div>
+              <div class="cal-day past">10</div>
+              <div class="cal-day past">11</div>
+              <div class="cal-day past">12</div>
+              <div class="cal-day past">13</div>
+              <div class="cal-day past">14</div>
+              <div class="cal-day past">15</div>
+              <div class="cal-day past">16</div>
+              <div class="cal-day past">17</div>
+              <div class="cal-day past">18</div>
+              <div class="cal-day past">19</div>
+              <div class="cal-day past">20</div>
+              <div class="cal-day past">21</div>
+              <div class="cal-day past">22</div>
+              <div class="cal-day past">23</div>
+              <div class="cal-day today">24</div>
+              <div class="cal-day available selected">25</div>
+              <div class="cal-day available">26</div>
+              <div class="cal-day available">27</div>
+              <div class="cal-day">28</div>
+            </div>
+
+            <!-- Time Slots -->
+            <div class="cal-times">
+              <p class="cal-times-label">Available Times — Wed, Feb 25</p>
+              <div class="time-slots">
+                <div class="time-slot">9:00 AM</div>
+                <div class="time-slot">10:00 AM</div>
+                <div class="time-slot selected">11:00 AM</div>
+                <div class="time-slot">1:00 PM</div>
+                <div class="time-slot">2:00 PM</div>
+                <div class="time-slot">3:30 PM</div>
+              </div>
+            </div>
+
+            <!-- Confirm -->
+            <div class="cal-confirm">
+              <button class="btn-confirm">
+                Confirm Booking
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </button>
+            </div>
+
+            <p class="cal-footer-note">No credit card required. Cancel or reschedule anytime.</p>
+          </div>
+
+          <!-- Timezone -->
+          <div class="timezone-select">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <select aria-label="Select timezone">
+              <option>Eastern Time (ET)</option>
+              <option>Central Time (CT)</option>
+              <option>Mountain Time (MT)</option>
+              <option>Pacific Time (PT)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================================
+       FOOTER
+       ============================================ -->
+  <footer class="site-footer">
+    <div class="footer-left">
+      <a href="https://usekilo.com" class="footer-logo">
+        <div class="footer-logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 4v16M6 12l6-6M6 12l6 6M18 4v16" stroke="#0A1C38" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="footer-logo-text">Kilo</span>
+      </a>
+      <div class="footer-info">
+        14255 U.S. Hwy 1 Suite 281, Juno Beach, FL 33408<br>
+        &copy; 2026 Kilo. All rights reserved.
+      </div>
+    </div>
+    <div class="footer-social">
+      <a href="https://facebook.com/usekilo" class="social-link" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      </a>
+      <a href="https://instagram.com/usekilo" class="social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </a>
+      <a href="https://linkedin.com/company/usekilo" class="social-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+      </a>
+    </div>
+  </footer>
+
+  <!-- ============================================
+       JAVASCRIPT — Scroll Animations
+       ============================================ -->
+  <script>
+    // Intersection Observer for fade-in animations
+    document.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      document.querySelectorAll('.fade-in, .slide-in-right').forEach(el => {
+        observer.observe(el);
+      });
+
+      // Interactive calendar day selection
+      const calDays = document.querySelectorAll('.cal-day:not(.empty):not(.past)');
+      calDays.forEach(day => {
+        day.addEventListener('click', () => {
+          calDays.forEach(d => d.classList.remove('selected'));
+          day.classList.add('selected');
+        });
+      });
+
+      // Interactive time slot selection
+      const timeSlots = document.querySelectorAll('.time-slot');
+      timeSlots.forEach(slot => {
+        slot.addEventListener('click', () => {
+          timeSlots.forEach(s => s.classList.remove('selected'));
+          slot.classList.add('selected');
+        });
+      });
+    });
+  </script>
+</body>
+</html>

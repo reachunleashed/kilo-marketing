@@ -1,7 +1,7 @@
 # Kilo — Client Runbook
 
 **Created:** 2026-02-20
-**Status:** Phase 2 COMPLETE — Ready for Phase 3
+**Status:** Phase 5 BUILD COMPLETE — Ready for user review (Gate 4)
 
 This is the master task list for the Kilo marketing engagement. Work through each phase in order. Do not skip phases or quality gates.
 
@@ -81,12 +81,12 @@ This is the master task list for the Kilo marketing engagement. Work through eac
 
 | # | Task | Skill Step | Status | Output |
 |---|------|-----------|--------|--------|
-| 3.1 | Strategic brainstorm — explore 2-3 approaches with trade-offs | Step 5 — `brainstorming` | ☐ | — |
-| 3.2 | Define brand voice (extract or build mode) | Step 6 — `brand-voice` | ☐ | `strategy/brand-voice.md` |
-| 3.3 | Find positioning angles (3-5 distinct angles) | Step 7 — `positioning-angles` | ☐ | `strategy/positioning-angles.md` |
-| 3.4 | Create lead magnet concepts (if funnel requires it) | Step 8 — `lead-magnet` | ☐ | `creative/lead-magnets/` |
-| 3.5 | Audience research — interests, behaviors, demographics, segment sizing | Step 9 — `meta-ads` MCP | ☐ | `reference/audience-profiles.md` |
-| 3.6 | **GATE 2: Present voice + angles to user. User selects primary/secondary angles.** | | ☐ | |
+| 3.1 | Strategic brainstorm — explore 2-3 approaches with trade-offs | Step 5 — `brainstorming` | N/A | Integrated into Phase 2 audit findings — 3 deliverables defined |
+| 3.2 | Define brand voice (extract or build mode) | Step 6 — `brand-voice` | ☑ | `strategy/brand-voice.md` (extracted from 5 pages, 8 sections) |
+| 3.3 | Find positioning angles (3-5 distinct angles) | Step 7 — `positioning-angles` | ☑ | `strategy/positioning-angles.md` (5 angles + landing page application matrix) |
+| 3.4 | Create lead magnet concepts (if funnel requires it) | Step 8 — `lead-magnet` | N/A | Out of scope for this engagement |
+| 3.5 | Audience research — interests, behaviors, demographics, segment sizing | Step 9 — `meta-ads` MCP | N/A | No Meta Ads — out of scope |
+| 3.6 | **GATE 2: Present voice + angles to user. User selects primary/secondary angles.** | | ☑ | User approved design direction — 5 pages mapped to angles |
 
 ---
 
@@ -97,15 +97,15 @@ This is the master task list for the Kilo marketing engagement. Work through eac
 
 | # | Task | Skill Step | Status | Output |
 |---|------|-----------|--------|--------|
-| 4.1 | Creative direction + briefs (visual direction previews) | Step 10 — `ai-creative-strategist` | ☐ | `creative/briefs/` |
-| 4.2 | Ad copy — primary text, headlines, descriptions per angle | Step 11 — `direct-response-copy` | ☐ | `creative/ad-copy/` |
-| 4.3 | Landing page copy — hero, benefits, social proof, FAQ, CTAs | Step 12 — `direct-response-copy` | ☐ | `creative/landing-pages/` |
-| 4.4 | Ad images — 3-5 variations per angle (feed, stories, reels) | Step 13 — `ai-social-graphics` | ☐ | `assets/images/` |
-| 4.5 | Product photography (if needed) | Step 14 — `ai-product-photo` | ☐ | `assets/images/` |
-| 4.6 | Video ad scripts (if needed) | Step 15 — `ai-product-video` | ☐ | `assets/video/` |
-| 4.7 | Talking head scripts (if needed) | Step 16 — `ai-talking-head` | ☐ | `assets/video/` |
-| 4.8 | Email sequences (if needed) | Step 17 — `email-sequences` | ☐ | `creative/email/` |
-| 4.9 | **GATE 3: Present all creative to user. User approves for production.** | | ☐ | |
+| 4.1 | Creative direction + briefs (visual direction previews) | Step 10 — `ai-creative-strategist` | N/A | Integrated into brainstorming design session — 5 page specs approved |
+| 4.2 | Ad copy — primary text, headlines, descriptions per angle | Step 11 — `direct-response-copy` | N/A | No ads — out of scope |
+| 4.3 | Landing page copy — hero, benefits, social proof, FAQ, CTAs | Step 12 — `direct-response-copy` | ☑ | Copy integrated into HTML prototypes during build |
+| 4.4 | Ad images — 3-5 variations per angle (feed, stories, reels) | Step 13 — `ai-social-graphics` | N/A | No ads — out of scope |
+| 4.5 | Product photography (if needed) | Step 14 — `ai-product-photo` | N/A | Not needed |
+| 4.6 | Video ad scripts (if needed) | Step 15 — `ai-product-video` | N/A | Not needed |
+| 4.7 | Talking head scripts (if needed) | Step 16 — `ai-talking-head` | N/A | Not needed |
+| 4.8 | Email sequences (if needed) | Step 17 — `email-sequences` | N/A | Out of scope |
+| 4.9 | **GATE 3: Present all creative to user. User approves for production.** | | ☑ | User approved "Looks good, build it" for all 5 page designs |
 
 ---
 
@@ -116,10 +116,11 @@ This is the master task list for the Kilo marketing engagement. Work through eac
 
 | # | Task | Skill Step | Status | Output |
 |---|------|-----------|--------|--------|
-| 5.1 | Explore landing page design direction | Step 18 — `brainstorming` | ☐ | — |
-| 5.2 | Build landing pages (mobile-first, distinctive design) | Step 19 — `frontend-design` | ☐ | `landing-pages/src/` |
-| 5.3 | Test built pages (rendering, mobile, CTAs, load speed) | Step 20 — `agent-browser` / `playwright` | ☐ | — |
-| 5.4 | **GATE 4: User reviews built pages. Approves for deployment.** | | ☐ | |
+| 5.1 | Explore landing page design direction | Step 18 — `brainstorming` | ☑ | 5 page specs designed and approved via brainstorming skill |
+| 5.2 | Build landing pages (mobile-first, distinctive design) | Step 19 — `frontend-design` | ☑ | 5 HTML prototypes built: `landing-pages/src/book-demo.html`, `pricing.html`, `gym-websites.html`, `gym-lead-machine.html`, `switch-to-kilo.html` |
+| 5.3 | WordPress design specs | Additional | ☑ | `landing-pages/wordpress-design-specs.md` |
+| 5.4 | Test built pages (rendering, mobile, CTAs, load speed) | Step 20 — `agent-browser` / `playwright` | ☐ | Pending user review |
+| 5.5 | **GATE 4: User reviews built pages. Approves for deployment.** | | ☐ | |
 
 ---
 

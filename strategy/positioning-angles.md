@@ -131,4 +131,42 @@ Multiple players. Similar "gym management software" claims. The market has heard
 
 ---
 
-*Analysis based on: recon-summary.md, client-site-analysis.md, competitor-research.md, brand-voice.md. Date: 2026-02-20.*
+---
+
+## Landing Page Application Matrix (Phase 5 Build)
+
+*Updated 2026-02-24 based on Phase 2 audit findings.*
+
+| Deliverable | Primary Angle | Secondary Angle | Rationale |
+|-------------|---------------|-----------------|-----------|
+| **Booking page redesign** | Time Recapture (#4) | ROI Math (#3) | Reinforce emotional + financial value at the decision moment. Add social proof, fix "Sales Call" language. |
+| **Pricing page rebuild** | ROI Math (#3) | Built for Coaching Gyms (#5) | Justify each tier's price. Feature comparison matrix. Bundle savings callout. |
+| **Campaign LP: Websites** | Done-For-You (#1) | — | Lead with unique differentiator. No competitor can match. |
+| **Campaign LP: GLM** | ROI Math (#3) | Done-For-You (#1) | ROI table front and center. Interactive calculator concept. |
+| **Campaign LP: Switch** | The Switch (#2) | Time Recapture (#4) | Competitor-specific pages with social proof from real switchers. |
+| **Campaign LP: Industry** | Built for Coaching Gyms (#5) | Done-For-You (#1) | CrossFit, martial arts, bootcamp-specific landing pages. |
+
+### Booking Page Copy Direction
+- Replace "Sales Call" with "Free Demo" or "Strategy Call"
+- Add 3-4 "what to expect" bullets (reduce booking anxiety)
+- Add 2-3 testimonial quotes with specific results
+- Add trust badges (Capterra, GetApp)
+- Consider offering a 15-min "Quick Chat" alongside the 45-min demo
+- Lead with: "See how [X stat] gym owners are growing with Kilo"
+
+### Pricing Page Copy Direction
+- Prices visible above fold (remove decorative gap)
+- Feature comparison grid (GMS vs GLM vs Bundle)
+- Bundle savings: "$75/month savings" prominently displayed
+- Add Websites tier ($175/mo) — currently missing
+- ROI context under each price (e.g., "Less than the cost of 1 new member per year")
+- FAQ section answers objections directly
+
+### Campaign Landing Page Copy Direction
+- Each page leads with one angle only (no dilution)
+- Conversion action: "Book a Demo" (not "Sales Call")
+- Every page includes: stat-driven headline, social proof section, named testimonials, FAQ, single clear CTA
+- Mobile-first design for social traffic
+- Match existing Kilo brand (Navy + Cyan, professional tone)
+
+*Original analysis date: 2026-02-20. Updated: 2026-02-24 with Phase 2 audit findings.*
