@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Gym Profit Calculator Workbook — Kilo</title>
+  <meta name="description" content="Download the free Gym Profit Calculator Workbook. Figure out your break-even point, know how many members you need to stay profitable, and make decisions like a CEO.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Nunito+Sans:ital,opsz,wght@0,6..12,300..1000;1,6..12,300..1000&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy-900: #060E1F;
+      --navy-800: #0A1C38;
+      --navy-700: #0F2847;
+      --navy-600: #163456;
+      --cyan: #1EB1F9;
+      --cyan-light: #5CC8FA;
+      --cyan-glow: rgba(30, 177, 249, 0.15);
+      --mint: #20F2CA;
+      --mint-glow: rgba(32, 242, 202, 0.12);
+      --white: #FFFFFF;
+      --gray-50: #F8FAFC;
+      --gray-100: #F1F5F9;
+      --gray-200: #E2E8F0;
+      --gray-300: #CBD5E1;
+      --gray-400: #94A3B8;
+      --gray-500: #64748B;
+      --gray-600: #475569;
+      --gray-700: #334155;
+      --gray-800: #1E293B;
+      --font-display: 'Sora', sans-serif;
+      --font-body: 'Nunito Sans', sans-serif;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--gray-700);
+      background: var(--white);
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: var(--font-display);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    img { max-width: 100%; height: auto; display: block; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ════════════════════════════════════
+       HEADER
+       ════════════════════════════════════ */
+    .header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(10, 28, 56, 0.95);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      padding: 0.65rem 0;
+      transition: box-shadow 0.3s;
+    }
+    .header.scrolled { box-shadow: 0 2px 24px rgba(0,0,0,0.25); }
+    .header__inner {
+      display: flex; align-items: center; justify-content: space-between;
+      max-width: 1100px; margin: 0 auto; padding: 0 1.5rem;
+    }
+    .header__logo { display: flex; align-items: center; }
+    .header__logo img { height: 32px; width: auto; filter: brightness(0) invert(1); }
+
+    /* ════════════════════════════════════
+       BUTTONS
+       ════════════════════════════════════ */
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: var(--font-display); font-weight: 700; font-size: 0.875rem;
+      padding: 0.65rem 1.6rem; border-radius: 50px; border: none;
+      cursor: pointer; text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn--primary {
+      background: linear-gradient(135deg, var(--cyan), var(--mint));
+      color: var(--navy-900);
+      box-shadow: 0 4px 20px rgba(30, 177, 249, 0.3);
+    }
+    .btn--primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(30, 177, 249, 0.45);
+    }
+    .btn--outline {
+      background: transparent;
+      color: var(--white);
+      border: 1.5px solid rgba(255,255,255,0.3);
+    }
+    .btn--outline:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    /* ════════════════════════════════════
+       HERO — Split layout
+       ════════════════════════════════════ */
+    .hero {
+      background: var(--navy-800);
+      padding: 7rem 0 0;
+      position: relative;
+      overflow: hidden;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero__bg {
+      position: absolute; inset: 0; pointer-events: none;
+    }
+    .hero__bg::before {
+      content: ''; position: absolute;
+      top: -30%; right: -20%; width: 55%; height: 70%;
+      background: radial-gradient(ellipse, var(--cyan-glow) 0%, transparent 65%);
+      filter: blur(80px);
+    }
+    .hero__bg::after {
+      content: ''; position: absolute;
+      bottom: -25%; left: -10%; width: 40%; height: 55%;
+      background: radial-gradient(ellipse, var(--mint-glow) 0%, transparent 65%);
+      filter: blur(80px);
+    }
+
+    .hero__inner {
+      position: relative; z-index: 2;
+      max-width: 1100px; margin: 0 auto; padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 3.5rem;
+      align-items: center;
+    }
+
+    .hero__badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: var(--font-display);
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--cyan);
+      background: var(--cyan-glow);
+      border: 1px solid rgba(30, 177, 249, 0.2);
+      padding: 0.4rem 1rem; border-radius: 50px;
+      margin-bottom: 1.25rem;
+    }
+    .hero__badge-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--cyan);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.5); }
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--cyan), var(--mint));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero__subtitle {
+      font-size: 1.05rem;
+      color: var(--gray-300);
+      margin-bottom: 1.75rem;
+      line-height: 1.75;
+    }
+
+    .hero__bullets {
+      list-style: none;
+      margin-bottom: 2rem;
+    }
+    .hero__bullets li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 0.75rem;
+    }
+    .hero__bullets li svg {
+      flex-shrink: 0;
+      width: 20px; height: 20px;
+      color: var(--mint);
+      margin-top: 2px;
+    }
+
+    .hero__social-proof {
+      display: flex; align-items: center; gap: 0.75rem;
+      font-size: 0.8rem; color: var(--gray-400);
+      margin-top: 1.5rem;
+    }
+    .hero__avatars {
+      display: flex;
+    }
+    .hero__avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      border: 2px solid var(--navy-800);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-weight: 700; font-size: 0.6rem;
+      color: var(--white);
+      margin-left: -8px;
+    }
+    .hero__avatar:first-child { margin-left: 0; }
+    .hero__avatar--1 { background: #3B82F6; }
+    .hero__avatar--2 { background: #8B5CF6; }
+    .hero__avatar--3 { background: #EC4899; }
+    .hero__avatar--4 { background: #F59E0B; }
+
+    /* ════════════════════════════════════
+       FORM CARD (right column)
+       ════════════════════════════════════ */
+    .form-card {
+      background: var(--white);
+      border-radius: var(--radius-xl);
+      padding: 2rem;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.08);
+      position: relative;
+    }
+    .form-card__label {
+      font-family: var(--font-display);
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 0.5rem;
+    }
+    .form-card__title {
+      font-size: 1.35rem; font-weight: 800;
+      color: var(--navy-800);
+      margin-bottom: 0.5rem;
+    }
+    .form-card__desc {
+      font-size: 0.9rem;
+      color: var(--gray-500);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    /* ── GHL Form Placeholder ── */
+    .ghl-form-placeholder {
+      background: var(--gray-50);
+      border: 2px dashed var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+    .ghl-form-placeholder svg {
+      width: 40px; height: 40px;
+      color: var(--gray-300);
+    }
+    .ghl-form-placeholder p {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--gray-400);
+    }
+    .ghl-form-placeholder code {
+      font-size: 0.75rem;
+      color: var(--gray-400);
+      background: var(--gray-100);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .form-card__trust {
+      display: flex; align-items: center; gap: 0.5rem;
+      margin-top: 1rem;
+      font-size: 0.78rem;
+      color: var(--gray-400);
+    }
+    .form-card__trust svg {
+      width: 14px; height: 14px;
+      color: var(--gray-400);
+      flex-shrink: 0;
+    }
+
+    /* ════════════════════════════════════
+       WHAT'S INSIDE SECTION
+       ════════════════════════════════════ */
+    .inside {
+      padding: 5rem 1.5rem;
+      background: var(--gray-50);
+    }
+    .inside__inner {
+      max-width: 1100px; margin: 0 auto;
+    }
+    .inside__header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .inside__eyebrow {
+      font-family: var(--font-display);
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 0.5rem;
+    }
+    .inside__header h2 {
+      font-size: clamp(1.6rem, 3vw, 2.25rem);
+      font-weight: 800;
+      color: var(--navy-800);
+      margin-bottom: 0.75rem;
+    }
+    .inside__header p {
+      font-size: 1rem;
+      color: var(--gray-500);
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    .inside__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .inside-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    }
+    .inside-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 32px rgba(10, 28, 56, 0.08);
+      border-color: var(--cyan);
+    }
+    .inside-card__icon {
+      width: 48px; height: 48px; border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1rem;
+    }
+    .inside-card__icon svg {
+      width: 24px; height: 24px;
+    }
+    .inside-card__icon--cyan { background: var(--cyan-glow); color: var(--cyan); }
+    .inside-card__icon--mint { background: var(--mint-glow); color: var(--mint); }
+    .inside-card__icon--navy { background: rgba(10, 28, 56, 0.08); color: var(--navy-800); }
+
+    .inside-card h3 {
+      font-size: 1.05rem; font-weight: 700;
+      color: var(--navy-800);
+      margin-bottom: 0.5rem;
+    }
+    .inside-card p {
+      font-size: 0.9rem;
+      color: var(--gray-500);
+      line-height: 1.65;
+    }
+
+    /* ════════════════════════════════════
+       WHO THIS IS FOR
+       ════════════════════════════════════ */
+    .who {
+      padding: 5rem 1.5rem;
+      background: var(--white);
+    }
+    .who__inner {
+      max-width: 800px; margin: 0 auto;
+      text-align: center;
+    }
+    .who__eyebrow {
+      font-family: var(--font-display);
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 0.5rem;
+    }
+    .who h2 {
+      font-size: clamp(1.6rem, 3vw, 2rem);
+      font-weight: 800;
+      color: var(--navy-800);
+      margin-bottom: 2rem;
+    }
+    .who__checks {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      text-align: left;
+      max-width: 640px;
+      margin: 0 auto 2.5rem;
+    }
+    .who__checks li {
+      display: flex; align-items: flex-start; gap: 0.65rem;
+      font-size: 0.95rem;
+      color: var(--gray-700);
+    }
+    .who__checks li svg {
+      flex-shrink: 0;
+      width: 20px; height: 20px;
+      color: var(--cyan);
+      margin-top: 2px;
+    }
+
+    /* ════════════════════════════════════
+       CTA BANNER
+       ════════════════════════════════════ */
+    .cta-banner {
+      background: var(--navy-800);
+      padding: 4rem 1.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-banner__bg {
+      position: absolute; inset: 0; pointer-events: none;
+    }
+    .cta-banner__bg::before {
+      content: ''; position: absolute;
+      top: -50%; left: 30%; width: 40%; height: 100%;
+      background: radial-gradient(ellipse, var(--cyan-glow) 0%, transparent 65%);
+      filter: blur(60px);
+    }
+    .cta-banner__inner {
+      position: relative; z-index: 2;
+      max-width: 560px; margin: 0 auto;
+    }
+    .cta-banner h2 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 0.75rem;
+    }
+    .cta-banner p {
+      font-size: 1rem;
+      color: var(--gray-300);
+      margin-bottom: 1.75rem;
+    }
+
+    /* ════════════════════════════════════
+       FOOTER
+       ════════════════════════════════════ */
+    .footer {
+      padding: 2rem 1.5rem;
+      border-top: 1px solid var(--gray-200);
+      background: var(--gray-50);
+    }
+    .footer__inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer__logo img {
+      height: 24px; width: auto;
+    }
+    .footer__copy {
+      font-size: 0.8rem;
+      color: var(--gray-400);
+    }
+    .footer__links {
+      display: flex; gap: 1.5rem;
+    }
+    .footer__links a {
+      font-size: 0.8rem;
+      color: var(--gray-400);
+      transition: color 0.2s;
+    }
+    .footer__links a:hover { color: var(--cyan); }
+
+    /* ════════════════════════════════════
+       SCROLL REVEAL
+       ════════════════════════════════════ */
+    .reveal {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ════════════════════════════════════
+       RESPONSIVE
+       ════════════════════════════════════ */
+    @media (max-width: 900px) {
+      .hero__inner {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding-bottom: 3rem;
+      }
+      .hero__bullets { display: inline-block; text-align: left; }
+      .hero__social-proof { justify-content: center; }
+      .form-card { max-width: 480px; margin: 0 auto; }
+      .inside__grid { grid-template-columns: 1fr; }
+      .who__checks { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .hero { padding-top: 5.5rem; }
+      .hero h1 { font-size: 1.75rem; }
+      .form-card { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ════════════ HEADER ════════════ -->
+  <header class="header" id="header">
+    <div class="header__inner">
+      <a href="https://usekilo.com" class="header__logo">
+        <img src="../../../assets/images/kilo_logo.webp" alt="Kilo" style="height: 32px; width: auto; filter: brightness(0) invert(1);">
+      </a>
+      <a href="https://usekilo.com/book-your-sales-call/" class="btn btn--primary">
+        Speak to an Expert &rarr;
+      </a>
+    </div>
+  </header>
+
+  <!-- ════════════ HERO ════════════ -->
+  <section class="hero">
+    <div class="hero__bg"></div>
+    <div class="hero__inner">
+
+      <!-- Left column: Copy -->
+      <div class="hero__copy">
+        <div class="hero__badge">
+          <span class="hero__badge-dot"></span>
+          Free Business Guide
+        </div>
+        <h1>Know Your Numbers.<br><em>Own Your Profit.</em></h1>
+        <p class="hero__subtitle">
+          Most gym owners can't answer one simple question: "How many members do I need to be profitable?" This free interactive workbook gives you the answer in 20 minutes.
+        </p>
+        <ul class="hero__bullets">
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Calculate your true break-even point (fixed + variable costs)
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Find your profit-per-member and optimal service mix
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Stress-test scenarios: what if you lose 10 members? Raise prices $20?
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Reusable quarterly template to track profit trends over time
+          </li>
+        </ul>
+
+        <div class="hero__social-proof">
+          <div class="hero__avatars">
+            <div class="hero__avatar hero__avatar--1">MF</div>
+            <div class="hero__avatar hero__avatar--2">CC</div>
+            <div class="hero__avatar hero__avatar--3">LB</div>
+            <div class="hero__avatar hero__avatar--4">AH</div>
+          </div>
+          Trusted by 1,000+ coaching gym owners worldwide
+        </div>
+      </div>
+
+      <!-- Right column: Form -->
+      <div class="form-card">
+        <div class="form-card__label">Instant Access</div>
+        <h2 class="form-card__title">Get the Free Workbook</h2>
+        <p class="form-card__desc">Enter your details below and get instant access to the interactive Gym Profit Calculator.</p>
+
+        <!-- ╔══════════════════════════════════════════╗
+             ║  GHL FORM — Replace this placeholder     ║
+             ║  with your GHL form embed (iframe or     ║
+             ║  inline script). Keep the .form-card     ║
+             ║  wrapper for styling.                    ║
+             ╚══════════════════════════════════════════╝ -->
+        <div class="ghl-form-placeholder" id="ghl-form">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="M9 3v18"/><path d="M3 9h6"/>
+          </svg>
+          <p>GHL Form Goes Here</p>
+          <code>Replace this div with your GHL embed</code>
+        </div>
+
+        <div class="form-card__trust">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          Your data stays private. No spam, ever.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ WHAT'S INSIDE ════════════ -->
+  <section class="inside">
+    <div class="inside__inner">
+      <div class="inside__header reveal">
+        <div class="inside__eyebrow">What's Inside</div>
+        <h2>Everything You Need to Run Your Gym by the Numbers</h2>
+        <p>Six interactive worksheets that turn your bank statements into a clear profit picture.</p>
+      </div>
+      <div class="inside__grid">
+
+        <div class="inside-card reveal">
+          <div class="inside-card__icon inside-card__icon--cyan">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <h3>Fixed & Variable Cost Audit</h3>
+          <p>Categorize every dollar leaving your gym. See exactly where your money goes each month — no guessing.</p>
+        </div>
+
+        <div class="inside-card reveal">
+          <div class="inside-card__icon inside-card__icon--mint">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <h3>Break-Even Calculator</h3>
+          <p>Know the exact number of members you need to cover all costs. No more flying blind on profitability.</p>
+        </div>
+
+        <div class="inside-card reveal">
+          <div class="inside-card__icon inside-card__icon--navy">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3>Revenue Per Member Analysis</h3>
+          <p>Find out what each member actually contributes and which services drive the most margin.</p>
+        </div>
+
+        <div class="inside-card reveal">
+          <div class="inside-card__icon inside-card__icon--cyan">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          </div>
+          <h3>Service Mix Optimizer</h3>
+          <p>See how changing your class offerings, PT sessions, or membership tiers affects your bottom line.</p>
+        </div>
+
+        <div class="inside-card reveal">
+          <div class="inside-card__icon inside-card__icon--mint">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
+          <h3>Scenario Stress Tests</h3>
+          <p>What happens if you lose 10 members? Or raise prices? Run the scenarios before making real decisions.</p>
+        </div>
+
+        <div class="inside-card reveal">
+          <div class="inside-card__icon inside-card__icon--navy">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <h3>Quarterly Tracking Template</h3>
+          <p>Reuse the workbook every quarter to see trends, catch problems early, and measure real progress.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ WHO THIS IS FOR ════════════ -->
+  <section class="who">
+    <div class="who__inner reveal">
+      <div class="who__eyebrow">Who This Is For</div>
+      <h2>Built for Gym Owners Who Want Clarity, Not Complexity</h2>
+      <ul class="who__checks">
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          CrossFit affiliates and coaching gyms
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Martial arts and bootcamp studios
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Personal training studios and HYROX facilities
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Any gym owner who wants to stop guessing
+        </li>
+      </ul>
+      <a href="#ghl-form" class="btn btn--primary" style="background: var(--navy-800); color: var(--white); box-shadow: 0 4px 20px rgba(10, 28, 56, 0.15);">
+        Get the Free Workbook &rarr;
+      </a>
+    </div>
+  </section>
+
+  <!-- ════════════ BOTTOM CTA ════════════ -->
+  <section class="cta-banner">
+    <div class="cta-banner__bg"></div>
+    <div class="cta-banner__inner reveal">
+      <h2>Stop Guessing. Start Knowing.</h2>
+      <p>Download the free Gym Profit Calculator Workbook and get clarity on your numbers in 20 minutes.</p>
+      <a href="#ghl-form" class="btn btn--primary">Get the Free Workbook &rarr;</a>
+    </div>
+  </section>
+
+  <!-- ════════════ FOOTER ════════════ -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__logo">
+        <img src="../../../assets/images/kilo_logo.webp" alt="Kilo" style="height: 24px; width: auto;">
+      </div>
+      <div class="footer__copy">&copy; 2026 Kilo. All rights reserved.</div>
+      <nav class="footer__links">
+        <a href="https://usekilo.com/privacy-policy/">Privacy</a>
+        <a href="https://usekilo.com/terms-of-service/">Terms</a>
+        <a href="https://usekilo.com/contact/">Contact</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    // Sticky header shadow
+    window.addEventListener('scroll', () => {
+      document.getElementById('header').classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
