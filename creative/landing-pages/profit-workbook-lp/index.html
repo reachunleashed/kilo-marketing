@@ -260,36 +260,17 @@
       line-height: 1.6;
     }
 
-    /* ── GHL Form Placeholder ── */
-    .ghl-form-placeholder {
-      background: var(--gray-50);
-      border: 2px dashed var(--gray-200);
+    /* ── GHL Form Embed ── */
+    .ghl-form-wrapper {
+      width: 100%;
+      min-height: 430px;
       border-radius: var(--radius-md);
-      padding: 2.5rem 1.5rem;
-      text-align: center;
-      min-height: 280px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.75rem;
+      overflow: hidden;
     }
-    .ghl-form-placeholder svg {
-      width: 40px; height: 40px;
-      color: var(--gray-300);
-    }
-    .ghl-form-placeholder p {
-      font-family: var(--font-display);
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--gray-400);
-    }
-    .ghl-form-placeholder code {
-      font-size: 0.75rem;
-      color: var(--gray-400);
-      background: var(--gray-100);
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
+    .ghl-form-wrapper iframe {
+      display: block;
+      width: 100%;
+      min-height: 430px;
     }
 
     .form-card__trust {
@@ -586,20 +567,26 @@
         <h2 class="form-card__title">Get the Free Workbook</h2>
         <p class="form-card__desc">Enter your details below and get instant access to the interactive Gym Profit Calculator.</p>
 
-        <!-- ╔══════════════════════════════════════════╗
-             ║  GHL FORM — Replace this placeholder     ║
-             ║  with your GHL form embed (iframe or     ║
-             ║  inline script). Keep the .form-card     ║
-             ║  wrapper for styling.                    ║
-             ╚══════════════════════════════════════════╝ -->
-        <div class="ghl-form-placeholder" id="ghl-form">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="3" width="18" height="18" rx="2"/>
-            <path d="M9 3v18"/><path d="M3 9h6"/>
-          </svg>
-          <p>GHL Form Goes Here</p>
-          <code>Replace this div with your GHL embed</code>
+        <div class="ghl-form-wrapper" id="ghl-form">
+          <iframe
+            src="https://kilo.gymleadmachine.com/widget/form/LXWiqL6FSAj3RGjW3ISK"
+            style="width:100%;height:100%;border:none;border-radius:4px"
+            id="inline-LXWiqL6FSAj3RGjW3ISK"
+            data-layout="{'id':'INLINE'}"
+            data-trigger-type="alwaysShow"
+            data-trigger-value=""
+            data-activation-type="alwaysActivated"
+            data-activation-value=""
+            data-deactivation-type="neverDeactivate"
+            data-deactivation-value=""
+            data-form-name="Reach-Unleashed-Profit-Workbook"
+            data-height="430"
+            data-layout-iframe-id="inline-LXWiqL6FSAj3RGjW3ISK"
+            data-form-id="LXWiqL6FSAj3RGjW3ISK"
+            title="Reach-Unleashed-Profit-Workbook"
+          ></iframe>
         </div>
+        <script src="https://kilo.gymleadmachine.com/js/form_embed.js"></script>
 
         <div class="form-card__trust">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
