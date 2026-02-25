@@ -39,6 +39,10 @@
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* Elementor HTML widget override — kill wrapper padding */
+    .elementor-widget-html { padding: 0 !important; margin: 0 !important; }
+    .elementor-widget-html .elementor-widget-container { padding: 0 !important; margin: 0 !important; overflow: visible !important; }
+
     html {
       scroll-behavior: smooth;
       -webkit-font-smoothing: antialiased;
@@ -78,8 +82,9 @@
       display: flex; align-items: center; justify-content: space-between;
       max-width: 1100px; margin: 0 auto; padding: 0 1.5rem;
     }
-    .header__logo { display: flex; align-items: center; }
-    .header__logo img { height: 32px; width: auto; }
+    .header__logo { display: flex; align-items: center; outline: none; border: none; text-decoration: none; }
+    .header__logo:focus, .header__logo:active { outline: none; border: none; }
+    .header__logo img { height: 32px; width: auto; display: block; }
 
     /* ════════════════════════════════════
        BUTTONS

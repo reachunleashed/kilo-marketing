@@ -50,6 +50,10 @@
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* Elementor HTML widget override — kill wrapper padding */
+    .elementor-widget-html { padding: 0 !important; margin: 0 !important; }
+    .elementor-widget-html .elementor-widget-container { padding: 0 !important; margin: 0 !important; overflow: visible !important; }
+
     input[type="number"]::-webkit-inner-spin-button,
     input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
     input[type="number"] { -moz-appearance: textfield; }
@@ -82,12 +86,13 @@
       max-width: var(--max-wide); margin: 0 auto; padding: 0 var(--space-md);
     }
     .header__logo {
-      font-family: var(--font-display); font-weight: 800; font-size: 1.5rem;
-      color: var(--white); text-decoration: none;
+      display: flex; align-items: center;
+      text-decoration: none; outline: none; border: none;
     }
-    .header__logo span {
-      background: linear-gradient(135deg, var(--cyan), var(--mint));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    .header__logo:focus, .header__logo:active { outline: none; border: none; }
+    .header__logo img {
+      height: 32px; width: auto;
+      display: block;
     }
     .btn {
       display: inline-flex; align-items: center; gap: 0.5rem;
