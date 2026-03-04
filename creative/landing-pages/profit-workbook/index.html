@@ -287,13 +287,37 @@
       color: var(--cyan); padding: 0.65rem 0; text-align: right; min-width: 80px;
     }
     .tier-row label { font-size: 0.75rem; }
+    .tier-row__field-label { display: none; }
     .tier-row input { font-size: 0.9rem; padding: 0.5rem; }
     .tier-row .input-wrap { height: 38px; }
     .tier-row .input-wrap__prefix { font-size: 0.8rem; left: 0.5rem; }
     .tier-row .input-wrap--dollar input { padding-left: 1.3rem; }
     @media (max-width: 600px) {
-      .tier-row { grid-template-columns: 1fr 1fr; }
-      .tier-row__revenue { grid-column: 1 / -1; text-align: left; }
+      .tier-row {
+        display: grid; grid-template-columns: 1fr 1fr;
+        gap: 0.4rem;
+        padding: 0.75rem;
+        background: var(--gray-50);
+        border-radius: var(--radius-sm);
+        margin-bottom: 0.5rem;
+      }
+      /* Tier name spans full width */
+      .tier-row__label { grid-column: 1 / -1; }
+      .tier-row__label label {
+        font-size: 0.85rem; font-weight: 700; color: var(--navy-800);
+      }
+      /* Show field labels on mobile */
+      .tier-row__field-label {
+        display: block !important;
+        font-size: 0.62rem; font-weight: 600; color: var(--gray-400);
+        text-transform: uppercase; letter-spacing: 0.08em;
+        margin-bottom: 0.15rem;
+      }
+      /* Revenue spans full width */
+      .tier-row__revenue {
+        grid-column: 1 / -1; text-align: left;
+        padding: 0.2rem 0 0; font-size: 0.85rem;
+      }
     }
 
     /* Action plan text inputs */
@@ -449,6 +473,105 @@
       transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1);
     }
     .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ═══════════════════════════════════════════════
+       MOBILE RESPONSIVENESS
+       ═══════════════════════════════════════════════ */
+
+    /* ── 900px override: summary BELOW content on mobile ── */
+    @media (max-width: 900px) {
+      .summary { order: 1 !important; }
+    }
+
+    /* ── 768px: Tablet / large phone ── */
+    @media (max-width: 768px) {
+      body { font-size: 15px; }
+
+      .hero { padding: 5.5rem 0 var(--space-xl); }
+
+      .main {
+        padding: var(--space-lg) var(--space-md) var(--space-xl);
+        gap: var(--space-md);
+      }
+
+      .worksheet, .prose { padding: var(--space-md); }
+      .summary__card { padding: var(--space-md); }
+      .summary__hero-value { font-size: 1.85rem; }
+
+      .auto-calc { flex-wrap: wrap; gap: 0.25rem; }
+      .auto-calc__label { flex: 1 1 auto; }
+      .auto-calc__value { flex: 0 0 auto; }
+
+      .worksheet__total { flex-wrap: wrap; gap: 0.25rem; }
+      .worksheet__total-label { flex: 1 1 auto; }
+      .worksheet__total-value { flex: 0 0 auto; }
+
+      .footer-cta::before {
+        width: min(500px, 100vw);
+        height: min(500px, 100vw);
+      }
+      .footer-cta { padding: var(--space-xl) 0; }
+    }
+
+    /* ── 600px: Tier row header alignment fix ── */
+    @media (max-width: 600px) {
+      #ws-mix > div[style*="grid-template-columns"] {
+        display: none !important;
+      }
+    }
+
+    /* ── 480px: Mobile phones ── */
+    @media (max-width: 480px) {
+      .hero { padding: 5rem 0 var(--space-lg); }
+      .hero h1 { font-size: clamp(1.6rem, 7vw, 2.2rem); }
+      .hero__subtitle { font-size: 0.95rem; }
+      .hero__text { font-size: 0.92rem; }
+
+      .header__inner { padding: 0 var(--space-sm); }
+      .btn { font-size: 0.78rem; padding: 0.55rem 1rem; }
+
+      .main {
+        padding: var(--space-md) var(--space-sm) var(--space-lg);
+        gap: var(--space-sm);
+      }
+
+      .worksheet, .prose {
+        padding: var(--space-sm);
+        border-radius: var(--radius-md);
+      }
+      .summary__card {
+        padding: var(--space-sm);
+        border-radius: var(--radius-lg);
+      }
+
+      .prose h2 { font-size: 1.2rem; }
+      .worksheet__header { gap: 0.5rem; }
+      .worksheet__title { font-size: 0.95rem; }
+
+      .date-picker { flex-wrap: wrap; }
+      .date-picker select:first-child { flex: 1 1 100%; }
+      .date-picker select:nth-child(2),
+      .date-picker select:nth-child(3) { flex: 1 1 calc(50% - 0.25rem); }
+
+      .summary__hero-value { font-size: 1.6rem; }
+      .summary__hero { padding: var(--space-sm) 0; }
+      .summary__row { padding: 0.2rem 0; }
+      .summary__label { font-size: 0.72rem; }
+      .summary__value { font-size: 0.82rem; }
+      .summary__cta .btn { font-size: 0.8rem; padding: 0.65rem 1rem; }
+
+      .footer-cta { padding: var(--space-lg) 0; }
+      .footer-cta .btn { font-size: 0.9rem; padding: 0.75rem 1.5rem; }
+      .trust-footer { padding: var(--space-sm) 0; }
+    }
+
+    /* ── 360px: Very small phones ── */
+    @media (max-width: 360px) {
+      .btn { font-size: 0.72rem; padding: 0.5rem 0.75rem; }
+      .hero { padding: 4.5rem 0 var(--space-md); }
+      .worksheet, .prose { padding: var(--space-xs) 0.75rem; }
+      .date-picker select { flex: 1 1 100%; }
+    }
   </style>
 </head>
 <body>
@@ -677,27 +800,27 @@
         </div>
 
         <div class="tier-row">
-          <div class="input-group" style="margin:0;"><label>Tier 1 (Base)</label></div>
-          <div class="input-wrap input-wrap--dollar"><span class="input-wrap__prefix">$</span><input type="number" id="mix-t1-price" data-group="mix" placeholder="0" min="0"></div>
-          <div class="input-wrap"><input type="number" id="mix-t1-count" data-group="mix" placeholder="0" min="0"></div>
+          <div class="input-group tier-row__label" style="margin:0;"><label>Tier 1 (Base)</label></div>
+          <div class="input-group tier-row__price" style="margin:0;"><label class="tier-row__field-label">Price/mo</label><div class="input-wrap input-wrap--dollar"><span class="input-wrap__prefix">$</span><input type="number" id="mix-t1-price" data-group="mix" placeholder="0" min="0"></div></div>
+          <div class="input-group tier-row__members" style="margin:0;"><label class="tier-row__field-label">Members</label><div class="input-wrap"><input type="number" id="mix-t1-count" data-group="mix" placeholder="0" min="0"></div></div>
           <div class="tier-row__revenue" id="mix-t1-rev">$0</div>
         </div>
         <div class="tier-row">
-          <div class="input-group" style="margin:0;"><label>Tier 2 (Mid)</label></div>
-          <div class="input-wrap input-wrap--dollar"><span class="input-wrap__prefix">$</span><input type="number" id="mix-t2-price" data-group="mix" placeholder="0" min="0"></div>
-          <div class="input-wrap"><input type="number" id="mix-t2-count" data-group="mix" placeholder="0" min="0"></div>
+          <div class="input-group tier-row__label" style="margin:0;"><label>Tier 2 (Mid)</label></div>
+          <div class="input-group tier-row__price" style="margin:0;"><label class="tier-row__field-label">Price/mo</label><div class="input-wrap input-wrap--dollar"><span class="input-wrap__prefix">$</span><input type="number" id="mix-t2-price" data-group="mix" placeholder="0" min="0"></div></div>
+          <div class="input-group tier-row__members" style="margin:0;"><label class="tier-row__field-label">Members</label><div class="input-wrap"><input type="number" id="mix-t2-count" data-group="mix" placeholder="0" min="0"></div></div>
           <div class="tier-row__revenue" id="mix-t2-rev">$0</div>
         </div>
         <div class="tier-row">
-          <div class="input-group" style="margin:0;"><label>Tier 3 (Premium)</label></div>
-          <div class="input-wrap input-wrap--dollar"><span class="input-wrap__prefix">$</span><input type="number" id="mix-t3-price" data-group="mix" placeholder="0" min="0"></div>
-          <div class="input-wrap"><input type="number" id="mix-t3-count" data-group="mix" placeholder="0" min="0"></div>
+          <div class="input-group tier-row__label" style="margin:0;"><label>Tier 3 (Premium)</label></div>
+          <div class="input-group tier-row__price" style="margin:0;"><label class="tier-row__field-label">Price/mo</label><div class="input-wrap input-wrap--dollar"><span class="input-wrap__prefix">$</span><input type="number" id="mix-t3-price" data-group="mix" placeholder="0" min="0"></div></div>
+          <div class="input-group tier-row__members" style="margin:0;"><label class="tier-row__field-label">Members</label><div class="input-wrap"><input type="number" id="mix-t3-count" data-group="mix" placeholder="0" min="0"></div></div>
           <div class="tier-row__revenue" id="mix-t3-rev">$0</div>
         </div>
         <div class="tier-row">
-          <div class="input-group" style="margin:0;"><label>PT / Add-Ons</label></div>
-          <div class="input-wrap input-wrap--dollar"><span class="input-wrap__prefix">$</span><input type="number" id="mix-pt-price" data-group="mix" placeholder="0" min="0"></div>
-          <div class="input-wrap"><input type="number" id="mix-pt-count" data-group="mix" placeholder="0" min="0"></div>
+          <div class="input-group tier-row__label" style="margin:0;"><label>PT / Add-Ons</label></div>
+          <div class="input-group tier-row__price" style="margin:0;"><label class="tier-row__field-label">Price/mo</label><div class="input-wrap input-wrap--dollar"><span class="input-wrap__prefix">$</span><input type="number" id="mix-pt-price" data-group="mix" placeholder="0" min="0"></div></div>
+          <div class="input-group tier-row__members" style="margin:0;"><label class="tier-row__field-label">Members</label><div class="input-wrap"><input type="number" id="mix-pt-count" data-group="mix" placeholder="0" min="0"></div></div>
           <div class="tier-row__revenue" id="mix-pt-rev">$0</div>
         </div>
 
